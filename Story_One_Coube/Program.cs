@@ -11,10 +11,12 @@ namespace Story_One_Coube
     {
         static RenderWindow mainWindow;
 
-        public static uint height = 800;
-        public static uint width = 800;
+        public static uint height = 720;
+        public static uint width = 1280;
 
         static Character character;
+
+        static Character.Moves moveNow = Character.Moves.STOP;
 
         static void Main(string[] args)
         {
@@ -22,6 +24,8 @@ namespace Story_One_Coube
             mainWindow.SetVerticalSyncEnabled(true);
             mainWindow.Closed += MainWindow_Closed;
             mainWindow.KeyPressed += MainWindow_KeyPressed;
+            mainWindow.KeyReleased += MainWindow_KeyReleased;
+
             character = new Character();
 
             while (mainWindow.IsOpen)
@@ -30,7 +34,7 @@ namespace Story_One_Coube
 
                 mainWindow.Clear(Color.Black);
 
-                character.Update();
+                character.Update(moveNow);
 
                 character.Draw(mainWindow);
 
@@ -38,11 +42,27 @@ namespace Story_One_Coube
             }
         }
 
+        private static void MainWindow_KeyReleased(object sender, SFML.Window.KeyEventArgs e)
+        {
+            switch (e.Code)
+            {
+                case SFML.Window.Keyboard.Key.Left: { moveNow = Character.Moves.STOP; return; }
+
+                case SFML.Window.Keyboard.Key.Right: { moveNow = Character.Moves.STOP; return; }
+            }
+        }
+
         private static void MainWindow_KeyPressed(object sender, SFML.Window.KeyEventArgs e)
         {
-            if(e.Code == SFML.Window.Keyboard.Key.Space)
+            switch (e.Code)
             {
-                character.Jump();
+                case SFML.Window.Keyboard.Key.Escape: { mainWindow.Close(); return; }
+
+                case SFML.Window.Keyboard.Key.Space: { character.Jump(); return; }
+
+                case SFML.Window.Keyboard.Key.Left: { moveNow = Character.Moves.LEFT; return; }
+
+                case SFML.Window.Keyboard.Key.Right: { moveNow = Character.Moves.RIGHT; return; }
             }
         }
 

@@ -16,8 +16,10 @@ namespace Story_One_Coube
         int sizeH = 50;
         int sizeW = 50;
 
-        float gravity = 3;
-        float jumpHeight = 10;
+        float gravity = 5;
+        float jumpHeight = 15;
+
+        float stepLong = 5;
 
         uint timesToJump = 0;
 
@@ -34,9 +36,20 @@ namespace Story_One_Coube
             Sprite.OutlineColor = Color.Red;
         }
 
-        public void Update()
+        public void Update(Moves move)
         {
             if (Sprite == null) return;
+
+            switch (move)
+            {
+                case Moves.LEFT:
+                    Sprite.Position = new SFML.System.Vector2f(Sprite.Position.X - stepLong, Sprite.Position.Y);
+                    break;
+
+                case Moves.RIGHT:
+                    Sprite.Position = new SFML.System.Vector2f(Sprite.Position.X + stepLong, Sprite.Position.Y);
+                    break;
+            }
 
             if(timesToJump != 0)
             {
