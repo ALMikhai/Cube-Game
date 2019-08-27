@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Story_One_Coube.Models;
 
 namespace Story_One_Coube
 {
@@ -46,9 +47,9 @@ namespace Story_One_Coube
         {
             switch (e.Code)
             {
-                case SFML.Window.Keyboard.Key.Left: { moveNow = Character.Moves.STOP; return; }
+                case SFML.Window.Keyboard.Key.A: { if(moveNow == Character.Moves.LEFT) moveNow = Character.Moves.STOP; return; }
 
-                case SFML.Window.Keyboard.Key.Right: { moveNow = Character.Moves.STOP; return; }
+                case SFML.Window.Keyboard.Key.D: { if(moveNow == Character.Moves.RIGHT) moveNow = Character.Moves.STOP; return; }
             }
         }
 
@@ -60,9 +61,9 @@ namespace Story_One_Coube
 
                 case SFML.Window.Keyboard.Key.Space: { character.Jump(); return; }
 
-                case SFML.Window.Keyboard.Key.Left: { moveNow = Character.Moves.LEFT; return; }
+                case SFML.Window.Keyboard.Key.A: { moveNow = Character.Moves.LEFT; return; }
 
-                case SFML.Window.Keyboard.Key.Right: { moveNow = Character.Moves.RIGHT; return; }
+                case SFML.Window.Keyboard.Key.D: { moveNow = Character.Moves.RIGHT; return; }
             }
         }
 

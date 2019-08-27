@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Story_One_Coube
+namespace Story_One_Coube.Models
 {
     class Character
     {
@@ -23,6 +23,8 @@ namespace Story_One_Coube
 
         uint timesToJump = 0;
 
+        Gun gunNow;
+
         public Character()
         {
             Sprite = new RectangleShape(new SFML.System.Vector2f(sizeW, sizeH));
@@ -34,11 +36,15 @@ namespace Story_One_Coube
             Sprite.OutlineThickness = 2;
 
             Sprite.OutlineColor = Color.Red;
+
+            gunNow = new Gun(this);
         }
 
         public void Update(Moves move)
         {
             if (Sprite == null) return;
+
+            gunNow.Update(this);
 
             switch (move)
             {
@@ -68,6 +74,7 @@ namespace Story_One_Coube
             if (Sprite == null) return;
 
             window.Draw(Sprite);
+            window.Draw(gunNow.Sprite);
         }
 
         public void Jump()
