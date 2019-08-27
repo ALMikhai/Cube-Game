@@ -18,10 +18,10 @@ namespace Story_One_Coube
 
         static void Main(string[] args)
         {
-            mainWindow = new RenderWindow(new SFML.Window.VideoMode(width, height), "Story of one Coube");
+            mainWindow = new RenderWindow(new SFML.Window.VideoMode(width, height), "Story of one Cube");
             mainWindow.SetVerticalSyncEnabled(true);
             mainWindow.Closed += MainWindow_Closed;
-
+            mainWindow.KeyPressed += MainWindow_KeyPressed;
             character = new Character();
 
             while (mainWindow.IsOpen)
@@ -31,10 +31,18 @@ namespace Story_One_Coube
                 mainWindow.Clear(Color.Black);
 
                 character.Update();
-                
-                mainWindow.Draw(character.Sprite);
+
+                character.Draw(mainWindow);
 
                 mainWindow.Display();
+            }
+        }
+
+        private static void MainWindow_KeyPressed(object sender, SFML.Window.KeyEventArgs e)
+        {
+            if(e.Code == SFML.Window.Keyboard.Key.Space)
+            {
+                character.Jump();
             }
         }
 
