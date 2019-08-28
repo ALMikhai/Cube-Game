@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Story_One_Coube.Models
 {
     class Character
@@ -13,8 +14,10 @@ namespace Story_One_Coube.Models
 
         public RectangleShape Sprite;
 
-        int sizeH = 50;
-        int sizeW = 50;
+        int sizeH = 46;
+        int sizeW = 46;
+
+        int thickness = 2;
 
         float gravity = 5;
         float jumpHeight = 15;
@@ -33,18 +36,20 @@ namespace Story_One_Coube.Models
 
             Sprite.Position = new SFML.System.Vector2f(Program.width / 2, Program.height / 2);
 
-            Sprite.OutlineThickness = 2;
+            Sprite.OutlineThickness = thickness;
 
             Sprite.OutlineColor = Color.Red;
 
             gunNow = new Gun(this);
         }
 
-        public void Update(Moves move)
+        public void Update(Moves move, Point coord)
         {
             if (Sprite == null) return;
 
-            gunNow.Update(this);
+            double gunRotation = Gun.MathRotation(coord, gunNow);
+
+            gunNow.Update(this, (float)gunRotation);
 
             switch (move)
             {
@@ -63,7 +68,7 @@ namespace Story_One_Coube.Models
                 Sprite.Position = new SFML.System.Vector2f(Sprite.Position.X, Sprite.Position.Y - jumpHeight);
             }
 
-            if(Sprite.Position.Y + sizeH / 2 != Program.height)
+            if(Sprite.Position.Y + thickness + sizeH / 2 != Program.height)
             {
                 Sprite.Position = new SFML.System.Vector2f(Sprite.Position.X, Sprite.Position.Y + gravity);
             }
@@ -79,7 +84,7 @@ namespace Story_One_Coube.Models
 
         public void Jump()
         {
-            if (timesToJump != 0 || Sprite.Position.Y + sizeH / 2 != Program.height) return;
+            if (timesToJump != 0 || Sprite.Position.Y + thickness + sizeH / 2 != Program.height) return;
 
             timesToJump += 30;
         }

@@ -14,10 +14,13 @@ namespace Story_One_Coube
 
         public static uint height = 720;
         public static uint width = 1280;
+        public static Color backgroundColor = new Color(78, 180, 217);
 
         static Character character;
 
         static Character.Moves moveNow = Character.Moves.STOP;
+
+        static Point lastMousePosition = new Point(1280, 720);
 
         static void Main(string[] args)
         {
@@ -26,6 +29,7 @@ namespace Story_One_Coube
             mainWindow.Closed += MainWindow_Closed;
             mainWindow.KeyPressed += MainWindow_KeyPressed;
             mainWindow.KeyReleased += MainWindow_KeyReleased;
+            mainWindow.MouseMoved += MainWindow_MouseMoved;
 
             character = new Character();
 
@@ -33,14 +37,20 @@ namespace Story_One_Coube
             {
                 mainWindow.DispatchEvents();
 
-                mainWindow.Clear(Color.Black);
+                mainWindow.Clear(backgroundColor);
 
-                character.Update(moveNow);
+                character.Update(moveNow, lastMousePosition);
 
                 character.Draw(mainWindow);
 
                 mainWindow.Display();
             }
+        }
+
+        private static void MainWindow_MouseMoved(object sender, SFML.Window.MouseMoveEventArgs e)
+        {
+            lastMousePosition.X = e.X;
+            lastMousePosition.Y = e.Y;
         }
 
         private static void MainWindow_KeyReleased(object sender, SFML.Window.KeyEventArgs e)
