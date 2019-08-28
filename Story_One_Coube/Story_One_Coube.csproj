@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Bullet.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\Gun.cs" />
     <Compile Include="Models\Point.cs" />

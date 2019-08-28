@@ -30,6 +30,7 @@ namespace Story_One_Coube
             mainWindow.KeyPressed += MainWindow_KeyPressed;
             mainWindow.KeyReleased += MainWindow_KeyReleased;
             mainWindow.MouseMoved += MainWindow_MouseMoved;
+            mainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
 
             character = new Character();
 
@@ -45,6 +46,11 @@ namespace Story_One_Coube
 
                 mainWindow.Display();
             }
+        }
+
+        private static void MainWindow_MouseButtonPressed(object sender, SFML.Window.MouseButtonEventArgs e)
+        {
+            character.gunNow.Shoot(new Point(e.X, e.Y));
         }
 
         private static void MainWindow_MouseMoved(object sender, SFML.Window.MouseMoveEventArgs e)

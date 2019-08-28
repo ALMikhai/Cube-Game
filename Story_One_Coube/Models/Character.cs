@@ -26,7 +26,7 @@ namespace Story_One_Coube.Models
 
         uint timesToJump = 0;
 
-        Gun gunNow;
+        public Gun gunNow;
 
         public Character()
         {
@@ -50,6 +50,11 @@ namespace Story_One_Coube.Models
             double gunRotation = Gun.MathRotation(coord, gunNow);
 
             gunNow.Update(this, (float)gunRotation);
+
+            foreach (var bullet in gunNow.bullets)
+            {
+                bullet.Update();
+            }
 
             switch (move)
             {
@@ -77,6 +82,11 @@ namespace Story_One_Coube.Models
         public void Draw(RenderWindow window)
         {
             if (Sprite == null) return;
+
+            foreach(var bullet in gunNow.bullets)
+            {
+                bullet.Draw(window);
+            }
 
             window.Draw(Sprite);
             window.Draw(gunNow.Sprite);

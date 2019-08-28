@@ -14,6 +14,10 @@ namespace Story_One_Coube.Models
         int sizeH = 10;
         int sizeW = 20;
 
+        public List<Bullet> bullets = new List<Bullet>();
+
+        int speedShoot = 10;
+
         public Gun(Character character)
         {
             Sprite = new RectangleShape(new SFML.System.Vector2f(sizeW, sizeH));
@@ -29,6 +33,11 @@ namespace Story_One_Coube.Models
 
             Sprite.Position = character.Sprite.Position;
             Sprite.Rotation = rotation;
+        }
+
+        public void Shoot(Point coord)
+        {
+            bullets.Add(new Bullet(new Point(Sprite.Position.X, Sprite.Position.Y), speedShoot, coord));
         }
 
         public static double MathRotation(Point coord, Gun gunNow)
