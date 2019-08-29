@@ -8,10 +8,10 @@ namespace Story_One_Coube.Models
 {
     class Point
     {
-        public double X { get; set; }
-        public double Y { get; set; }
+        public float X { get; set; }
+        public float Y { get; set; }
 
-        public Point(double x, double y)
+        public Point(float x, float y)
         {
             X = x;
             Y = y;

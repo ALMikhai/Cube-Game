@@ -12,9 +12,10 @@ using Story_One_Coube.Models;
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO HPBox.
     /// TODO Delet bullets.
-    /// TODO Enemies.
+    /// TODO Enemies. +-
+    /// TODO Add AI for enemies.
+    /// TODO Add opportunity get hit for enemy and main char. 
     /// TODO Platforms.
     /// TODO Textures.
     /// </summary>
@@ -23,19 +24,23 @@ namespace Story_One_Coube
     {
         static RenderWindow mainWindow;
 
-        public static uint height = 720;
-        public static uint width = 1280;
-        public static Color backgroundColor = new Color(78, 180, 217);
+        public static uint heightWindow = 720;
+        public static uint widthWindow = 1280;
+        public static Color backgroundColorWindow = new Color(78, 180, 217);
 
-        static Character character;
+        static Character mainCharacter;
         static double mainCharacterHP = 100;
         static Character.Moves moveNow = Character.Moves.STOP;
 
-        static Point lastMousePosition = new Point(1280, 720);
+        static List<Enemy> Enemies = new List<Enemy>();
+
+        public static Point lastMousePosition = new Point(1280, 720);
+
+        static Random random = new Random();
 
         static void Main(string[] args)
         {
-            mainWindow = new RenderWindow(new SFML.Window.VideoMode(width, height), "Story of one Cube");
+            mainWindow = new RenderWindow(new SFML.Window.VideoMode(widthWindow, heightWindow), "Story of one Cube");
             mainWindow.SetVerticalSyncEnabled(true);
             mainWindow.Closed += MainWindow_Closed;
             mainWindow.KeyPressed += MainWindow_KeyPressed;
@@ -43,17 +48,23 @@ namespace Story_One_Coube
             mainWindow.MouseMoved += MainWindow_MouseMoved;
             mainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
 
-            character = new Character(mainCharacterHP);
+            mainCharacter = new Character(mainCharacterHP, 46, 46, new Point(widthWindow / 2, heightWindow / 2));
 
             while (mainWindow.IsOpen)
             {
                 mainWindow.DispatchEvents();
 
-                mainWindow.Clear(backgroundColor);
+                mainWindow.Clear(backgroundColorWindow);
 
-                character.Update(moveNow, lastMousePosition);
+                mainCharacter.Update(moveNow);
 
-                character.Draw(mainWindow);
+                mainCharacter.Draw(mainWindow);
+
+                foreach(var enemy in Enemies)
+                {
+                    enemy.Update();
+                    enemy.Draw(mainWindow);
+                }
 
                 mainWindow.Display();
             }
@@ -61,7 +72,7 @@ namespace Story_One_Coube
 
         private static void MainWindow_MouseButtonPressed(object sender, SFML.Window.MouseButtonEventArgs e)
         {
-            character.Shoot(new Point(e.X, e.Y));
+            CharacterEvents.Shoot(mainCharacter, new Point(e.X, e.Y));
         }
 
         private static void MainWindow_MouseMoved(object sender, SFML.Window.MouseMoveEventArgs e)
@@ -82,17 +93,21 @@ namespace Story_One_Coube
 
         private static void MainWindow_KeyPressed(object sender, SFML.Window.KeyEventArgs e)
         {
+            if (e.Control) switch (e.Code)
+                {
+                    case Keyboard.Key.H: { CharacterEvents.Hit(mainCharacter, 10); return; }
+                    case Keyboard.Key.S: { Enemies.Add(new Enemy(100, 46, 46, new Point(random.Next((int)widthWindow), random.Next((int)heightWindow)))); return; }
+                }
+
             switch (e.Code)
             {
                 case SFML.Window.Keyboard.Key.Escape: { mainWindow.Close(); return; }
 
-                case SFML.Window.Keyboard.Key.Space: { character.Jump(); return; }
+                case SFML.Window.Keyboard.Key.Space: { CharacterEvents.Jump(mainCharacter); return; }
 
                 case SFML.Window.Keyboard.Key.A: { moveNow = Character.Moves.LEFT; return; }
 
                 case SFML.Window.Keyboard.Key.D: { moveNow = Character.Moves.RIGHT; return; }
-
-                case Keyboard.Key.H: { character.Hit(10); return; }
             }
         }
 

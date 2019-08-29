@@ -19,30 +19,32 @@ namespace Story_One_Coube.Models
 
         public int speedShoot = 10;
 
-        public Gun(Character character)
+        public Gun(RectangleShape sprite)
         {
             Sprite = new RectangleShape(new SFML.System.Vector2f(sizeW, sizeH));
             Sprite.Origin = new SFML.System.Vector2f(0, sizeH / 2);
             Sprite.FillColor = Color.Black;
 
-            Sprite.Position = character.Sprite.Position;
+            Sprite.Position = sprite.Position;
         }
 
-        public void Update(Character character, float rotation)
+        public void Update(RectangleShape sprite, Point coord)
         {
             if (Sprite == null) return;
 
-            Sprite.Position = character.Sprite.Position;
+            float rotation = MathRotation(coord, this);
+
+            Sprite.Position = sprite.Position;
             Sprite.Rotation = rotation;
         }
 
-        public static double MathRotation(Point coord, Gun gunNow)
+        public static float MathRotation(Point coord, Gun gunNow)
         {
             double OX = coord.X - gunNow.Sprite.Position.X;
 
             double OY = coord.Y - gunNow.Sprite.Position.Y;
 
-            double gunRotation = Math.Atan2(OY, OX) / Math.PI * 180;
+            float gunRotation = (float)(Math.Atan2(OY, OX) / Math.PI * 180);
 
             return gunRotation;
         }

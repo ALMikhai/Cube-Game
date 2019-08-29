@@ -1,20 +1,15 @@
 ﻿using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
-using SFML.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Story_One_Coube.Models
 {
-    class Character
+    class Enemy
     {
-        public enum Moves { STOP = 0, UP, DOWN, LEFT, RIGHT}
-
         public RectangleShape Sprite { get; set; }
 
         public int SizeH { get; set; }
@@ -35,7 +30,7 @@ namespace Story_One_Coube.Models
 
         public HPBox HP { get; set; }
 
-        public Character(double hp, int height, int width, Point spawnPoint)
+        public Enemy(double hp, int height, int width, Point spawnPoint)
         {
             SizeH = height;
             SizeW = width;
@@ -50,44 +45,24 @@ namespace Story_One_Coube.Models
 
             Sprite.OutlineThickness = Thickness;
 
-            Sprite.OutlineColor = Color.Red;
+            Sprite.FillColor = Color.Red;
+
+            Sprite.OutlineColor = Color.Black;
 
             gunNow = new Gun(this.Sprite);
 
             HP = new HPBox(this.Sprite, hp);
         }
 
-        public void Update(Moves move)
+        public void Update()
         {
             if (Sprite == null) return;
 
-            gunNow.Update(this.Sprite, Program.lastMousePosition);
-
-            foreach (var bullet in bullets)
-            {
-                bullet.Update();
-            }
-
             HP.Update();
 
-            switch (move)
-            {
-                case Moves.LEFT:
-                    Sprite.Position = new SFML.System.Vector2f(Sprite.Position.X - stepLong, Sprite.Position.Y);
-                    break;
+            gunNow.Update(Sprite, new Point(0, 0));
 
-                case Moves.RIGHT:
-                    Sprite.Position = new SFML.System.Vector2f(Sprite.Position.X + stepLong, Sprite.Position.Y);
-                    break;
-            }
-
-            if(timesToJump != 0)
-            {
-                timesToJump--;
-                Sprite.Position = new SFML.System.Vector2f(Sprite.Position.X, Sprite.Position.Y - jumpHeight);
-            }
-
-            for(int i = 0;  Sprite.Position.Y + Thickness + SizeH / 2 != Program.heightWindow && i != gravity; i++)
+            for (int i = 0; Sprite.Position.Y + Thickness + SizeH / 2 != Program.heightWindow && i != gravity; i++)
             {
                 Sprite.Position = new Vector2f(Sprite.Position.X, Sprite.Position.Y + 1);
             }
@@ -97,7 +72,7 @@ namespace Story_One_Coube.Models
         {
             if (Sprite == null) return;
 
-            foreach(var bullet in bullets)
+            foreach (var bullet in bullets)
             {
                 bullet.Draw(window);
             }

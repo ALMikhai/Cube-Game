@@ -12,7 +12,7 @@ namespace Story_One_Coube.Models
 {
     class HPBox
     {
-        Character Character;
+        RectangleShape baseSprite;
 
         public RectangleShape SpriteGreen;
         public RectangleShape SpriteRed;
@@ -25,11 +25,11 @@ namespace Story_One_Coube.Models
         double initialValue;
         double valueNow;
 
-        public HPBox(Character character, double HP)
+        public HPBox(RectangleShape sprite, double HP)
         {
-            Character = character;
+            baseSprite = sprite;
 
-            sizeW = character.Sprite.Size.X;
+            sizeW = sprite.Size.X;
 
             initialValue = HP;
             valueNow = HP;
@@ -58,9 +58,7 @@ namespace Story_One_Coube.Models
 
         public void Update()
         {
-            if (Character == null) return;
-
-            SpriteGreen.Position = new SFML.System.Vector2f(Character.Sprite.Position.X - (Character.Sprite.Size.X / 2), Character.Sprite.Position.Y - Character.Sprite.Size.Y);
+            SpriteGreen.Position = new SFML.System.Vector2f(baseSprite.Position.X - (baseSprite.Size.X / 2), baseSprite.Position.Y - baseSprite.Size.Y);
             SpriteRed.Position = SpriteGreen.Position;
         }
 
