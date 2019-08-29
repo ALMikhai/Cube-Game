@@ -1,4 +1,7 @@
 ﻿using SFML.Graphics;
+using SFML.System;
+using SFML.Window;
+using SFML.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +31,11 @@ namespace Story_One_Coube.Models
 
         public Gun gunNow;
 
-        public Character()
+        public List<Bullet> bullets = new List<Bullet>();
+
+        public HPBox HP;
+
+        public Character(double hp)
         {
             Sprite = new RectangleShape(new SFML.System.Vector2f(sizeW, sizeH));
 
@@ -41,6 +48,8 @@ namespace Story_One_Coube.Models
             Sprite.OutlineColor = Color.Red;
 
             gunNow = new Gun(this);
+
+            HP = new HPBox(this, hp);
         }
 
         public void Update(Moves move, Point coord)
@@ -51,10 +60,12 @@ namespace Story_One_Coube.Models
 
             gunNow.Update(this, (float)gunRotation);
 
-            foreach (var bullet in gunNow.bullets)
+            foreach (var bullet in bullets)
             {
                 bullet.Update();
             }
+
+            HP.Update();
 
             switch (move)
             {
@@ -83,13 +94,25 @@ namespace Story_One_Coube.Models
         {
             if (Sprite == null) return;
 
-            foreach(var bullet in gunNow.bullets)
+            foreach(var bullet in bullets)
             {
                 bullet.Draw(window);
             }
 
+            HP.Draw(window);
+
             window.Draw(Sprite);
             window.Draw(gunNow.Sprite);
+        }
+
+        public void Shoot(Point coord)
+        {
+            bullets.Add(new Bullet(new Point(Sprite.Position.X, Sprite.Position.Y), gunNow.speedShoot, coord));
+        }
+
+        public void Hit(double damage)
+        {
+            HP.Hit(damage);
         }
 
         public void Jump()

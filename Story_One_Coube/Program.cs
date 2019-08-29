@@ -1,4 +1,7 @@
 ﻿using SFML.Graphics;
+using SFML.System;
+using SFML.Window;
+using SFML.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +11,14 @@ using Story_One_Coube.Models;
 
 namespace Story_One_Coube
 {
+    /// <summary>
+    /// TODO HPBox.
+    /// TODO Delet bullets.
+    /// TODO Enemies.
+    /// TODO Platforms.
+    /// TODO Textures.
+    /// </summary>
+
     class Program
     {
         static RenderWindow mainWindow;
@@ -17,7 +28,7 @@ namespace Story_One_Coube
         public static Color backgroundColor = new Color(78, 180, 217);
 
         static Character character;
-
+        static double mainCharacterHP = 100;
         static Character.Moves moveNow = Character.Moves.STOP;
 
         static Point lastMousePosition = new Point(1280, 720);
@@ -32,7 +43,7 @@ namespace Story_One_Coube
             mainWindow.MouseMoved += MainWindow_MouseMoved;
             mainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
 
-            character = new Character();
+            character = new Character(mainCharacterHP);
 
             while (mainWindow.IsOpen)
             {
@@ -50,7 +61,7 @@ namespace Story_One_Coube
 
         private static void MainWindow_MouseButtonPressed(object sender, SFML.Window.MouseButtonEventArgs e)
         {
-            character.gunNow.Shoot(new Point(e.X, e.Y));
+            character.Shoot(new Point(e.X, e.Y));
         }
 
         private static void MainWindow_MouseMoved(object sender, SFML.Window.MouseMoveEventArgs e)
@@ -80,6 +91,8 @@ namespace Story_One_Coube
                 case SFML.Window.Keyboard.Key.A: { moveNow = Character.Moves.LEFT; return; }
 
                 case SFML.Window.Keyboard.Key.D: { moveNow = Character.Moves.RIGHT; return; }
+
+                case Keyboard.Key.H: { character.Hit(10); return; }
             }
         }
 

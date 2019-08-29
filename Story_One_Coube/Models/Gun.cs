@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
+using SFML.System;
+using SFML.Window;
+using SFML.Audio;
 
 namespace Story_One_Coube.Models
 {
@@ -14,9 +17,7 @@ namespace Story_One_Coube.Models
         int sizeH = 10;
         int sizeW = 20;
 
-        public List<Bullet> bullets = new List<Bullet>();
-
-        int speedShoot = 10;
+        public int speedShoot = 10;
 
         public Gun(Character character)
         {
@@ -33,11 +34,6 @@ namespace Story_One_Coube.Models
 
             Sprite.Position = character.Sprite.Position;
             Sprite.Rotation = rotation;
-        }
-
-        public void Shoot(Point coord)
-        {
-            bullets.Add(new Bullet(new Point(Sprite.Position.X, Sprite.Position.Y), speedShoot, coord));
         }
 
         public static double MathRotation(Point coord, Gun gunNow)
