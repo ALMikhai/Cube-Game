@@ -19,14 +19,16 @@ namespace Story_One_Coube.Models
         double sinMove;
         double cosMove;
 
+        int damage = 10;
+
         public double speedBullet;
 
         public Bullet(Point coord, double speed, Point coordToMove)
         {
             Sprite = new CircleShape(radius);
             Sprite.FillColor = Color.Black;
-            Sprite.Origin = new SFML.System.Vector2f(radius / 2, radius / 2);
-            Sprite.Position = new SFML.System.Vector2f((float)coord.X, (float)coord.Y);
+            Sprite.Origin = new Vector2f(radius / 2, radius / 2);
+            Sprite.Position = new Vector2f((float)coord.X, (float)coord.Y);
 
             speedBullet = speed;
 
@@ -41,12 +43,37 @@ namespace Story_One_Coube.Models
 
         public void Update()
         {
-            Sprite.Position = new SFML.System.Vector2f((float)(Sprite.Position.X + speedBullet * cosMove), (float)(Sprite.Position.Y + speedBullet * sinMove));
+            Sprite.Position = new Vector2f((float)(Sprite.Position.X + speedBullet * cosMove), (float)(Sprite.Position.Y + speedBullet * sinMove));
         }
 
         public void Draw(RenderWindow renderWindow)
         {
             renderWindow.Draw(Sprite);
+        }
+
+        public bool OnWindow()
+        {
+            if (Sprite.Position.X < 0 || Sprite.Position.X > Program.widthWindow || Sprite.Position.Y < 0 || Sprite.Position.Y > Program.heightWindow) return false;
+
+            return true;
+        }
+
+        public bool CheckHit()
+        {
+            foreach (var enemy in Program.Enemies)
+            {
+                RectangleShape sprite = enemy.Sprite;
+                if (sprite.Position.X - sprite.Size.X / 2 <= Sprite.Position.X && Sprite.Position.X <= sprite.Position.X + sprite.Size.X / 2)
+                {
+                    if (sprite.Position.Y - sprite.Size.Y / 2 <= Sprite.Position.Y && Sprite.Position.Y <= sprite.Position.Y + sprite.Size.Y / 2)
+                    {
+                        CharacterEvents.Hit(enemy, damage);
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
     }
 }

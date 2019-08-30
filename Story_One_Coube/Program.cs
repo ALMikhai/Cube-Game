@@ -12,10 +12,8 @@ using Story_One_Coube.Models;
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Delet bullets.
     /// TODO Enemies. +-
     /// TODO Add AI for enemies.
-    /// TODO Add opportunity get hit for enemy and main char. 
     /// TODO Platforms.
     /// TODO Textures.
     /// </summary>
@@ -30,9 +28,9 @@ namespace Story_One_Coube
 
         static Character mainCharacter;
         static double mainCharacterHP = 100;
-        static Character.Moves moveNow = Character.Moves.STOP;
+        static CharacterEvents.Moves moveNow = CharacterEvents.Moves.STOP;
 
-        static List<Enemy> Enemies = new List<Enemy>();
+        public static List<Character> Enemies = new List<Character>();
 
         public static Point lastMousePosition = new Point(1280, 720);
 
@@ -40,7 +38,7 @@ namespace Story_One_Coube
 
         static void Main(string[] args)
         {
-            mainWindow = new RenderWindow(new SFML.Window.VideoMode(widthWindow, heightWindow), "Story of one Cube");
+            mainWindow = new RenderWindow(new VideoMode(widthWindow, heightWindow), "Story of one Cube");
             mainWindow.SetVerticalSyncEnabled(true);
             mainWindow.Closed += MainWindow_Closed;
             mainWindow.KeyPressed += MainWindow_KeyPressed;
@@ -56,58 +54,58 @@ namespace Story_One_Coube
 
                 mainWindow.Clear(backgroundColorWindow);
 
-                mainCharacter.Update(moveNow);
+                CharacterEvents.UpdateMainChar(moveNow, mainCharacter);
 
-                mainCharacter.Draw(mainWindow);
+                CharacterEvents.Draw(mainWindow, mainCharacter);
 
-                foreach(var enemy in Enemies)
+                foreach(var enemy in Enemies.ToArray())
                 {
-                    enemy.Update();
-                    enemy.Draw(mainWindow);
+                    CharacterEvents.UpdateEnemy(enemy);
+                    CharacterEvents.Draw(mainWindow, enemy);
                 }
 
                 mainWindow.Display();
             }
         }
 
-        private static void MainWindow_MouseButtonPressed(object sender, SFML.Window.MouseButtonEventArgs e)
+        private static void MainWindow_MouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
             CharacterEvents.Shoot(mainCharacter, new Point(e.X, e.Y));
         }
 
-        private static void MainWindow_MouseMoved(object sender, SFML.Window.MouseMoveEventArgs e)
+        private static void MainWindow_MouseMoved(object sender, MouseMoveEventArgs e)
         {
             lastMousePosition.X = e.X;
             lastMousePosition.Y = e.Y;
         }
 
-        private static void MainWindow_KeyReleased(object sender, SFML.Window.KeyEventArgs e)
+        private static void MainWindow_KeyReleased(object sender, KeyEventArgs e)
         {
             switch (e.Code)
             {
-                case SFML.Window.Keyboard.Key.A: { if(moveNow == Character.Moves.LEFT) moveNow = Character.Moves.STOP; return; }
+                case Keyboard.Key.A: { if(moveNow == CharacterEvents.Moves.LEFT) moveNow = CharacterEvents.Moves.STOP; return; }
 
-                case SFML.Window.Keyboard.Key.D: { if(moveNow == Character.Moves.RIGHT) moveNow = Character.Moves.STOP; return; }
+                case Keyboard.Key.D: { if(moveNow == CharacterEvents.Moves.RIGHT) moveNow = CharacterEvents.Moves.STOP; return; }
             }
         }
 
-        private static void MainWindow_KeyPressed(object sender, SFML.Window.KeyEventArgs e)
+        private static void MainWindow_KeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Control) switch (e.Code)
                 {
                     case Keyboard.Key.H: { CharacterEvents.Hit(mainCharacter, 10); return; }
-                    case Keyboard.Key.S: { Enemies.Add(new Enemy(100, 46, 46, new Point(random.Next((int)widthWindow), random.Next((int)heightWindow)))); return; }
+                    case Keyboard.Key.S: { Enemies.Add(new Character(100, 46, 46, new Point(random.Next((int)widthWindow), random.Next((int)heightWindow)))); return; }
                 }
 
             switch (e.Code)
             {
-                case SFML.Window.Keyboard.Key.Escape: { mainWindow.Close(); return; }
+                case Keyboard.Key.Escape: { mainWindow.Close(); return; }
 
-                case SFML.Window.Keyboard.Key.Space: { CharacterEvents.Jump(mainCharacter); return; }
+                case Keyboard.Key.Space: { CharacterEvents.Jump(mainCharacter); return; }
 
-                case SFML.Window.Keyboard.Key.A: { moveNow = Character.Moves.LEFT; return; }
+                case Keyboard.Key.A: { moveNow = CharacterEvents.Moves.LEFT; return; }
 
-                case SFML.Window.Keyboard.Key.D: { moveNow = Character.Moves.RIGHT; return; }
+                case Keyboard.Key.D: { moveNow = CharacterEvents.Moves.RIGHT; return; }
             }
         }
 

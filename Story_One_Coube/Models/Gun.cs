@@ -21,8 +21,8 @@ namespace Story_One_Coube.Models
 
         public Gun(RectangleShape sprite)
         {
-            Sprite = new RectangleShape(new SFML.System.Vector2f(sizeW, sizeH));
-            Sprite.Origin = new SFML.System.Vector2f(0, sizeH / 2);
+            Sprite = new RectangleShape(new Vector2f(sizeW, sizeH));
+            Sprite.Origin = new Vector2f(0, sizeH / 2);
             Sprite.FillColor = Color.Black;
 
             Sprite.Position = sprite.Position;
