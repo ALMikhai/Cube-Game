@@ -22,8 +22,8 @@ namespace Story_One_Coube.Models
 
         int thickness = 2;
 
-        double initialValue;
-        double valueNow;
+        public double InitialValue;
+        public double ValueNow;
 
         public HPBox(RectangleShape sprite, double HP)
         {
@@ -31,10 +31,10 @@ namespace Story_One_Coube.Models
 
             sizeW = sprite.Size.X;
 
-            initialValue = HP;
-            valueNow = HP;
+            InitialValue = HP;
+            ValueNow = HP;
 
-            SpriteGreen = new RectangleShape(new SFML.System.Vector2f((float)sizeW, (float)sizeH));
+            SpriteGreen = new RectangleShape(new Vector2f((float)sizeW, (float)sizeH));
 
             SpriteGreen.FillColor = new Color(28, 212, 86);
 
@@ -49,16 +49,18 @@ namespace Story_One_Coube.Models
 
         public void Hit(double damage)
         {
-            valueNow -= damage;
+            ValueNow -= damage;
 
-            double newSizeW = sizeW * (valueNow / initialValue);
+            ValueNow = (ValueNow <= 0) ? 0 : ValueNow;
 
-            SpriteGreen.Size = new SFML.System.Vector2f((float)newSizeW, (float)sizeH);
+            double newSizeW = sizeW * (ValueNow / InitialValue);
+
+            SpriteGreen.Size = new Vector2f((float)newSizeW, (float)sizeH);
         }
 
         public void Update()
         {
-            SpriteGreen.Position = new SFML.System.Vector2f(baseSprite.Position.X - (baseSprite.Size.X / 2), baseSprite.Position.Y - baseSprite.Size.Y);
+            SpriteGreen.Position = new Vector2f(baseSprite.Position.X - (baseSprite.Size.X / 2), baseSprite.Position.Y - baseSprite.Size.Y);
             SpriteRed.Position = SpriteGreen.Position;
         }
 
