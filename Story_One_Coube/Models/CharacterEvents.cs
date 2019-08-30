@@ -24,7 +24,7 @@ namespace Story_One_Coube.Models
 
         public static void Jump(Character character)
         {
-            if (character.timesToJump != 0 || character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 != Program.heightWindow) return;
+            if (character.timesToJump != 0 || character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 != Program.HeightWindow) return;
 
             character.timesToJump += 30;
         }
@@ -48,11 +48,11 @@ namespace Story_One_Coube.Models
         {
             if (character.Sprite == null) return;
 
-            character.gunNow.Update(character.Sprite, Program.lastMousePosition);
+            character.gunNow.Update(character.Sprite, Program.LastMousePosition);
 
             foreach (var bullet in character.bullets.ToArray())
             {
-                if (!bullet.OnWindow() || bullet.CheckHit())
+                if (!bullet.OnWindow() || bullet.CheckHit(character))
                 {
                     character.bullets.Remove(bullet);
                     return;
@@ -80,7 +80,7 @@ namespace Story_One_Coube.Models
                 character.Sprite.Position = new Vector2f(character.Sprite.Position.X, character.Sprite.Position.Y - character.jumpHeight);
             }
 
-            for (int i = 0; character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 != Program.heightWindow && i != character.gravity; i++)
+            for (int i = 0; character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 != Program.HeightWindow && i != character.gravity; i++)
             {
                 character.Sprite.Position = new Vector2f(character.Sprite.Position.X, character.Sprite.Position.Y + 1);
             }
@@ -90,6 +90,19 @@ namespace Story_One_Coube.Models
         {
             if (character.Sprite == null) return;
 
+            character.gunNow.Update(character.Sprite, new Point(Program.MainCharacter.Sprite.Position.X, Program.MainCharacter.Sprite.Position.Y));
+
+            foreach (var bullet in character.bullets.ToArray())
+            {
+                if (!bullet.OnWindow() || bullet.CheckHit(character))
+                {
+                    character.bullets.Remove(bullet);
+                    return;
+                }
+
+                bullet.Update();
+            }
+
             if (character.HP.ValueNow <= 0)
             {
                 Death(character);
@@ -98,9 +111,12 @@ namespace Story_One_Coube.Models
 
             character.HP.Update();
 
-            character.gunNow.Update(character.Sprite, new Point(0, 0));
+            if (CanShoot(character))
+            {
+                Shoot(character, new Point(Program.MainCharacter.Sprite.Position.X, Program.MainCharacter.Sprite.Position.Y));
+            }
 
-            for (int i = 0; character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 != Program.heightWindow && i != character.gravity; i++)
+            for (int i = 0; character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 != Program.HeightWindow && i != character.gravity; i++)
             {
                 character.Sprite.Position = new Vector2f(character.Sprite.Position.X, character.Sprite.Position.Y + 1);
             }
@@ -109,6 +125,20 @@ namespace Story_One_Coube.Models
         public static void Death(Character character)
         {
             Program.Enemies.Remove(character);
+        }
+
+        public static bool CanShoot(Character character)
+        {
+            if(character.enemyTime <= 0)
+            {
+                character.enemyTime += character.enemyTimeBtwShoot;
+                return true;
+            }
+            else
+            {
+                character.enemyTime -= 0.1;
+                return false;
+            }
         }
     }
 }

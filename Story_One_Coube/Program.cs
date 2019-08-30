@@ -16,29 +16,35 @@ namespace Story_One_Coube
     /// TODO Add AI for enemies.
     /// TODO Platforms.
     /// TODO Textures.
+    /// TODO Main menu.
+    /// TODO Death screen.
+    /// TODO Score.
+    /// TODO Win screen.
+    /// TODO Some levels.
+    /// TODO Boss
     /// </summary>
 
     class Program
     {
         static RenderWindow mainWindow;
 
-        public static uint heightWindow = 720;
-        public static uint widthWindow = 1280;
-        public static Color backgroundColorWindow = new Color(78, 180, 217);
+        public static uint HeightWindow = 720;
+        public static uint WidthWindow = 1280;
+        public static Color BackgroundColorWindow = new Color(78, 180, 217);
 
-        static Character mainCharacter;
+        public static Character MainCharacter;
         static double mainCharacterHP = 100;
         static CharacterEvents.Moves moveNow = CharacterEvents.Moves.STOP;
 
         public static List<Character> Enemies = new List<Character>();
 
-        public static Point lastMousePosition = new Point(1280, 720);
+        public static Point LastMousePosition = new Point(1280, 720);
 
         static Random random = new Random();
 
         static void Main(string[] args)
         {
-            mainWindow = new RenderWindow(new VideoMode(widthWindow, heightWindow), "Story of one Cube");
+            mainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube");
             mainWindow.SetVerticalSyncEnabled(true);
             mainWindow.Closed += MainWindow_Closed;
             mainWindow.KeyPressed += MainWindow_KeyPressed;
@@ -46,17 +52,17 @@ namespace Story_One_Coube
             mainWindow.MouseMoved += MainWindow_MouseMoved;
             mainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
 
-            mainCharacter = new Character(mainCharacterHP, 46, 46, new Point(widthWindow / 2, heightWindow / 2));
+            MainCharacter = new Character(mainCharacterHP, 46, 46, new Point(WidthWindow / 2, HeightWindow / 2));
 
             while (mainWindow.IsOpen)
             {
                 mainWindow.DispatchEvents();
 
-                mainWindow.Clear(backgroundColorWindow);
+                mainWindow.Clear(BackgroundColorWindow);
 
-                CharacterEvents.UpdateMainChar(moveNow, mainCharacter);
+                CharacterEvents.UpdateMainChar(moveNow, MainCharacter);
 
-                CharacterEvents.Draw(mainWindow, mainCharacter);
+                CharacterEvents.Draw(mainWindow, MainCharacter);
 
                 foreach(var enemy in Enemies.ToArray())
                 {
@@ -70,13 +76,13 @@ namespace Story_One_Coube
 
         private static void MainWindow_MouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            CharacterEvents.Shoot(mainCharacter, new Point(e.X, e.Y));
+            CharacterEvents.Shoot(MainCharacter, new Point(e.X, e.Y));
         }
 
         private static void MainWindow_MouseMoved(object sender, MouseMoveEventArgs e)
         {
-            lastMousePosition.X = e.X;
-            lastMousePosition.Y = e.Y;
+            LastMousePosition.X = e.X;
+            LastMousePosition.Y = e.Y;
         }
 
         private static void MainWindow_KeyReleased(object sender, KeyEventArgs e)
@@ -93,15 +99,15 @@ namespace Story_One_Coube
         {
             if (e.Control) switch (e.Code)
                 {
-                    case Keyboard.Key.H: { CharacterEvents.Hit(mainCharacter, 10); return; }
-                    case Keyboard.Key.S: { Enemies.Add(new Character(100, 46, 46, new Point(random.Next((int)widthWindow), random.Next((int)heightWindow)))); return; }
+                    case Keyboard.Key.H: { CharacterEvents.Hit(MainCharacter, 10); return; }
+                    case Keyboard.Key.S: { Enemies.Add(new Character(100, 46, 46, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)))); return; }
                 }
 
             switch (e.Code)
             {
                 case Keyboard.Key.Escape: { mainWindow.Close(); return; }
 
-                case Keyboard.Key.Space: { CharacterEvents.Jump(mainCharacter); return; }
+                case Keyboard.Key.Space: { CharacterEvents.Jump(MainCharacter); return; }
 
                 case Keyboard.Key.A: { moveNow = CharacterEvents.Moves.LEFT; return; }
 

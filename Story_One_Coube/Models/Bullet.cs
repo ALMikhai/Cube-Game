@@ -19,7 +19,7 @@ namespace Story_One_Coube.Models
         double sinMove;
         double cosMove;
 
-        int damage = 10;
+        int damage = 33;
 
         public double speedBullet;
 
@@ -53,15 +53,19 @@ namespace Story_One_Coube.Models
 
         public bool OnWindow()
         {
-            if (Sprite.Position.X < 0 || Sprite.Position.X > Program.widthWindow || Sprite.Position.Y < 0 || Sprite.Position.Y > Program.heightWindow) return false;
+            if (Sprite.Position.X < 0 || Sprite.Position.X > Program.WidthWindow || Sprite.Position.Y < 0 || Sprite.Position.Y > Program.HeightWindow) return false;
 
             return true;
         }
 
-        public bool CheckHit()
+        public bool CheckHit(Character owner)
         {
+            Character mainChar = Program.MainCharacter;
+
             foreach (var enemy in Program.Enemies)
             {
+                if (enemy == owner) continue;
+
                 RectangleShape sprite = enemy.Sprite;
                 if (sprite.Position.X - sprite.Size.X / 2 <= Sprite.Position.X && Sprite.Position.X <= sprite.Position.X + sprite.Size.X / 2)
                 {
@@ -70,6 +74,17 @@ namespace Story_One_Coube.Models
                         CharacterEvents.Hit(enemy, damage);
                         return true;
                     }
+                }
+            }
+
+            if (mainChar == owner) return false;
+
+            if (mainChar.Sprite.Position.X - mainChar.Sprite.Size.X / 2 <= Sprite.Position.X && Sprite.Position.X <= mainChar.Sprite.Position.X + mainChar.Sprite.Size.X / 2)
+            {
+                if (mainChar.Sprite.Position.Y - mainChar.Sprite.Size.Y / 2 <= Sprite.Position.Y && Sprite.Position.Y <= mainChar.Sprite.Position.Y + mainChar.Sprite.Size.Y / 2)
+                {
+                    CharacterEvents.Hit(mainChar, damage);
+                    return true;
                 }
             }
 
