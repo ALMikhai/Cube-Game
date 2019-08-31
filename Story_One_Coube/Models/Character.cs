@@ -33,6 +33,8 @@ namespace Story_One_Coube.Models
 
         public HPBox HP { get; set; }
 
+        public bool OnFloor { get; set; }
+
         public double enemyTimeBtwShoot = 10;
 
         public double enemyTime = 0;
@@ -63,6 +65,8 @@ namespace Story_One_Coube.Models
             gunNow = new Gun(this.Sprite);
 
             HP = new HPBox(this.Sprite, hp);
+
+            OnFloor = false;
         }
     }
 }

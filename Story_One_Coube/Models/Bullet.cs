@@ -90,5 +90,19 @@ namespace Story_One_Coube.Models
 
             return false;
         }
+
+        public bool TextureHit()
+        {
+            foreach(var texture in Program.TextureObjects)
+            {
+                if(texture.Position.X < Sprite.Position.X && Sprite.Position.X < texture.Position.X + texture.Size.X 
+                    && texture.Position.Y < Sprite.Position.Y && Sprite.Position.Y < texture.Position.Y + texture.Size.Y)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

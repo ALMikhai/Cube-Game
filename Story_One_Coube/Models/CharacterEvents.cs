@@ -24,9 +24,11 @@ namespace Story_One_Coube.Models
 
         public static void Jump(Character character)
         {
-            if (character.timesToJump != 0 || character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 != Program.HeightWindow) return;
+            if (character.timesToJump != 0 || !character.OnFloor) return;
 
             character.timesToJump += 30;
+
+            character.OnFloor = false;
         }
 
         public static void Draw(RenderWindow window, Character character)
@@ -44,15 +46,13 @@ namespace Story_One_Coube.Models
             window.Draw(character.gunNow.Sprite);
         }
 
-        public static void UpdateMainChar(Moves move, Character character)
+    public static void UpdateChar(Character character)
         {
             if (character.Sprite == null) return;
 
-            character.gunNow.Update(character.Sprite, Program.LastMousePosition);
-
             foreach (var bullet in character.bullets.ToArray())
             {
-                if (!bullet.OnWindow() || bullet.CheckHit(character))
+                if (!bullet.OnWindow() || bullet.CheckHit(character) || bullet.TextureHit())
                 {
                     character.bullets.Remove(bullet);
                     return;
@@ -63,45 +63,55 @@ namespace Story_One_Coube.Models
 
             character.HP.Update();
 
-            switch (move)
-            {
-                case Moves.LEFT:
-                    character.Sprite.Position = new Vector2f(character.Sprite.Position.X - character.stepLong, character.Sprite.Position.Y);
-                    break;
-
-                case Moves.RIGHT:
-                    character.Sprite.Position = new Vector2f(character.Sprite.Position.X + character.stepLong, character.Sprite.Position.Y);
-                    break;
-            }
-
             if (character.timesToJump != 0)
             {
                 character.timesToJump--;
                 character.Sprite.Position = new Vector2f(character.Sprite.Position.X, character.Sprite.Position.Y - character.jumpHeight);
             }
 
-            for (int i = 0; character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 != Program.HeightWindow && i != character.gravity; i++)
+            for (int i = 0; i != character.gravity; i++)
             {
+                character.OnFloor = false;
+
+                foreach (var platform in Program.TextureObjects)
+                {
+                    if (character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 == platform.Position.Y
+                        && platform.Position.X < character.Sprite.Position.X && character.Sprite.Position.X < platform.Position.X + platform.Size.X)
+                    {
+                        character.OnFloor = true;
+                        break;
+                    }
+                }
+
+                if (character.OnFloor) break;
+
                 character.Sprite.Position = new Vector2f(character.Sprite.Position.X, character.Sprite.Position.Y + 1);
+            }
+        }
+
+        public static void UpdateMainChar(Moves move, Character character)
+        {
+            character.gunNow.Update(character.Sprite, Program.LastMousePosition);
+
+            switch (move)
+            {
+                case Moves.LEFT:
+                    if ((character.Sprite.Position.X - (character.Sprite.Size.X / 2)) <= 0) break;
+
+                    character.Sprite.Position = new Vector2f(character.Sprite.Position.X - character.stepLong, character.Sprite.Position.Y);
+                    break;
+
+                case Moves.RIGHT:
+                    if ((character.Sprite.Position.X + (character.Sprite.Size.X / 2)) >= Program.WidthWindow) break;
+
+                    character.Sprite.Position = new Vector2f(character.Sprite.Position.X + character.stepLong, character.Sprite.Position.Y);
+                    break;
             }
         }
 
         public static void UpdateEnemy(Character character)
         {
-            if (character.Sprite == null) return;
-
             character.gunNow.Update(character.Sprite, new Point(Program.MainCharacter.Sprite.Position.X, Program.MainCharacter.Sprite.Position.Y));
-
-            foreach (var bullet in character.bullets.ToArray())
-            {
-                if (!bullet.OnWindow() || bullet.CheckHit(character))
-                {
-                    character.bullets.Remove(bullet);
-                    return;
-                }
-
-                bullet.Update();
-            }
 
             if (character.HP.ValueNow <= 0)
             {
@@ -109,25 +119,12 @@ namespace Story_One_Coube.Models
                 return;
             }
 
-            character.HP.Update();
-
             if (CanShoot(character))
             {
                 Shoot(character, new Point(Program.MainCharacter.Sprite.Position.X, Program.MainCharacter.Sprite.Position.Y));
             }
 
             ChaseMainChar(character);
-
-            if (character.timesToJump != 0)
-            {
-                character.timesToJump--;
-                character.Sprite.Position = new Vector2f(character.Sprite.Position.X, character.Sprite.Position.Y - character.jumpHeight);
-            }
-
-            for (int i = 0; character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 != Program.HeightWindow && i != character.gravity; i++)
-            {
-                character.Sprite.Position = new Vector2f(character.Sprite.Position.X, character.Sprite.Position.Y + 1);
-            }
         }
 
         public static void Death(Character character)
@@ -167,7 +164,7 @@ namespace Story_One_Coube.Models
                 }
             }
 
-            if(mathDistanceToMainChar(enemy) <= enemy.enemyAllowableDisToMainChar && spriteMainChar.Position.Y != spriteEnemy.Position.Y)
+            if(Program.MainCharacter.OnFloor && spriteMainChar.Position.Y < spriteEnemy.Position.Y)
             {
                 Jump(enemy);
             }

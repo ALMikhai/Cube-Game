@@ -43,6 +43,8 @@ namespace Story_One_Coube
 
         static Random random = new Random();
 
+        public static List<RectangleShape> TextureObjects = new List<RectangleShape>();
+
         static void Main(string[] args)
         {
             mainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube");
@@ -53,6 +55,7 @@ namespace Story_One_Coube
             mainWindow.MouseMoved += MainWindow_MouseMoved;
             mainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
 
+
             MainCharacter = new Character(mainCharacterHP, 46, 46, new Point(WidthWindow / 2, HeightWindow / 2));
 
             while (mainWindow.IsOpen)
@@ -61,7 +64,11 @@ namespace Story_One_Coube
 
                 mainWindow.Clear(BackgroundColorWindow);
 
+                TextureObjects.Clear();
+
                 Level1.InitialLevel(mainWindow);
+
+                CharacterEvents.UpdateChar(MainCharacter);
 
                 CharacterEvents.UpdateMainChar(moveNow, MainCharacter);
 
@@ -69,6 +76,7 @@ namespace Story_One_Coube
 
                 foreach(var enemy in Enemies.ToArray())
                 {
+                    CharacterEvents.UpdateChar(enemy);
                     CharacterEvents.UpdateEnemy(enemy);
                     CharacterEvents.Draw(mainWindow, enemy);
                 }

@@ -10,18 +10,35 @@ namespace Story_One_Coube.Models.Scene
 {
     static class Level1
     {
-        static Texture floarTexture = new Texture("../../Models/Texturs/floarTexture.png", new IntRect(265, 145, 240, 114));
+        static Texture floorTexture = new Texture("../../Models/Texturs/floarTexture.png", new IntRect(265, 145, 240, 114));
 
-        static RectangleShape floarSprite = new RectangleShape()
+        static RectangleShape floorSprite = new RectangleShape()
         {
             Size = new Vector2f(240, 114),
             Position = new Vector2f(400, 300),
-            Texture = floarTexture,
+            Texture = floorTexture,
         };
 
         public static void InitialLevel(RenderWindow window)
         {
-            window.Draw(floarSprite);
+            int drawPoint = -20;
+
+            while(drawPoint < window.Size.X)
+            {
+                floorSprite.Position = new Vector2f(drawPoint, window.Size.Y - 90);
+
+                Program.TextureObjects.Add(new RectangleShape(floorSprite));
+
+                window.Draw(floorSprite);
+
+                drawPoint += (int)floorSprite.Size.X - 20;
+            }
+
+            floorSprite.Position = new Vector2f(640, 360);
+
+            Program.TextureObjects.Add(new RectangleShape(floorSprite));
+
+            window.Draw(floorSprite);
         }
     }
 }
