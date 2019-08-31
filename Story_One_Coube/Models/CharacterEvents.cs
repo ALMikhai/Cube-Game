@@ -116,6 +116,14 @@ namespace Story_One_Coube.Models
                 Shoot(character, new Point(Program.MainCharacter.Sprite.Position.X, Program.MainCharacter.Sprite.Position.Y));
             }
 
+            ChaseMainChar(character);
+
+            if (character.timesToJump != 0)
+            {
+                character.timesToJump--;
+                character.Sprite.Position = new Vector2f(character.Sprite.Position.X, character.Sprite.Position.Y - character.jumpHeight);
+            }
+
             for (int i = 0; character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 != Program.HeightWindow && i != character.gravity; i++)
             {
                 character.Sprite.Position = new Vector2f(character.Sprite.Position.X, character.Sprite.Position.Y + 1);
@@ -136,9 +144,50 @@ namespace Story_One_Coube.Models
             }
             else
             {
-                character.enemyTime -= 0.1;
+                character.enemyTime -= (DateTime.Now - character.enemyTimeAfterShoot).TotalSeconds;
+                character.enemyTimeAfterShoot = DateTime.Now;
                 return false;
             }
+        }
+
+        public static void ChaseMainChar(Character enemy)
+        {
+            RectangleShape spriteMainChar = Program.MainCharacter.Sprite;
+            RectangleShape spriteEnemy = enemy.Sprite;
+
+            if(mathDistanceToMainChar(enemy) > enemy.enemyAllowableDisToMainChar)
+            {
+                if(spriteEnemy.Position.X > spriteMainChar.Position.X)
+                {
+                    spriteEnemy.Position = new Vector2f(spriteEnemy.Position.X - enemy.enemyStepLong, spriteEnemy.Position.Y);
+                }
+                else
+                {
+                    spriteEnemy.Position = new Vector2f(spriteEnemy.Position.X + enemy.enemyStepLong, spriteEnemy.Position.Y);
+                }
+            }
+
+            if(mathDistanceToMainChar(enemy) <= enemy.enemyAllowableDisToMainChar && spriteMainChar.Position.Y != spriteEnemy.Position.Y)
+            {
+                Jump(enemy);
+            }
+        }
+
+        private static double mathDistanceToMainChar(Character enemy)
+        {
+            Vector2f mainCharPos = Program.MainCharacter.Sprite.Position;
+            Vector2f enemyPos = enemy.Sprite.Position;
+
+            double x1 = (enemyPos.X > mainCharPos.X) ? enemyPos.X : mainCharPos.X;
+            double x2 = (enemyPos.X < mainCharPos.X) ? enemyPos.X : mainCharPos.X;
+
+            double y1 = (enemyPos.Y > mainCharPos.Y) ? enemyPos.Y : mainCharPos.Y;
+            double y2 = (enemyPos.Y < mainCharPos.Y) ? enemyPos.Y : mainCharPos.Y;
+
+            double xDist = x1 - x2;
+            double yDist = y1 - y2;
+
+            return (Math.Sqrt((xDist * xDist) + (yDist * yDist)));
         }
     }
 }

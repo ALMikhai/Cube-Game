@@ -33,9 +33,15 @@ namespace Story_One_Coube.Models
 
         public HPBox HP { get; set; }
 
-        public double enemyTimeBtwShoot = 3;
+        public double enemyTimeBtwShoot = 10;
 
         public double enemyTime = 0;
+
+        public DateTime enemyTimeAfterShoot = DateTime.Now;
+
+        public double enemyAllowableDisToMainChar = 200;
+
+        public float enemyStepLong = 2;
 
         public Character(double hp, int height, int width, Point spawnPoint)
         {

@@ -8,12 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Story_One_Coube.Models;
+using Story_One_Coube.Models.Scene;
 
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Enemies. +-
-    /// TODO Add AI for enemies.
+    /// TODO Enemies(constructor). +-
+    /// TODO Add AI for enemies. +-
     /// TODO Platforms.
     /// TODO Textures.
     /// TODO Main menu.
@@ -59,6 +60,8 @@ namespace Story_One_Coube
                 mainWindow.DispatchEvents();
 
                 mainWindow.Clear(BackgroundColorWindow);
+
+                Level1.InitialLevel(mainWindow);
 
                 CharacterEvents.UpdateMainChar(moveNow, MainCharacter);
 
