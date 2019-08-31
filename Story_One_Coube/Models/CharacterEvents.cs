@@ -33,7 +33,11 @@ namespace Story_One_Coube.Models
 
         public static void Draw(RenderWindow window, Character character)
         {
-            if (character.Sprite == null) return;
+            if (character.TimeToSpawn > 0)
+            {
+                spawnChar(window, character);
+                return;
+            }
 
             foreach (var bullet in character.bullets)
             {
@@ -46,9 +50,9 @@ namespace Story_One_Coube.Models
             window.Draw(character.gunNow.Sprite);
         }
 
-    public static void UpdateChar(Character character)
+        public static void UpdateChar(Character character)
         {
-            if (character.Sprite == null) return;
+            if (character.TimeToSpawn > 0) return;
 
             foreach (var bullet in character.bullets.ToArray())
             {
@@ -91,6 +95,8 @@ namespace Story_One_Coube.Models
 
         public static void UpdateMainChar(Moves move, Character character)
         {
+            if (character.TimeToSpawn > 0) return;
+
             character.gunNow.Update(character.Sprite, Program.LastMousePosition);
 
             switch (move)
@@ -111,6 +117,8 @@ namespace Story_One_Coube.Models
 
         public static void UpdateEnemy(Character character)
         {
+            if (character.TimeToSpawn > 0) return;
+
             character.gunNow.Update(character.Sprite, new Point(Program.MainCharacter.Sprite.Position.X, Program.MainCharacter.Sprite.Position.Y));
 
             if (character.HP.ValueNow <= 0)
@@ -141,8 +149,8 @@ namespace Story_One_Coube.Models
             }
             else
             {
-                character.enemyTime -= (DateTime.Now - character.enemyTimeAfterShoot).TotalSeconds;
-                character.enemyTimeAfterShoot = DateTime.Now;
+                character.enemyTime -= (DateTime.Now - character.TimeNow).TotalSeconds;
+                character.TimeNow = DateTime.Now;
                 return false;
             }
         }
@@ -185,6 +193,16 @@ namespace Story_One_Coube.Models
             double yDist = y1 - y2;
 
             return (Math.Sqrt((xDist * xDist) + (yDist * yDist)));
+        }
+
+        private static void spawnChar(RenderWindow window, Character character)
+        {
+            Random rand = new Random(DateTime.Now.Millisecond);
+            character.Sprite.FillColor = new Color((byte)(255 * rand.NextDouble()), (byte)(255 * rand.NextDouble()), (byte)(255 * rand.NextDouble()));
+            window.Draw(character.Sprite);
+
+            character.TimeToSpawn -= (DateTime.Now - character.TimeNow).TotalSeconds;
+            character.TimeNow = DateTime.Now;
         }
     }
 }

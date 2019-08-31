@@ -13,10 +13,7 @@ using Story_One_Coube.Models.Scene;
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Enemies(constructor). +-
-    /// TODO Add AI for enemies. +-
-    /// TODO Platforms.
-    /// TODO Textures.
+    /// TODO Fix opportunity shoot to main char if enemy can not hit him.
     /// TODO Main menu.
     /// TODO Death screen.
     /// TODO Score.
@@ -57,6 +54,8 @@ namespace Story_One_Coube
 
 
             MainCharacter = new Character(mainCharacterHP, 46, 46, new Point(WidthWindow / 2, HeightWindow / 2));
+
+            MainCharacter.SpawnCharacter();
 
             while (mainWindow.IsOpen)
             {
@@ -111,7 +110,13 @@ namespace Story_One_Coube
             if (e.Control) switch (e.Code)
                 {
                     case Keyboard.Key.H: { CharacterEvents.Hit(MainCharacter, 10); return; }
-                    case Keyboard.Key.S: { Enemies.Add(new Character(100, 46, 46, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)))); return; }
+                    case Keyboard.Key.S:
+                        {
+                            Character enemy = new Character(100, 46, 46, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)));
+                            enemy.SpawnCharacter();
+                            Enemies.Add(enemy); // Пофиксить спавн ботов(до спавна их трогать не должно, добавить функцию спавн enemy и только в ней добавлять врага в список врагов, да и в принципе в спавне прописать конструктор и возвращать перса).
+                            return;
+                        }
                 }
 
             switch (e.Code)

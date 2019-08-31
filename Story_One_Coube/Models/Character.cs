@@ -39,11 +39,15 @@ namespace Story_One_Coube.Models
 
         public double enemyTime = 0;
 
-        public DateTime enemyTimeAfterShoot = DateTime.Now;
+        public DateTime TimeNow = DateTime.Now;
 
         public double enemyAllowableDisToMainChar = 200;
 
         public float enemyStepLong = 2;
+
+        public Color FillColor { get; set; }
+
+        public double TimeToSpawn { get; set; }
 
         public Character(double hp, int height, int width, Point spawnPoint)
         {
@@ -51,6 +55,8 @@ namespace Story_One_Coube.Models
             SizeW = width;
 
             Thickness = 2;
+
+            FillColor = new Color(255, 255, 255);
 
             Sprite = new RectangleShape(new Vector2f(SizeW, SizeH));
 
@@ -60,6 +66,8 @@ namespace Story_One_Coube.Models
 
             Sprite.OutlineThickness = Thickness;
 
+            Sprite.FillColor = FillColor;
+
             Sprite.OutlineColor = Color.Red;
 
             gunNow = new Gun(this.Sprite);
@@ -67,6 +75,11 @@ namespace Story_One_Coube.Models
             HP = new HPBox(this.Sprite, hp);
 
             OnFloor = false;
+        }
+
+        public void SpawnCharacter()
+        {
+            TimeToSpawn = 1.5;
         }
     }
 }
