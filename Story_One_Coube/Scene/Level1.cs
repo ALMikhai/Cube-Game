@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Story_One_Coube.Models.Scene
+namespace Story_One_Coube.Scene
 {
     static class Level1
     {
-        static Texture floorTexture = new Texture("../../Models/Texturs/floarTexture.png", new IntRect(265, 145, 240, 114));
+        static Texture floorTexture = new Texture("../../Texturs/floarTexture.png", new IntRect(265, 145, 240, 114));
 
         static RectangleShape floorSprite = new RectangleShape()
         {
@@ -19,7 +19,7 @@ namespace Story_One_Coube.Models.Scene
             Texture = floorTexture,
         };
 
-        public static void InitialLevel(RenderWindow window)
+        public static void Draw(RenderWindow window)
         {
             int drawPoint = -20;
 

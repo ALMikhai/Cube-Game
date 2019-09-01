@@ -77,9 +77,12 @@ namespace Story_One_Coube.Models
             OnFloor = false;
         }
 
-        public void SpawnCharacter()
+        public static Character SpawnCharacter(double hp, int height, int width, Point spawnPoint)
         {
-            TimeToSpawn = 1.5;
+            var newChar = new Character(hp, height, width, spawnPoint);
+            newChar.TimeToSpawn = 1.5;
+
+            return newChar;
         }
     }
 }

@@ -65,7 +65,8 @@
     <Compile Include="Models\Gun.cs" />
     <Compile Include="Models\HPBox.cs" />
     <Compile Include="Models\Point.cs" />
-    <Compile Include="Models\Scene\Level1.cs" />
+    <Compile Include="Scene\Interface.cs" />
+    <Compile Include="Scene\Level1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -75,7 +76,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Models\Texturs\floarTexture.png" />
+    <Content Include="Texturs\floarTexture.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

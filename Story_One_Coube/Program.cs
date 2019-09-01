@@ -8,12 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Story_One_Coube.Models;
-using Story_One_Coube.Models.Scene;
+using Story_One_Coube.Scene;
 
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Fix opportunity shoot to main char if enemy can not hit him.
+    /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
     /// TODO Main menu.
     /// TODO Death screen.
     /// TODO Score.
@@ -42,9 +42,11 @@ namespace Story_One_Coube
 
         public static List<RectangleShape> TextureObjects = new List<RectangleShape>();
 
+        public static int Score = 0;
+
         static void Main(string[] args)
         {
-            mainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube");
+            mainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube", Styles.None);
             mainWindow.SetVerticalSyncEnabled(true);
             mainWindow.Closed += MainWindow_Closed;
             mainWindow.KeyPressed += MainWindow_KeyPressed;
@@ -52,10 +54,7 @@ namespace Story_One_Coube
             mainWindow.MouseMoved += MainWindow_MouseMoved;
             mainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
 
-
-            MainCharacter = new Character(mainCharacterHP, 46, 46, new Point(WidthWindow / 2, HeightWindow / 2));
-
-            MainCharacter.SpawnCharacter();
+            MainCharacter = Character.SpawnCharacter(mainCharacterHP, 46, 46, new Point(WidthWindow / 2, HeightWindow / 2));
 
             while (mainWindow.IsOpen)
             {
@@ -65,7 +64,9 @@ namespace Story_One_Coube
 
                 TextureObjects.Clear();
 
-                Level1.InitialLevel(mainWindow);
+                Level1.Draw(mainWindow);
+
+                Interface.Draw(mainWindow);
 
                 CharacterEvents.UpdateChar(MainCharacter);
 
@@ -112,11 +113,11 @@ namespace Story_One_Coube
                     case Keyboard.Key.H: { CharacterEvents.Hit(MainCharacter, 10); return; }
                     case Keyboard.Key.S:
                         {
-                            Character enemy = new Character(100, 46, 46, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)));
-                            enemy.SpawnCharacter();
-                            Enemies.Add(enemy); // Пофиксить спавн ботов(до спавна их трогать не должно, добавить функцию спавн enemy и только в ней добавлять врага в список врагов, да и в принципе в спавне прописать конструктор и возвращать перса).
+                            Character enemy = Character.SpawnCharacter(100, 46, 46, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)));
+                            Enemies.Add(enemy);
                             return;
                         }
+                    case Keyboard.Key.P: { Score += 100; return; }
                 }
 
             switch (e.Code)

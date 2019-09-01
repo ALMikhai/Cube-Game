@@ -19,6 +19,8 @@ namespace Story_One_Coube.Models
 
         public static void Hit(Character character, double damage)
         {
+            if (character.TimeToSpawn > 0) return;
+
             character.HP.Hit(damage);
         }
 
@@ -123,6 +125,7 @@ namespace Story_One_Coube.Models
 
             if (character.HP.ValueNow <= 0)
             {
+                Program.Score += 10;
                 Death(character);
                 return;
             }
