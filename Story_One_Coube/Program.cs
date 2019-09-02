@@ -15,11 +15,12 @@ namespace Story_One_Coube
     /// <summary>
     /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
     /// TODO Main menu.
-    /// TODO Death screen.
-    /// TODO Score.
+    /// TODO Death screen. (Add big tablet "You dead!!!").
     /// TODO Win screen.
     /// TODO Some levels.
     /// TODO Boss
+    /// TODO Animation for main char.
+    /// TODO Add gun sprite and bullet sprite.
     /// </summary>
 
     class Program
@@ -30,27 +31,15 @@ namespace Story_One_Coube
         public static uint WidthWindow = 1280;
         public static Color BackgroundColorWindow = new Color(78, 180, 217);
 
-        public static Character MainCharacter;
-        static double mainCharacterHP = 100;
-        static CharacterEvents.Moves moveNow = CharacterEvents.Moves.STOP;
-
-        public static List<Character> Enemies = new List<Character>();
-
         public static Point LastMousePosition = new Point(1280, 720);
 
         static Random random = new Random();
 
-        public static List<RectangleShape> TextureObjects = new List<RectangleShape>();
-
-        public static int Score = 0;
-
         public static Level levelNow = new Level1();
 
-        static bool mainCharIsDead = false;
+        public enum windowMode { Menu, Game, Dead }
 
-        enum windowMode { Menu, Game, Dead }
-
-        static windowMode windowModeNow = windowMode.Dead;
+        public static windowMode windowModeNow = windowMode.Game;
 
         static DeadScreen deadScreen;
 
@@ -70,8 +59,6 @@ namespace Story_One_Coube
 
             deadScreen = new DeadScreen(mainWindow);
 
-            MainCharacter = Character.SpawnCharacter(mainCharacterHP, 46, 46, new Point(WidthWindow / 2, HeightWindow / 2));
-
             while (mainWindow.IsOpen)
             {
                 mainWindow.DispatchEvents();
@@ -80,22 +67,9 @@ namespace Story_One_Coube
 
                 if (windowModeNow == windowMode.Game)
                 {
-                    TextureObjects.Clear();
-
                     levelNow.Draw(mainWindow);
 
-                    CharacterEvents.UpdateChar(MainCharacter);
-
-                    CharacterEvents.UpdateMainChar(moveNow, MainCharacter);
-
-                    CharacterEvents.Draw(mainWindow, MainCharacter);
-
-                    foreach (var enemy in Enemies.ToArray())
-                    {
-                        CharacterEvents.UpdateChar(enemy);
-                        CharacterEvents.UpdateEnemy(enemy);
-                        CharacterEvents.Draw(mainWindow, enemy);
-                    }
+                    levelNow.Update(mainWindow);
                 }
 
                 if (windowModeNow == windowMode.Dead)
@@ -109,17 +83,43 @@ namespace Story_One_Coube
 
         private static void MainWindow_MouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            if (windowModeNow == windowMode.Game)
-            {
-                CharacterEvents.Shoot(MainCharacter, new Point(e.X, e.Y));
-            }
 
-            if(windowModeNow == windowMode.Dead)
+            switch (windowModeNow)
             {
-                if(deadScreenChooseNow == deadScreenChoose.Exit)
-                {
-                    MainWindow_Closed(new object(), new EventArgs());
-                }
+                case windowMode.Game:
+                    {
+                        CharacterEvents.Shoot(Program.levelNow.MainCharacter, new Point(e.X, e.Y));
+                        return;
+                    }
+
+                case windowMode.Dead:
+                    {
+                        switch (deadScreenChooseNow)
+                        {
+                            case deadScreenChoose.Exit:
+                                {
+                                    MainWindow_Closed(new object(), new EventArgs());
+                                    return;
+                                }
+
+                            case deadScreenChoose.MainMenu:
+                                {
+                                    return;
+                                }
+
+                            case deadScreenChoose.Restart:
+                                {
+                                    levelNow = levelNow.RestartLevel();
+                                    return;
+                                }
+                        }
+                        return;
+                    }
+
+                case windowMode.Menu:
+                    {
+                        return;
+                    }
             }
         }
 
@@ -135,9 +135,9 @@ namespace Story_One_Coube
             {
                 switch (e.Code)
                 {
-                    case Keyboard.Key.A: { if (moveNow == CharacterEvents.Moves.LEFT) moveNow = CharacterEvents.Moves.STOP; return; }
+                    case Keyboard.Key.A: { if (Program.levelNow.moveNow == CharacterEvents.Moves.LEFT) Program.levelNow.moveNow = CharacterEvents.Moves.STOP; return; }
 
-                    case Keyboard.Key.D: { if (moveNow == CharacterEvents.Moves.RIGHT) moveNow = CharacterEvents.Moves.STOP; return; }
+                    case Keyboard.Key.D: { if (Program.levelNow.moveNow == CharacterEvents.Moves.RIGHT) Program.levelNow.moveNow = CharacterEvents.Moves.STOP; return; }
                 }
             }
         }
@@ -148,25 +148,25 @@ namespace Story_One_Coube
             {
                 if (e.Control) switch (e.Code)
                     {
-                        case Keyboard.Key.H: { CharacterEvents.Hit(MainCharacter, 10); return; }
+                        case Keyboard.Key.H: { CharacterEvents.Hit(Program.levelNow.MainCharacter, 10); return; }
                         case Keyboard.Key.S:
                             {
                                 Character enemy = Character.SpawnCharacter(100, 46, 46, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)));
-                                Enemies.Add(enemy);
+                                Program.levelNow.Enemies.Add(enemy);
                                 return;
                             }
-                        case Keyboard.Key.P: { Score += 100; return; }
+                        case Keyboard.Key.P: { Program.levelNow.Score += 100; return; }
                     }
 
                 switch (e.Code)
                 {
                     case Keyboard.Key.Escape: { mainWindow.Close(); return; }
 
-                    case Keyboard.Key.Space: { CharacterEvents.Jump(MainCharacter); return; }
+                    case Keyboard.Key.Space: { CharacterEvents.Jump(Program.levelNow.MainCharacter); return; }
 
-                    case Keyboard.Key.A: { moveNow = CharacterEvents.Moves.LEFT; return; }
+                    case Keyboard.Key.A: { Program.levelNow.moveNow = CharacterEvents.Moves.LEFT; return; }
 
-                    case Keyboard.Key.D: { moveNow = CharacterEvents.Moves.RIGHT; return; }
+                    case Keyboard.Key.D: { Program.levelNow.moveNow = CharacterEvents.Moves.RIGHT; return; }
                 }
             }
         }

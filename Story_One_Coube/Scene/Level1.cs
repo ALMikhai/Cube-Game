@@ -21,13 +21,15 @@ namespace Story_One_Coube.Scene
 
         public override void Draw(RenderWindow window)
         {
+            TextureObjects.Clear();
+
             int drawPoint = -20;
 
             while (drawPoint < window.Size.X)
             {
                 floorSprite.Position = new Vector2f(drawPoint, window.Size.Y - 90);
 
-                Program.TextureObjects.Add(new RectangleShape(floorSprite));
+                TextureObjects.Add(new RectangleShape(floorSprite));
 
                 window.Draw(floorSprite);
 
@@ -36,11 +38,23 @@ namespace Story_One_Coube.Scene
 
             floorSprite.Position = new Vector2f(640, 360);
 
-            Program.TextureObjects.Add(new RectangleShape(floorSprite));
+            TextureObjects.Add(new RectangleShape(floorSprite));
 
             window.Draw(floorSprite);
 
             base.Draw(window);
+        }
+
+        public override void Update(RenderWindow window)
+        {
+            base.Update(window);
+        }
+
+        public override Level RestartLevel()
+        {
+            base.RestartLevel();
+
+            return new Level1();
         }
     }
 }

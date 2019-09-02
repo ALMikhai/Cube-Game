@@ -1,14 +1,11 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using Story_One_Coube.Scene;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Story_One_Coube.Models
 {
-     static class CharacterEvents
+    static class CharacterEvents
     {
         public enum Moves { STOP = 0, UP, DOWN, LEFT, RIGHT }
 
@@ -79,7 +76,7 @@ namespace Story_One_Coube.Models
             {
                 character.OnFloor = false;
 
-                foreach (var platform in Program.TextureObjects)
+                foreach (var platform in Program.levelNow.TextureObjects)
                 {
                     if (character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 == platform.Position.Y
                         && platform.Position.X < character.Sprite.Position.X && character.Sprite.Position.X < platform.Position.X + platform.Size.X)
@@ -98,6 +95,11 @@ namespace Story_One_Coube.Models
         public static void UpdateMainChar(Moves move, Character character)
         {
             if (character.TimeToSpawn > 0) return;
+
+            if(character.HP.ValueNow <= 0)
+            {
+                deathMainChar(character);
+            }
 
             character.gunNow.Update(character.Sprite, Program.LastMousePosition);
 
@@ -121,26 +123,21 @@ namespace Story_One_Coube.Models
         {
             if (character.TimeToSpawn > 0) return;
 
-            character.gunNow.Update(character.Sprite, new Point(Program.MainCharacter.Sprite.Position.X, Program.MainCharacter.Sprite.Position.Y));
+            character.gunNow.Update(character.Sprite, new Point(Program.levelNow.MainCharacter.Sprite.Position.X, Program.levelNow.MainCharacter.Sprite.Position.Y));
 
             if (character.HP.ValueNow <= 0)
             {
-                Program.Score += 10;
-                Death(character);
+                Program.levelNow.Score += 10;
+                deathEnemy(character);
                 return;
             }
 
             if (CanShoot(character))
             {
-                Shoot(character, new Point(Program.MainCharacter.Sprite.Position.X, Program.MainCharacter.Sprite.Position.Y));
+                Shoot(character, new Point(Program.levelNow.MainCharacter.Sprite.Position.X, Program.levelNow.MainCharacter.Sprite.Position.Y));
             }
 
             ChaseMainChar(character);
-        }
-
-        public static void Death(Character character)
-        {
-            Program.Enemies.Remove(character);
         }
 
         public static bool CanShoot(Character character)
@@ -160,7 +157,7 @@ namespace Story_One_Coube.Models
 
         public static void ChaseMainChar(Character enemy)
         {
-            RectangleShape spriteMainChar = Program.MainCharacter.Sprite;
+            RectangleShape spriteMainChar = Program.levelNow.MainCharacter.Sprite;
             RectangleShape spriteEnemy = enemy.Sprite;
 
             if(mathDistanceToMainChar(enemy) > enemy.enemyAllowableDisToMainChar)
@@ -175,15 +172,25 @@ namespace Story_One_Coube.Models
                 }
             }
 
-            if(Program.MainCharacter.OnFloor && spriteMainChar.Position.Y < spriteEnemy.Position.Y)
+            if(Program.levelNow.MainCharacter.OnFloor && spriteMainChar.Position.Y < spriteEnemy.Position.Y)
             {
                 Jump(enemy);
             }
         }
 
+        private static void deathMainChar(Character character)
+        {
+            Program.windowModeNow = Program.windowMode.Dead;
+        }
+
+        private static void deathEnemy(Character character)
+        {
+            Program.levelNow.Enemies.Remove(character);
+        }
+
         private static double mathDistanceToMainChar(Character enemy)
         {
-            Vector2f mainCharPos = Program.MainCharacter.Sprite.Position;
+            Vector2f mainCharPos = Program.levelNow.MainCharacter.Sprite.Position;
             Vector2f enemyPos = enemy.Sprite.Position;
 
             double x1 = (enemyPos.X > mainCharPos.X) ? enemyPos.X : mainCharPos.X;

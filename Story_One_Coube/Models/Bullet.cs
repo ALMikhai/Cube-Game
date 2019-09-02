@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Story_One_Coube.Scene;
 
 namespace Story_One_Coube.Models
 {
@@ -60,9 +61,9 @@ namespace Story_One_Coube.Models
 
         public bool CheckHit(Character owner)
         {
-            Character mainChar = Program.MainCharacter;
+            Character mainChar = Program.levelNow.MainCharacter;
 
-            foreach (var enemy in Program.Enemies)
+            foreach (var enemy in Program.levelNow.Enemies)
             {
                 if (enemy == owner) continue;
 
@@ -93,7 +94,7 @@ namespace Story_One_Coube.Models
 
         public bool TextureHit()
         {
-            foreach(var texture in Program.TextureObjects)
+            foreach(var texture in Program.levelNow.TextureObjects)
             {
                 if(texture.Position.X < Sprite.Position.X && Sprite.Position.X < texture.Position.X + texture.Size.X 
                     && texture.Position.Y < Sprite.Position.Y && Sprite.Position.Y < texture.Position.Y + texture.Size.Y)

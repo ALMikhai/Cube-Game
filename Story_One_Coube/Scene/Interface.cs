@@ -16,7 +16,7 @@ namespace Story_One_Coube.Scene
 
         public static void Draw(RenderWindow window)
         {
-            score = new Text("Score: " + Program.Score.ToString(), font, 50); // Draw score.
+            score = new Text("Score: " + Program.levelNow.Score.ToString(), font, 50); // Draw score.
             score.Position = new Vector2f(10, 10);
             window.Draw(score);
         }
