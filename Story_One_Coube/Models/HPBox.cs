@@ -60,7 +60,7 @@ namespace Story_One_Coube.Models
 
         public void Update()
         {
-            SpriteGreen.Position = new Vector2f(baseSprite.Position.X - (baseSprite.Size.X / 2), baseSprite.Position.Y - baseSprite.Size.Y);
+            SpriteGreen.Position = new Vector2f(baseSprite.Position.X - (baseSprite.Size.X / 2), (float)(baseSprite.Position.Y - baseSprite.Size.Y / 2) - 20);
             SpriteRed.Position = SpriteGreen.Position;
         }
 

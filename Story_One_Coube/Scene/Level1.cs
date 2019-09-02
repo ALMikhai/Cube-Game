@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Story_One_Coube.Scene
 {
-    static class Level1
+    class Level1 : Level
     {
         static Texture floorTexture = new Texture("../../Texturs/floarTexture.png", new IntRect(265, 145, 240, 114));
 
@@ -19,11 +19,11 @@ namespace Story_One_Coube.Scene
             Texture = floorTexture,
         };
 
-        public static void Draw(RenderWindow window)
+        public override void Draw(RenderWindow window)
         {
             int drawPoint = -20;
 
-            while(drawPoint < window.Size.X)
+            while (drawPoint < window.Size.X)
             {
                 floorSprite.Position = new Vector2f(drawPoint, window.Size.Y - 90);
 
@@ -39,6 +39,8 @@ namespace Story_One_Coube.Scene
             Program.TextureObjects.Add(new RectangleShape(floorSprite));
 
             window.Draw(floorSprite);
+
+            base.Draw(window);
         }
     }
 }

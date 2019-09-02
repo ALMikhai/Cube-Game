@@ -44,6 +44,20 @@ namespace Story_One_Coube
 
         public static int Score = 0;
 
+        public static Level levelNow = new Level1();
+
+        static bool mainCharIsDead = false;
+
+        enum windowMode { Menu, Game, Dead }
+
+        static windowMode windowModeNow = windowMode.Dead;
+
+        static DeadScreen deadScreen;
+
+        public enum deadScreenChoose { None, Restart, MainMenu, Exit }
+
+        public static deadScreenChoose deadScreenChooseNow = deadScreenChoose.None;
+
         static void Main(string[] args)
         {
             mainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube", Styles.None);
@@ -54,6 +68,8 @@ namespace Story_One_Coube
             mainWindow.MouseMoved += MainWindow_MouseMoved;
             mainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
 
+            deadScreen = new DeadScreen(mainWindow);
+
             MainCharacter = Character.SpawnCharacter(mainCharacterHP, 46, 46, new Point(WidthWindow / 2, HeightWindow / 2));
 
             while (mainWindow.IsOpen)
@@ -62,23 +78,29 @@ namespace Story_One_Coube
 
                 mainWindow.Clear(BackgroundColorWindow);
 
-                TextureObjects.Clear();
-
-                Level1.Draw(mainWindow);
-
-                Interface.Draw(mainWindow);
-
-                CharacterEvents.UpdateChar(MainCharacter);
-
-                CharacterEvents.UpdateMainChar(moveNow, MainCharacter);
-
-                CharacterEvents.Draw(mainWindow, MainCharacter);
-
-                foreach(var enemy in Enemies.ToArray())
+                if (windowModeNow == windowMode.Game)
                 {
-                    CharacterEvents.UpdateChar(enemy);
-                    CharacterEvents.UpdateEnemy(enemy);
-                    CharacterEvents.Draw(mainWindow, enemy);
+                    TextureObjects.Clear();
+
+                    levelNow.Draw(mainWindow);
+
+                    CharacterEvents.UpdateChar(MainCharacter);
+
+                    CharacterEvents.UpdateMainChar(moveNow, MainCharacter);
+
+                    CharacterEvents.Draw(mainWindow, MainCharacter);
+
+                    foreach (var enemy in Enemies.ToArray())
+                    {
+                        CharacterEvents.UpdateChar(enemy);
+                        CharacterEvents.UpdateEnemy(enemy);
+                        CharacterEvents.Draw(mainWindow, enemy);
+                    }
+                }
+
+                if (windowModeNow == windowMode.Dead)
+                {
+                    deadScreen.DrawAndUpdate(mainWindow);
                 }
 
                 mainWindow.Display();
@@ -87,7 +109,18 @@ namespace Story_One_Coube
 
         private static void MainWindow_MouseButtonPressed(object sender, MouseButtonEventArgs e)
         {
-            CharacterEvents.Shoot(MainCharacter, new Point(e.X, e.Y));
+            if (windowModeNow == windowMode.Game)
+            {
+                CharacterEvents.Shoot(MainCharacter, new Point(e.X, e.Y));
+            }
+
+            if(windowModeNow == windowMode.Dead)
+            {
+                if(deadScreenChooseNow == deadScreenChoose.Exit)
+                {
+                    MainWindow_Closed(new object(), new EventArgs());
+                }
+            }
         }
 
         private static void MainWindow_MouseMoved(object sender, MouseMoveEventArgs e)
@@ -98,37 +131,43 @@ namespace Story_One_Coube
 
         private static void MainWindow_KeyReleased(object sender, KeyEventArgs e)
         {
-            switch (e.Code)
+            if (windowModeNow == windowMode.Game)
             {
-                case Keyboard.Key.A: { if(moveNow == CharacterEvents.Moves.LEFT) moveNow = CharacterEvents.Moves.STOP; return; }
+                switch (e.Code)
+                {
+                    case Keyboard.Key.A: { if (moveNow == CharacterEvents.Moves.LEFT) moveNow = CharacterEvents.Moves.STOP; return; }
 
-                case Keyboard.Key.D: { if(moveNow == CharacterEvents.Moves.RIGHT) moveNow = CharacterEvents.Moves.STOP; return; }
+                    case Keyboard.Key.D: { if (moveNow == CharacterEvents.Moves.RIGHT) moveNow = CharacterEvents.Moves.STOP; return; }
+                }
             }
         }
 
         private static void MainWindow_KeyPressed(object sender, KeyEventArgs e)
         {
-            if (e.Control) switch (e.Code)
-                {
-                    case Keyboard.Key.H: { CharacterEvents.Hit(MainCharacter, 10); return; }
-                    case Keyboard.Key.S:
-                        {
-                            Character enemy = Character.SpawnCharacter(100, 46, 46, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)));
-                            Enemies.Add(enemy);
-                            return;
-                        }
-                    case Keyboard.Key.P: { Score += 100; return; }
-                }
-
-            switch (e.Code)
+            if (windowModeNow == windowMode.Game)
             {
-                case Keyboard.Key.Escape: { mainWindow.Close(); return; }
+                if (e.Control) switch (e.Code)
+                    {
+                        case Keyboard.Key.H: { CharacterEvents.Hit(MainCharacter, 10); return; }
+                        case Keyboard.Key.S:
+                            {
+                                Character enemy = Character.SpawnCharacter(100, 46, 46, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)));
+                                Enemies.Add(enemy);
+                                return;
+                            }
+                        case Keyboard.Key.P: { Score += 100; return; }
+                    }
 
-                case Keyboard.Key.Space: { CharacterEvents.Jump(MainCharacter); return; }
+                switch (e.Code)
+                {
+                    case Keyboard.Key.Escape: { mainWindow.Close(); return; }
 
-                case Keyboard.Key.A: { moveNow = CharacterEvents.Moves.LEFT; return; }
+                    case Keyboard.Key.Space: { CharacterEvents.Jump(MainCharacter); return; }
 
-                case Keyboard.Key.D: { moveNow = CharacterEvents.Moves.RIGHT; return; }
+                    case Keyboard.Key.A: { moveNow = CharacterEvents.Moves.LEFT; return; }
+
+                    case Keyboard.Key.D: { moveNow = CharacterEvents.Moves.RIGHT; return; }
+                }
             }
         }
 
