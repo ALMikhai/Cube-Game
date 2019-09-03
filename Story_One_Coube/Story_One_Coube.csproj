@@ -36,6 +36,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="SFML.Audio, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SFML.Audio.2.5.0\lib\netstandard2.0\SFML.Audio.dll</HintPath>
     </Reference>
@@ -62,6 +63,7 @@
     <Compile Include="Models\Bullet.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\CharacterEvents.cs" />
+    <Compile Include="Models\CharacterMovesAnimation.cs" />
     <Compile Include="Models\Gun.cs" />
     <Compile Include="Models\HPBox.cs" />
     <Compile Include="Models\Point.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Scene\Level1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scene\MainMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -22,7 +22,7 @@ namespace Story_One_Coube.Scene
 
         public Level()
         {
-            MainCharacter = Character.SpawnCharacter(mainCharacterHP, 46, 46, new Point(Program.WidthWindow / 2, Program.HeightWindow / 2));
+            MainCharacter = Character.SpawnCharacter(mainCharacterHP, new Point(Program.WidthWindow / 2, Program.HeightWindow / 2), CharacterMovesAnimation.StandMainCharTexture);
         }
 
         public virtual Level RestartLevel()

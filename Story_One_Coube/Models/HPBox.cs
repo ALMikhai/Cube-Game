@@ -12,7 +12,7 @@ namespace Story_One_Coube.Models
 {
     class HPBox
     {
-        RectangleShape baseSprite;
+        Character baseCharacter;
 
         public RectangleShape SpriteGreen;
         public RectangleShape SpriteRed;
@@ -25,11 +25,11 @@ namespace Story_One_Coube.Models
         public double InitialValue;
         public double ValueNow;
 
-        public HPBox(RectangleShape sprite, double HP)
+        public HPBox(Character character, double HP)
         {
-            baseSprite = sprite;
+            baseCharacter = character;
 
-            sizeW = sprite.Size.X;
+            sizeW = character.SizeW;
 
             InitialValue = HP;
             ValueNow = HP;
@@ -43,6 +43,8 @@ namespace Story_One_Coube.Models
             SpriteGreen.OutlineColor = Color.Black;
 
             SpriteRed = new RectangleShape(SpriteGreen);
+
+            SpriteRed.Origin = new Vector2f(SpriteRed.Size.X / 2, SpriteRed.Size.Y / 2);
 
             SpriteRed.FillColor = Color.Red;
         }
@@ -60,8 +62,8 @@ namespace Story_One_Coube.Models
 
         public void Update()
         {
-            SpriteGreen.Position = new Vector2f(baseSprite.Position.X - (baseSprite.Size.X / 2), (float)(baseSprite.Position.Y - baseSprite.Size.Y / 2) - 20);
-            SpriteRed.Position = SpriteGreen.Position;
+            SpriteRed.Position = new Vector2f(baseCharacter.Sprite.Position.X, baseCharacter.Sprite.Position.Y - (baseCharacter.SizeH / 2) - 20);
+            SpriteGreen.Position = new Vector2f(SpriteRed.Position.X - SpriteRed.Size.X / 2, SpriteRed.Position.Y - SpriteRed.Size.Y / 2);
         }
 
         public void Draw(RenderWindow window)

@@ -13,12 +13,10 @@ namespace Story_One_Coube.Models
 {
     class Character
     {
-        public RectangleShape Sprite { get; set; }
+        public Sprite Sprite { get; set; }
 
         public int SizeH { get; set; }
         public int SizeW { get; set; }
-
-        public int Thickness { get; set; }
 
         public float gravity = 5;
         public float jumpHeight = 15;
@@ -45,41 +43,33 @@ namespace Story_One_Coube.Models
 
         public float enemyStepLong = 2;
 
-        public Color FillColor { get; set; }
-
         public double TimeToSpawn { get; set; }
 
-        public Character(double hp, int height, int width, Point spawnPoint)
+        double scaleTexture = 2.6;
+
+        public Character(double hp, Point spawnPoint, Texture texture)
         {
-            SizeH = height;
-            SizeW = width;
+            SizeH = (int)(texture.Size.Y * scaleTexture);
+            SizeW = (int)(texture.Size.X * scaleTexture);
 
-            Thickness = 2;
+            Sprite = new Sprite(texture);
 
-            FillColor = new Color(255, 255, 255);
+            Sprite.Scale = new Vector2f((float)scaleTexture, (float)scaleTexture);
 
-            Sprite = new RectangleShape(new Vector2f(SizeW, SizeH));
-
-            Sprite.Origin = new Vector2f(SizeW / 2, SizeH / 2);
+            Sprite.Origin = new Vector2f((float)(Sprite.Texture.Size.X) / 2, (float)(Sprite.Texture.Size.Y) / 2);
 
             Sprite.Position = new Vector2f((float)spawnPoint.X, (float)spawnPoint.Y);
 
-            Sprite.OutlineThickness = Thickness;
-
-            Sprite.FillColor = FillColor;
-
-            Sprite.OutlineColor = Color.Red;
-
             gunNow = new Gun(this.Sprite);
 
-            HP = new HPBox(this.Sprite, hp);
+            HP = new HPBox(this, hp);
 
             OnFloor = false;
         }
 
-        public static Character SpawnCharacter(double hp, int height, int width, Point spawnPoint)
+        public static Character SpawnCharacter(double hp, Point spawnPoint, Texture texture)
         {
-            var newChar = new Character(hp, height, width, spawnPoint);
+            var newChar = new Character(hp, spawnPoint, texture);
             newChar.TimeToSpawn = 1.5;
 
             return newChar;

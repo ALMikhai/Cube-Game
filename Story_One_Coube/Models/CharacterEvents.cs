@@ -78,7 +78,7 @@ namespace Story_One_Coube.Models
 
                 foreach (var platform in Program.levelNow.TextureObjects)
                 {
-                    if (character.Sprite.Position.Y + character.Thickness + character.SizeH / 2 == platform.Position.Y
+                    if (character.Sprite.Position.Y + character.SizeH / 2 == platform.Position.Y
                         && platform.Position.X < character.Sprite.Position.X && character.Sprite.Position.X < platform.Position.X + platform.Size.X)
                     {
                         character.OnFloor = true;
@@ -98,21 +98,27 @@ namespace Story_One_Coube.Models
 
             if(character.HP.ValueNow <= 0)
             {
-                deathMainChar(character);
+                character.HP.ValueNow = character.HP.InitialValue;
+                //deathMainChar(character);
             }
 
             character.gunNow.Update(character.Sprite, Program.LastMousePosition);
 
             switch (move)
             {
-                case Moves.LEFT:
-                    if ((character.Sprite.Position.X - (character.Sprite.Size.X / 2)) <= 0) break;
+                case Moves.STOP:
+                    CharacterMovesAnimation.MainCharStand();
+                    break;
 
+                case Moves.LEFT:
+                    if ((character.Sprite.Position.X - (character.SizeW / 2)) <= 0) break;
+
+                    CharacterMovesAnimation.MainCharMoveLeft();
                     character.Sprite.Position = new Vector2f(character.Sprite.Position.X - character.stepLong, character.Sprite.Position.Y);
                     break;
 
                 case Moves.RIGHT:
-                    if ((character.Sprite.Position.X + (character.Sprite.Size.X / 2)) >= Program.WidthWindow) break;
+                    if ((character.Sprite.Position.X + (character.SizeW / 2)) >= Program.WidthWindow) break;
 
                     character.Sprite.Position = new Vector2f(character.Sprite.Position.X + character.stepLong, character.Sprite.Position.Y);
                     break;
@@ -157,8 +163,8 @@ namespace Story_One_Coube.Models
 
         public static void ChaseMainChar(Character enemy)
         {
-            RectangleShape spriteMainChar = Program.levelNow.MainCharacter.Sprite;
-            RectangleShape spriteEnemy = enemy.Sprite;
+            Sprite spriteMainChar = Program.levelNow.MainCharacter.Sprite;
+            Sprite spriteEnemy = enemy.Sprite;
 
             if(mathDistanceToMainChar(enemy) > enemy.enemyAllowableDisToMainChar)
             {
@@ -208,8 +214,8 @@ namespace Story_One_Coube.Models
 
         private static void spawnChar(RenderWindow window, Character character)
         {
-            Random rand = new Random(DateTime.Now.Millisecond);
-            character.Sprite.FillColor = new Color((byte)(255 * rand.NextDouble()), (byte)(255 * rand.NextDouble()), (byte)(255 * rand.NextDouble()));
+            //Random rand = new Random(DateTime.Now.Millisecond);
+            //character.Sprite.FillColor = new Color((byte)(255 * rand.NextDouble()), (byte)(255 * rand.NextDouble()), (byte)(255 * rand.NextDouble()));
             window.Draw(character.Sprite);
 
             character.TimeToSpawn -= (DateTime.Now - character.TimeNow).TotalSeconds;

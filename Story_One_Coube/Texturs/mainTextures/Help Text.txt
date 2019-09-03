@@ -1,0 +1,15 @@
+Hi! Thanks for purchasing my item.
+
+This set is ideal for your pixel based platform games.
+
+Instructions for locating your wanted sprite:
+
+The folder titled "Sprites(Still gifs and pngs)" contains all the unanimated tiles.
+The folder titled "Characters and Sprites(Animated)" contain all animated sprites and characters.
+The folder "Background tiles" contains all tileable backgrounds for game use in .gif format.
+The file "Sprite sheet.psd" contains all tiles on one canvas side by side
+The file "32x32 sprite set.psd" contains the same tiles in the same 32x32 dimension.
+
+Thankyou. If you have any problems, contact me via my profile on graphicriver.net
+ 
+:)

@@ -49,6 +49,8 @@ namespace Story_One_Coube
 
         static void Main(string[] args)
         {
+            CharacterMovesAnimation.Init();
+
             MainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube", Styles.None);
             MainWindow.SetVerticalSyncEnabled(true);
             MainWindow.Closed += MainWindow_Closed;
@@ -156,7 +158,7 @@ namespace Story_One_Coube
                         case Keyboard.Key.H: { CharacterEvents.Hit(Program.levelNow.MainCharacter, 10); return; }
                         case Keyboard.Key.S:
                             {
-                                Character enemy = Character.SpawnCharacter(100, 46, 46, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)));
+                                Character enemy = Character.SpawnCharacter(100, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)), CharacterMovesAnimation.StandEnemyTexture);
                                 Program.levelNow.Enemies.Add(enemy);
                                 return;
                             }

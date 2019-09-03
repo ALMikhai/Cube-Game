@@ -19,7 +19,7 @@ namespace Story_One_Coube.Models
 
         public int speedShoot = 10;
 
-        public Gun(RectangleShape sprite)
+        public Gun(Sprite sprite)
         {
             Sprite = new RectangleShape(new Vector2f(sizeW, sizeH));
             Sprite.Origin = new Vector2f(0, sizeH / 2);
@@ -28,7 +28,7 @@ namespace Story_One_Coube.Models
             Sprite.Position = sprite.Position;
         }
 
-        public void Update(RectangleShape sprite, Point coord)
+        public void Update(Sprite sprite, Point coord)
         {
             if (Sprite == null) return;
 

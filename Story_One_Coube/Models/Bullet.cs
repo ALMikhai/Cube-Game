@@ -67,10 +67,10 @@ namespace Story_One_Coube.Models
             {
                 if (enemy == owner) continue;
 
-                RectangleShape sprite = enemy.Sprite;
-                if (sprite.Position.X - sprite.Size.X / 2 <= Sprite.Position.X && Sprite.Position.X <= sprite.Position.X + sprite.Size.X / 2)
+                Sprite sprite = enemy.Sprite;
+                if (sprite.Position.X - enemy.SizeW / 2 <= Sprite.Position.X && Sprite.Position.X <= sprite.Position.X + enemy.SizeW / 2)
                 {
-                    if (sprite.Position.Y - sprite.Size.Y / 2 <= Sprite.Position.Y && Sprite.Position.Y <= sprite.Position.Y + sprite.Size.Y / 2)
+                    if (sprite.Position.Y - enemy.SizeH / 2 <= Sprite.Position.Y && Sprite.Position.Y <= sprite.Position.Y + enemy.SizeH / 2)
                     {
                         CharacterEvents.Hit(enemy, damage);
                         return true;
@@ -80,9 +80,9 @@ namespace Story_One_Coube.Models
 
             if (mainChar == owner) return false;
 
-            if (mainChar.Sprite.Position.X - mainChar.Sprite.Size.X / 2 <= Sprite.Position.X && Sprite.Position.X <= mainChar.Sprite.Position.X + mainChar.Sprite.Size.X / 2)
+            if (mainChar.Sprite.Position.X - mainChar.SizeW / 2 <= Sprite.Position.X && Sprite.Position.X <= mainChar.Sprite.Position.X + mainChar.SizeW / 2)
             {
-                if (mainChar.Sprite.Position.Y - mainChar.Sprite.Size.Y / 2 <= Sprite.Position.Y && Sprite.Position.Y <= mainChar.Sprite.Position.Y + mainChar.Sprite.Size.Y / 2)
+                if (mainChar.Sprite.Position.Y - mainChar.SizeH / 2 <= Sprite.Position.Y && Sprite.Position.Y <= mainChar.Sprite.Position.Y + mainChar.SizeH / 2)
                 {
                     CharacterEvents.Hit(mainChar, damage);
                     return true;
