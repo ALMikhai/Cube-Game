@@ -37,18 +37,22 @@ namespace Story_One_Coube.Scene
 
             CharacterEvents.UpdateMainChar(moveNow, MainCharacter);
 
-            CharacterEvents.Draw(window, MainCharacter);
-
             foreach (var enemy in Enemies.ToArray())
             {
                 CharacterEvents.UpdateChar(enemy);
                 CharacterEvents.UpdateEnemy(enemy);
-                CharacterEvents.Draw(window, enemy);
             }
         }
 
         public virtual void Draw(RenderWindow window)
         {
+            CharacterEvents.Draw(window, MainCharacter);
+
+            foreach (var enemy in Enemies.ToArray())
+            {
+                CharacterEvents.Draw(window, enemy);
+            }
+
             Interface.Draw(window);
         }
     }

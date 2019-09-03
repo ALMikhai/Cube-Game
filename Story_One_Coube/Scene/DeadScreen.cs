@@ -13,6 +13,8 @@ namespace Story_One_Coube.Scene
     class DeadScreen
     {
 
+        Sprite preDeadScreenWords;
+
         Texture exitTexture;
         Sprite exitSprite;
         IntRect exitRect;
@@ -25,8 +27,19 @@ namespace Story_One_Coube.Scene
         Sprite restartSprite;
         IntRect restartRect;
 
+        double wordAnimationTime;
+        DateTime timeMow;
+
         public DeadScreen(RenderWindow window)
         {
+            wordAnimationTime = 3;
+            timeMow = DateTime.Now;
+
+            preDeadScreenWords = new Sprite(new Texture("../../Texturs/PreDeadScreen.png", new IntRect(0, 96, 597, 84)));
+            preDeadScreenWords.Origin = new Vector2f(preDeadScreenWords.Texture.Size.X / 2, preDeadScreenWords.Texture.Size.Y / 2);
+            preDeadScreenWords.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2);
+            preDeadScreenWords.Scale = new Vector2f((float)0, (float)0);
+            
             exitTexture = new Texture("../../Texturs/DeadScreenText.png", new IntRect(60, 13, 80, 27));
             exitSprite = new Sprite(exitTexture);
             exitSprite.Origin = new Vector2f(exitTexture.Size.X / 2, exitTexture.Size.Y / 2);
@@ -48,6 +61,19 @@ namespace Story_One_Coube.Scene
 
         public void DrawAndUpdate(RenderWindow window)
         {
+            while(wordAnimationTime > 0)
+            {
+                if(preDeadScreenWords.Scale.X < 1 || preDeadScreenWords.Scale.Y < 1)
+                {
+                    preDeadScreenWords.Scale = new Vector2f((float)(preDeadScreenWords.Scale.X + 0.01), (float)(preDeadScreenWords.Scale.Y + 0.01));
+                }
+
+                window.Draw(preDeadScreenWords);
+                wordAnimationTime -= (DateTime.Now - timeMow).TotalSeconds;
+                timeMow = DateTime.Now;
+                return;
+            }
+
             exitSprite.Color = Color.White;
             mainMenuSprite.Color = Color.White;
             restartSprite.Color = Color.White;

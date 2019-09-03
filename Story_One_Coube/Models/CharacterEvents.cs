@@ -180,6 +180,7 @@ namespace Story_One_Coube.Models
 
         private static void deathMainChar(Character character)
         {
+            Program.DeadScreenNow = new DeadScreen(Program.MainWindow);
             Program.windowModeNow = Program.windowMode.Dead;
         }
 

@@ -14,8 +14,8 @@ namespace Story_One_Coube
 {
     /// <summary>
     /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
+    /// TOFO Use minor scale for mirror gun sprite.
     /// TODO Main menu.
-    /// TODO Death screen. (Add big tablet "You dead!!!").
     /// TODO Win screen.
     /// TODO Some levels.
     /// TODO Boss
@@ -25,7 +25,7 @@ namespace Story_One_Coube
 
     class Program
     {
-        static RenderWindow mainWindow;
+        public static RenderWindow MainWindow;
 
         public static uint HeightWindow = 720;
         public static uint WidthWindow = 1280;
@@ -41,7 +41,7 @@ namespace Story_One_Coube
 
         public static windowMode windowModeNow = windowMode.Game;
 
-        static DeadScreen deadScreen;
+        public static DeadScreen DeadScreenNow;
 
         public enum deadScreenChoose { None, Restart, MainMenu, Exit }
 
@@ -49,35 +49,40 @@ namespace Story_One_Coube
 
         static void Main(string[] args)
         {
-            mainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube", Styles.None);
-            mainWindow.SetVerticalSyncEnabled(true);
-            mainWindow.Closed += MainWindow_Closed;
-            mainWindow.KeyPressed += MainWindow_KeyPressed;
-            mainWindow.KeyReleased += MainWindow_KeyReleased;
-            mainWindow.MouseMoved += MainWindow_MouseMoved;
-            mainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
+            MainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube", Styles.None);
+            MainWindow.SetVerticalSyncEnabled(true);
+            MainWindow.Closed += MainWindow_Closed;
+            MainWindow.KeyPressed += MainWindow_KeyPressed;
+            MainWindow.KeyReleased += MainWindow_KeyReleased;
+            MainWindow.MouseMoved += MainWindow_MouseMoved;
+            MainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
 
-            deadScreen = new DeadScreen(mainWindow);
+            DeadScreenNow = new DeadScreen(MainWindow);
 
-            while (mainWindow.IsOpen)
+            while (MainWindow.IsOpen)
             {
-                mainWindow.DispatchEvents();
+                MainWindow.DispatchEvents();
 
-                mainWindow.Clear(BackgroundColorWindow);
+                MainWindow.Clear(BackgroundColorWindow);
+
+                if(windowModeNow == windowMode.Menu)
+                {
+
+                }
 
                 if (windowModeNow == windowMode.Game)
                 {
-                    levelNow.Draw(mainWindow);
-
-                    levelNow.Update(mainWindow);
+                    levelNow.Update(MainWindow);
+                    levelNow.Draw(MainWindow);
                 }
 
                 if (windowModeNow == windowMode.Dead)
                 {
-                    deadScreen.DrawAndUpdate(mainWindow);
+                    levelNow.Draw(MainWindow);
+                    DeadScreenNow.DrawAndUpdate(MainWindow);
                 }
 
-                mainWindow.Display();
+                MainWindow.Display();
             }
         }
 
@@ -160,7 +165,7 @@ namespace Story_One_Coube
 
                 switch (e.Code)
                 {
-                    case Keyboard.Key.Escape: { mainWindow.Close(); return; }
+                    case Keyboard.Key.Escape: { MainWindow.Close(); return; }
 
                     case Keyboard.Key.Space: { CharacterEvents.Jump(Program.levelNow.MainCharacter); return; }
 
@@ -173,7 +178,7 @@ namespace Story_One_Coube
 
         private static void MainWindow_Closed(object sender, EventArgs e)
         {
-            mainWindow.Close();
+            MainWindow.Close();
         }
     }
 }
