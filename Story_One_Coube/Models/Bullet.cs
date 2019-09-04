@@ -27,7 +27,7 @@ namespace Story_One_Coube.Models
         public Bullet(Point coord, double speed, Point coordToMove)
         {
             Sprite = new CircleShape(radius);
-            Sprite.FillColor = Color.Black;
+            Sprite.FillColor = Color.Cyan;
             Sprite.Origin = new Vector2f(radius / 2, radius / 2);
             Sprite.Position = new Vector2f((float)coord.X, (float)coord.Y);
 

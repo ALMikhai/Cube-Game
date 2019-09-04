@@ -64,6 +64,7 @@
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\CharacterEvents.cs" />
     <Compile Include="Models\CharacterMovesAnimation.cs" />
+    <Compile Include="Models\EnemyMovesAnumation.cs" />
     <Compile Include="Models\Gun.cs" />
     <Compile Include="Models\HPBox.cs" />
     <Compile Include="Models\Point.cs" />

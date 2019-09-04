@@ -16,9 +16,17 @@ namespace Story_One_Coube.Models
         static string moveLeftPath = "../../Texturs/MainCharMoves/MoveLeft/";
         static int numMovesLeft = 7;
 
+        public static List<Texture> moveLeftEnemy = new List<Texture>();
+        static string moveEnemyLeftPath = "../../Texturs/EnemyMoves/MoveLeft/";
+        static int numMovesEnemyLeft = 7;
+
         static List<Texture> moveRightMainChar = new List<Texture>();
         static string moveRightPath = "../../Texturs/MainCharMoves/MoveRight/";
         static int numMovesRight = 7;
+
+        public static List<Texture> moveRightEnemy = new List<Texture>();
+        static string moveEnemyRightPath = "../../Texturs/EnemyMoves/MoveRight/";
+        static int numMovesEnemyRight = 7;
 
         static List<Texture> moveJumpMainChar = new List<Texture>();
         static string moveJumpPath = "../../Texturs/MainCharMoves/Jump/";
@@ -37,6 +45,8 @@ namespace Story_One_Coube.Models
             initChar(moveLeftMainChar, moveLeftPath, numMovesLeft);
             initChar(moveRightMainChar, moveRightPath, numMovesRight);
             initChar(moveJumpMainChar, moveJumpPath, numMovesJump);
+            initChar(moveLeftEnemy, moveEnemyLeftPath, numMovesEnemyLeft);
+            initChar(moveRightEnemy, moveEnemyRightPath, numMovesEnemyRight);
         }
 
         private static void initChar(List<Texture> textures, string path, int numOfTextures)

@@ -187,12 +187,24 @@ namespace Story_One_Coube.Models
             {
                 if(spriteEnemy.Position.X > spriteMainChar.Position.X)
                 {
+                    if (enemy.OnFloor)
+                    {
+                        enemy.EnemyAnimation.EnemyMoveLeft();
+                    }
                     spriteEnemy.Position = new Vector2f(spriteEnemy.Position.X - enemy.enemyStepLong, spriteEnemy.Position.Y);
                 }
                 else
                 {
+                    if (enemy.OnFloor)
+                    {
+                        enemy.EnemyAnimation.EnemyMoveRight();
+                    }
                     spriteEnemy.Position = new Vector2f(spriteEnemy.Position.X + enemy.enemyStepLong, spriteEnemy.Position.Y);
                 }
+            }
+            else
+            {
+                enemy.EnemyAnimation.EnemyStand();
             }
 
             if(Program.levelNow.MainCharacter.OnFloor && spriteMainChar.Position.Y < spriteEnemy.Position.Y)

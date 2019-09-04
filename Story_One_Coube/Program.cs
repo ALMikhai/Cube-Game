@@ -37,6 +37,9 @@ namespace Story_One_Coube
 
         public static Level levelNow = new Level1();
 
+        public static Texture Background = new Texture("../../Texturs/Background.png");
+        public static Sprite BackgroundSprite = new Sprite(Background);
+
         public enum windowMode { Menu, Game, Dead }
 
         public static windowMode windowModeNow = windowMode.Game;
@@ -61,11 +64,15 @@ namespace Story_One_Coube
 
             DeadScreenNow = new DeadScreen(MainWindow);
 
+            BackgroundSprite.Scale = new Vector2f((float)WidthWindow / (float)Background.Size.X, (float)HeightWindow / (float)Background.Size.Y);
+
             while (MainWindow.IsOpen)
             {
                 MainWindow.DispatchEvents();
 
                 MainWindow.Clear(BackgroundColorWindow);
+
+                MainWindow.Draw(BackgroundSprite);
 
                 if(windowModeNow == windowMode.Menu)
                 {

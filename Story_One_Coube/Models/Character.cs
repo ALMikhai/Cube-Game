@@ -47,6 +47,8 @@ namespace Story_One_Coube.Models
 
         double scaleTexture = 2.6;
 
+        public EnemyMovesAnumation EnemyAnimation;
+
         public Character(double hp, Point spawnPoint, Texture texture)
         {
             SizeH = (int)(texture.Size.Y * scaleTexture);
@@ -59,6 +61,8 @@ namespace Story_One_Coube.Models
             Sprite.Origin = new Vector2f((float)(Sprite.Texture.Size.X) / 2, (float)(Sprite.Texture.Size.Y) / 2);
 
             Sprite.Position = new Vector2f((float)spawnPoint.X, (float)spawnPoint.Y);
+
+            EnemyAnimation = new EnemyMovesAnumation(this);
 
             gunNow = new Gun(this.Sprite);
 
