@@ -15,6 +15,18 @@ namespace Story_One_Coube.Models
         static List<Texture> moveLeftMainChar = new List<Texture>();
         static string moveLeftPath = "../../Texturs/MainCharMoves/MoveLeft/";
         static int numMovesLeft = 7;
+
+        static List<Texture> moveRightMainChar = new List<Texture>();
+        static string moveRightPath = "../../Texturs/MainCharMoves/MoveRight/";
+        static int numMovesRight = 7;
+
+        static List<Texture> moveJumpMainChar = new List<Texture>();
+        static string moveJumpPath = "../../Texturs/MainCharMoves/Jump/";
+        static int numMovesJump = 6;
+        static int jumpFrameNow = 0;
+        public static bool JumpFinished = true;
+        static double timeToOneJumpFrame = 0.1;
+
         static double timeToOneFrame = 0.07;
         static int frameNow = 0;
 
@@ -23,6 +35,8 @@ namespace Story_One_Coube.Models
         public static void Init()
         {
             initChar(moveLeftMainChar, moveLeftPath, numMovesLeft);
+            initChar(moveRightMainChar, moveRightPath, numMovesRight);
+            initChar(moveJumpMainChar, moveJumpPath, numMovesJump);
         }
 
         private static void initChar(List<Texture> textures, string path, int numOfTextures)
@@ -49,8 +63,43 @@ namespace Story_One_Coube.Models
             timeNow = DateTime.Now;
         }
 
+        public static void MainCharMoveRight()
+        {
+            if (DateTime.Now.Subtract(timeNow).TotalSeconds < timeToOneFrame) return;
+
+            Character character = Program.levelNow.MainCharacter;
+
+            character.Sprite.Texture = moveRightMainChar[frameNow++];
+
+            if (frameNow == moveLeftMainChar.Count)
+            {
+                frameNow = 0;
+            }
+
+            timeNow = DateTime.Now;
+        }
+
+        public static void MainCharMoveJump()
+        {
+            if (DateTime.Now.Subtract(timeNow).TotalSeconds < timeToOneJumpFrame) return;
+
+            Character character = Program.levelNow.MainCharacter;
+
+            character.Sprite.Texture = moveJumpMainChar[jumpFrameNow++];
+
+            if (jumpFrameNow == moveJumpMainChar.Count || character.OnFloor)
+            {
+                jumpFrameNow = 0;
+                JumpFinished = true;
+                MainCharStand();
+            }
+
+            timeNow = DateTime.Now;
+        }
+
         public static void MainCharStand()
         {
+            frameNow = 0;
             Program.levelNow.MainCharacter.Sprite.Texture = StandMainCharTexture;
         }
     }

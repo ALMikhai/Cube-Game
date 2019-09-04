@@ -169,7 +169,7 @@ namespace Story_One_Coube
                 {
                     case Keyboard.Key.Escape: { MainWindow.Close(); return; }
 
-                    case Keyboard.Key.Space: { CharacterEvents.Jump(Program.levelNow.MainCharacter); return; }
+                    case Keyboard.Key.Space: { CharacterMovesAnimation.JumpFinished = false; CharacterEvents.Jump(Program.levelNow.MainCharacter); return; }
 
                     case Keyboard.Key.A: { Program.levelNow.moveNow = CharacterEvents.Moves.LEFT; return; }
 

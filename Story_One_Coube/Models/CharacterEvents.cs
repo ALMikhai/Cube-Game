@@ -104,21 +104,38 @@ namespace Story_One_Coube.Models
 
             character.gunNow.Update(character.Sprite, Program.LastMousePosition);
 
+            if (!CharacterMovesAnimation.JumpFinished)
+            {
+                CharacterMovesAnimation.MainCharMoveJump();
+            }
+
             switch (move)
             {
                 case Moves.STOP:
-                    CharacterMovesAnimation.MainCharStand();
+                    if (character.OnFloor && CharacterMovesAnimation.JumpFinished)
+                    {
+                        CharacterMovesAnimation.MainCharStand();
+                    }
                     break;
 
                 case Moves.LEFT:
                     if ((character.Sprite.Position.X - (character.SizeW / 2)) <= 0) break;
 
-                    CharacterMovesAnimation.MainCharMoveLeft();
+                    if (character.OnFloor && CharacterMovesAnimation.JumpFinished)
+                    {
+                        CharacterMovesAnimation.MainCharMoveLeft();
+                    }
+
                     character.Sprite.Position = new Vector2f(character.Sprite.Position.X - character.stepLong, character.Sprite.Position.Y);
                     break;
 
                 case Moves.RIGHT:
                     if ((character.Sprite.Position.X + (character.SizeW / 2)) >= Program.WidthWindow) break;
+
+                    if (character.OnFloor && CharacterMovesAnimation.JumpFinished)
+                    {
+                        CharacterMovesAnimation.MainCharMoveRight();
+                    }
 
                     character.Sprite.Position = new Vector2f(character.Sprite.Position.X + character.stepLong, character.Sprite.Position.Y);
                     break;
