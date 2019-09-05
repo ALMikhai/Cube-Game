@@ -27,8 +27,8 @@ namespace Story_One_Coube
     {
         public static RenderWindow MainWindow;
 
-        public static uint HeightWindow = 720;
-        public static uint WidthWindow = 1280;
+        public static uint HeightWindow = 1080;
+        public static uint WidthWindow = 1920;
         public static Color BackgroundColorWindow = new Color(78, 180, 217);
 
         public static Point LastMousePosition = new Point(1280, 720);
@@ -40,15 +40,17 @@ namespace Story_One_Coube
         public static Texture Background = new Texture("../../Texturs/Background.png");
         public static Sprite BackgroundSprite = new Sprite(Background);
 
-        public enum windowMode { Menu, Game, Dead }
+        public enum WindowMode { Menu, Game, Dead }
 
-        public static windowMode windowModeNow = windowMode.Game;
+        public static WindowMode windowModeNow = WindowMode.Menu;
 
-        public static DeadScreen DeadScreenNow;
+        public enum DeadScreenChoose { None, Restart, MainMenu, Exit }
 
-        public enum deadScreenChoose { None, Restart, MainMenu, Exit }
+        public static DeadScreenChoose DeadScreenChooseNow = DeadScreenChoose.None;
 
-        public static deadScreenChoose deadScreenChooseNow = deadScreenChoose.None;
+        public enum MainMenuChoose { None, Story, Arena, Exit }
+
+        public static MainMenuChoose MainMenuChooseNow = MainMenuChoose.None;
 
         static void Main(string[] args)
         {
@@ -62,7 +64,8 @@ namespace Story_One_Coube
             MainWindow.MouseMoved += MainWindow_MouseMoved;
             MainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
 
-            DeadScreenNow = new DeadScreen(MainWindow);
+            DeadScreen.Init(MainWindow);
+            MainMenu.Init(MainWindow);
 
             BackgroundSprite.Scale = new Vector2f((float)WidthWindow / (float)Background.Size.X, (float)HeightWindow / (float)Background.Size.Y);
 
@@ -70,25 +73,25 @@ namespace Story_One_Coube
             {
                 MainWindow.DispatchEvents();
 
-                MainWindow.Clear(BackgroundColorWindow);
+                MainWindow.Clear();
 
                 MainWindow.Draw(BackgroundSprite);
 
-                if(windowModeNow == windowMode.Menu)
+                if(windowModeNow == WindowMode.Menu)
                 {
-
+                    MainMenu.DrawAndUpdate(MainWindow);
                 }
 
-                if (windowModeNow == windowMode.Game)
+                if (windowModeNow == WindowMode.Game)
                 {
                     levelNow.Update(MainWindow);
                     levelNow.Draw(MainWindow);
                 }
 
-                if (windowModeNow == windowMode.Dead)
+                if (windowModeNow == WindowMode.Dead)
                 {
                     levelNow.Draw(MainWindow);
-                    DeadScreenNow.DrawAndUpdate(MainWindow);
+                    DeadScreen.DrawAndUpdate(MainWindow);
                 }
 
                 MainWindow.Display();
@@ -100,28 +103,28 @@ namespace Story_One_Coube
 
             switch (windowModeNow)
             {
-                case windowMode.Game:
+                case WindowMode.Game:
                     {
                         CharacterEvents.Shoot(Program.levelNow.MainCharacter, new Point(e.X, e.Y));
                         return;
                     }
 
-                case windowMode.Dead:
+                case WindowMode.Dead:
                     {
-                        switch (deadScreenChooseNow)
+                        switch (DeadScreenChooseNow)
                         {
-                            case deadScreenChoose.Exit:
+                            case DeadScreenChoose.Exit:
                                 {
                                     MainWindow_Closed(new object(), new EventArgs());
                                     return;
                                 }
 
-                            case deadScreenChoose.MainMenu:
+                            case DeadScreenChoose.MainMenu:
                                 {
                                     return;
                                 }
 
-                            case deadScreenChoose.Restart:
+                            case DeadScreenChoose.Restart:
                                 {
                                     levelNow = levelNow.RestartLevel();
                                     return;
@@ -130,8 +133,16 @@ namespace Story_One_Coube
                         return;
                     }
 
-                case windowMode.Menu:
+                case WindowMode.Menu:
                     {
+                        switch (MainMenuChooseNow)
+                        {
+                            case MainMenuChoose.Exit:
+                                {
+                                    MainWindow_Closed(new object(), new EventArgs());
+                                    return;
+                                }
+                        }
                         return;
                     }
             }
@@ -145,7 +156,7 @@ namespace Story_One_Coube
 
         private static void MainWindow_KeyReleased(object sender, KeyEventArgs e)
         {
-            if (windowModeNow == windowMode.Game)
+            if (windowModeNow == WindowMode.Game)
             {
                 switch (e.Code)
                 {
@@ -158,7 +169,7 @@ namespace Story_One_Coube
 
         private static void MainWindow_KeyPressed(object sender, KeyEventArgs e)
         {
-            if (windowModeNow == windowMode.Game)
+            if (windowModeNow == WindowMode.Game)
             {
                 if (e.Control) switch (e.Code)
                     {

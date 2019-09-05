@@ -33,7 +33,7 @@ namespace Story_One_Coube.Models
 
         public bool OnFloor { get; set; }
 
-        public double enemyTimeBtwShoot = 0.1;
+        public double enemyTimeBtwShoot = 2;
 
         public double enemyTime = 0;
 

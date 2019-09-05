@@ -98,8 +98,8 @@ namespace Story_One_Coube.Models
 
             if(character.HP.ValueNow <= 0)
             {
-                character.HP.ValueNow = character.HP.InitialValue;
-                //deathMainChar(character);
+                //character.HP.ValueNow = character.HP.InitialValue;
+                deathMainChar(character);
             }
 
             character.gunNow.Update(character.Sprite, Program.LastMousePosition);
@@ -215,8 +215,8 @@ namespace Story_One_Coube.Models
 
         private static void deathMainChar(Character character)
         {
-            Program.DeadScreenNow = new DeadScreen(Program.MainWindow);
-            Program.windowModeNow = Program.windowMode.Dead;
+            DeadScreen.Restart();
+            Program.windowModeNow = Program.WindowMode.Dead;
         }
 
         private static void deathEnemy(Character character)

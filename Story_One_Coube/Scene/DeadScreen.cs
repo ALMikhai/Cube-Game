@@ -10,23 +10,23 @@ using SFML.Audio;
 
 namespace Story_One_Coube.Scene
 {
-    class DeadScreen
+    static class DeadScreen
     {
-        Sprite preDeadScreenWords;
+        static Sprite preDeadScreenWords;
 
-        Texture exitTexture;
-        Sprite exitSprite;
+        static Texture exitTexture;
+        static Sprite exitSprite;
 
-        Texture mainMenuTexture;
-        Sprite mainMenuSprite;
+        static Texture mainMenuTexture;
+        static Sprite mainMenuSprite;
 
-        Texture restartTexture;
-        Sprite restartSprite;
+        static Texture restartTexture;
+        static Sprite restartSprite;
 
-        double wordAnimationTime;
-        DateTime timeMow;
+        static double wordAnimationTime;
+        static DateTime timeMow;
 
-        public DeadScreen(RenderWindow window)
+        public static void Init(RenderWindow window)
         {
             wordAnimationTime = 3;
             timeMow = DateTime.Now;
@@ -52,7 +52,7 @@ namespace Story_One_Coube.Scene
             restartSprite.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2 - 35);
         }
 
-        public void DrawAndUpdate(RenderWindow window)
+        public static void DrawAndUpdate(RenderWindow window)
         {
             while(wordAnimationTime > 0)
             {
@@ -70,29 +70,36 @@ namespace Story_One_Coube.Scene
             exitSprite.Color = Color.White;
             mainMenuSprite.Color = Color.White;
             restartSprite.Color = Color.White;
-            Program.deadScreenChooseNow = Program.deadScreenChoose.None;
+            Program.DeadScreenChooseNow = Program.DeadScreenChoose.None;
 
             if (exitSprite.GetGlobalBounds().Contains((int)Program.LastMousePosition.X, (int)Program.LastMousePosition.Y))
             {
-                Program.deadScreenChooseNow = Program.deadScreenChoose.Exit;
+                Program.DeadScreenChooseNow = Program.DeadScreenChoose.Exit;
                 exitSprite.Color = Color.Red;
             }
 
             if (mainMenuSprite.GetGlobalBounds().Contains((int)Program.LastMousePosition.X, (int)Program.LastMousePosition.Y))
             {
-                Program.deadScreenChooseNow = Program.deadScreenChoose.MainMenu;
+                Program.DeadScreenChooseNow = Program.DeadScreenChoose.MainMenu;
                 mainMenuSprite.Color = Color.Red;
             }
 
             if (restartSprite.GetGlobalBounds().Contains((int)Program.LastMousePosition.X, (int)Program.LastMousePosition.Y))
             {
-                Program.deadScreenChooseNow = Program.deadScreenChoose.Restart;
+                Program.DeadScreenChooseNow = Program.DeadScreenChoose.Restart;
                 restartSprite.Color = Color.Red;
             }
 
             window.Draw(restartSprite);
             window.Draw(mainMenuSprite);
             window.Draw(exitSprite);
+        }
+
+        public static void Restart()
+        {
+            wordAnimationTime = 3;
+            timeMow = DateTime.Now;
+            preDeadScreenWords.Scale = new Vector2f(0, 0);
         }
     }
 }

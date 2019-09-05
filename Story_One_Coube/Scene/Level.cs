@@ -27,7 +27,7 @@ namespace Story_One_Coube.Scene
 
         public virtual Level RestartLevel()
         {
-            Program.windowModeNow = Program.windowMode.Game;
+            Program.windowModeNow = Program.WindowMode.Game;
             return null;
         }
 
