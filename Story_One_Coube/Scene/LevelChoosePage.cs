@@ -52,8 +52,6 @@ namespace Story_One_Coube.Scene
 
         public static void DrawAndUpdate(RenderWindow window)
         {
-            //TODO Сделать выбор уровней.
-
             chooseModeNow = chooseMode.None;
 
             foreach(var level in levelSprites)

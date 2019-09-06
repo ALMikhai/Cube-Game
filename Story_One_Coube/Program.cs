@@ -14,9 +14,7 @@ namespace Story_One_Coube
 {
     /// <summary>
     /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
-    /// TODO Animation for Main menu.
     /// TOFO Use minor scale for mirror gun sprite.
-    /// TODO Main menu.
     /// TODO Win screen.
     /// TODO Some levels.
     /// TODO Boss
@@ -37,9 +35,6 @@ namespace Story_One_Coube
         static Random random = new Random();
 
         public static Level levelNow = new Level1();
-
-        public static Texture Background = new Texture("../../Texturs/Background.png");
-        public static Sprite BackgroundSprite = new Sprite(Background);
 
         public enum WindowMode { Menu, Game, Dead, LevelsChoose, Pause }
 
@@ -64,46 +59,49 @@ namespace Story_One_Coube
             DeadScreen.Init(MainWindow);
             MainMenu.Init(MainWindow);
             LevelChoosePage.Init(MainWindow);
-
-            BackgroundSprite.Scale = new Vector2f((float)WidthWindow / (float)Background.Size.X, (float)HeightWindow / (float)Background.Size.Y);
-
+            Background.Init(MainWindow);
+            
             while (MainWindow.IsOpen)
             {
                 MainWindow.Clear();
 
-                MainWindow.Draw(BackgroundSprite);
+                Background.Draw(MainWindow);
 
-                if(windowModeNow == WindowMode.Menu)
+                if (Background.IsLoaded)
                 {
-                    MainMenu.DrawAndUpdate(MainWindow);
-                }
 
-                if(windowModeNow == WindowMode.LevelsChoose)
-                {
-                    LevelChoosePage.DrawAndUpdate(MainWindow);
-                }
+                    if (windowModeNow == WindowMode.Menu)
+                    {
+                        MainMenu.DrawAndUpdate(MainWindow);
+                    }
 
-                if (windowModeNow == WindowMode.Game)
-                {
-                    levelNow.Update(MainWindow);
-                    levelNow.Draw(MainWindow);
-                }
+                    if (windowModeNow == WindowMode.LevelsChoose)
+                    {
+                        LevelChoosePage.DrawAndUpdate(MainWindow);
+                    }
 
-                if (windowModeNow == WindowMode.Dead)
-                {
-                    levelNow.Draw(MainWindow);
-                    DeadScreen.DrawAndUpdate(MainWindow);
-                }
+                    if (windowModeNow == WindowMode.Game)
+                    {
+                        levelNow.Update(MainWindow);
+                        levelNow.Draw(MainWindow);
+                    }
 
-                if (windowModeNow == WindowMode.Pause)
-                {
-                    levelNow.Draw(MainWindow);
-                    DeadScreen.DrawAndUpdate(MainWindow);
+                    if (windowModeNow == WindowMode.Dead)
+                    {
+                        levelNow.Draw(MainWindow);
+                        DeadScreen.DrawAndUpdate(MainWindow);
+                    }
+
+                    if (windowModeNow == WindowMode.Pause)
+                    {
+                        levelNow.Draw(MainWindow);
+                        DeadScreen.DrawAndUpdate(MainWindow);
+                    }
+
+                    MainWindow.DispatchEvents();
                 }
 
                 MainWindow.Display();
-
-                MainWindow.DispatchEvents();
             }
         }
 

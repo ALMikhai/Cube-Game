@@ -68,6 +68,7 @@
     <Compile Include="Models\Gun.cs" />
     <Compile Include="Models\HPBox.cs" />
     <Compile Include="Models\Point.cs" />
+    <Compile Include="Scene\Background.cs" />
     <Compile Include="Scene\DeadScreen.cs" />
     <Compile Include="Scene\Interface.cs" />
     <Compile Include="Scene\Level.cs" />
