@@ -74,7 +74,9 @@
     <Compile Include="Scene\Level1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scene\LevelChoosePage.cs" />
     <Compile Include="Scene\MainMenu.cs" />
+    <Compile Include="Scene\PausePage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

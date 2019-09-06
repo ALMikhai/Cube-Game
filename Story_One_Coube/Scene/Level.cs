@@ -27,6 +27,8 @@ namespace Story_One_Coube.Scene
 
         public virtual Level RestartLevel()
         {
+            Program.MainMenuChooseNow = Program.MainMenuChoose.None;
+            DeadScreen.DeadScreenChooseNow = DeadScreen.DeadScreenChoose.None;
             Program.windowModeNow = Program.WindowMode.Game;
             return null;
         }

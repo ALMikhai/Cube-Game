@@ -23,8 +23,15 @@ namespace Story_One_Coube.Scene
         static Texture restartTexture;
         static Sprite restartSprite;
 
+        static Texture continueTexture;
+        static Sprite continueSprite;
+
         static double wordAnimationTime;
         static DateTime timeMow;
+
+        public enum DeadScreenChoose { None, Restart, MainMenu, Exit, Continue }
+
+        public static DeadScreenChoose DeadScreenChooseNow = DeadScreenChoose.None;
 
         public static void Init(RenderWindow window)
         {
@@ -50,49 +57,70 @@ namespace Story_One_Coube.Scene
             restartSprite = new Sprite(restartTexture);
             restartSprite.Origin = new Vector2f(restartTexture.Size.X / 2, restartTexture.Size.Y / 2);
             restartSprite.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2 - 35);
+
+            continueTexture = new Texture("../../Texturs/DeadScreenText.png", new IntRect(0, 237, 173, 30));
+            continueSprite = new Sprite(continueTexture);
+            continueSprite.Origin = new Vector2f(continueTexture.Size.X / 2, continueTexture.Size.Y / 2);
+            continueSprite.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2 - 70);
         }
 
         public static void DrawAndUpdate(RenderWindow window)
         {
-            while(wordAnimationTime > 0)
+            if (Program.windowModeNow == Program.WindowMode.Dead)
             {
-                if(preDeadScreenWords.Scale.X < 1 || preDeadScreenWords.Scale.Y < 1)
+                while (wordAnimationTime > 0)
                 {
-                    preDeadScreenWords.Scale = new Vector2f((float)(preDeadScreenWords.Scale.X + 0.01), (float)(preDeadScreenWords.Scale.Y + 0.01));
-                }
+                    if (preDeadScreenWords.Scale.X < 1 || preDeadScreenWords.Scale.Y < 1)
+                    {
+                        preDeadScreenWords.Scale = new Vector2f((float)(preDeadScreenWords.Scale.X + 0.01), (float)(preDeadScreenWords.Scale.Y + 0.01));
+                    }
 
-                window.Draw(preDeadScreenWords);
-                wordAnimationTime -= (DateTime.Now - timeMow).TotalSeconds;
-                timeMow = DateTime.Now;
-                return;
+                    window.Draw(preDeadScreenWords);
+                    wordAnimationTime -= (DateTime.Now - timeMow).TotalSeconds;
+                    timeMow = DateTime.Now;
+                    return;
+                }
             }
 
             exitSprite.Color = Color.White;
             mainMenuSprite.Color = Color.White;
             restartSprite.Color = Color.White;
-            Program.DeadScreenChooseNow = Program.DeadScreenChoose.None;
+            DeadScreenChooseNow = DeadScreenChoose.None;
 
             if (exitSprite.GetGlobalBounds().Contains((int)Program.LastMousePosition.X, (int)Program.LastMousePosition.Y))
             {
-                Program.DeadScreenChooseNow = Program.DeadScreenChoose.Exit;
+                DeadScreenChooseNow = DeadScreenChoose.Exit;
                 exitSprite.Color = Color.Red;
             }
 
             if (mainMenuSprite.GetGlobalBounds().Contains((int)Program.LastMousePosition.X, (int)Program.LastMousePosition.Y))
             {
-                Program.DeadScreenChooseNow = Program.DeadScreenChoose.MainMenu;
+                DeadScreenChooseNow = DeadScreenChoose.MainMenu;
                 mainMenuSprite.Color = Color.Red;
             }
 
             if (restartSprite.GetGlobalBounds().Contains((int)Program.LastMousePosition.X, (int)Program.LastMousePosition.Y))
             {
-                Program.DeadScreenChooseNow = Program.DeadScreenChoose.Restart;
+                DeadScreenChooseNow = DeadScreenChoose.Restart;
                 restartSprite.Color = Color.Red;
             }
 
             window.Draw(restartSprite);
             window.Draw(mainMenuSprite);
             window.Draw(exitSprite);
+
+            if(Program.windowModeNow == Program.WindowMode.Pause)
+            {
+                continueSprite.Color = Color.White;
+
+                if(continueSprite.GetGlobalBounds().Contains((int)Program.LastMousePosition.X, (int)Program.LastMousePosition.Y))
+                {
+                    DeadScreenChooseNow = DeadScreenChoose.Continue;
+                    continueSprite.Color = Color.Red;
+                }
+
+                window.Draw(continueSprite);
+            }
         }
 
         public static void Restart()
@@ -100,6 +128,38 @@ namespace Story_One_Coube.Scene
             wordAnimationTime = 3;
             timeMow = DateTime.Now;
             preDeadScreenWords.Scale = new Vector2f(0, 0);
+        }
+
+        public static void Click()
+        {
+            switch (DeadScreenChooseNow)
+            {
+                case DeadScreenChoose.Exit:
+                    {
+                        Program.MainWindow_Closed(new object(), new EventArgs());
+                        return;
+                    }
+
+                case DeadScreenChoose.MainMenu:
+                    {
+                        Program.windowModeNow = Program.WindowMode.Menu;
+                        DeadScreenChooseNow = DeadScreenChoose.None;
+                        return;
+                    }
+
+                case DeadScreenChoose.Restart:
+                    {
+                        Program.levelNow = Program.levelNow.RestartLevel();
+                        return;
+                    }
+
+                case DeadScreenChoose.Continue:
+                    {
+                        Program.windowModeNow = Program.WindowMode.Game;
+                        DeadScreenChooseNow = DeadScreenChoose.None;
+                        return;
+                    }
+            }
         }
     }
 }

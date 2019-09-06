@@ -36,7 +36,7 @@ namespace Story_One_Coube.Scene
                 drawPoint += (int)floorSprite.Size.X - 20;
             }
 
-            floorSprite.Position = new Vector2f(640, 360);
+            floorSprite.Position = new Vector2f(0, window.Size.Y - 350);
 
             TextureObjects.Add(new RectangleShape(floorSprite));
 

@@ -14,13 +14,14 @@ namespace Story_One_Coube
 {
     /// <summary>
     /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
+    /// TODO Animation for Main menu.
     /// TOFO Use minor scale for mirror gun sprite.
     /// TODO Main menu.
     /// TODO Win screen.
     /// TODO Some levels.
     /// TODO Boss
-    /// TODO Animation for main char.
     /// TODO Add gun sprite and bullet sprite.
+    /// TODO Идея для уровня, несколько ливитирующих платформ, если игрок падает, то умирает.
     /// </summary>
 
     class Program
@@ -40,13 +41,9 @@ namespace Story_One_Coube
         public static Texture Background = new Texture("../../Texturs/Background.png");
         public static Sprite BackgroundSprite = new Sprite(Background);
 
-        public enum WindowMode { Menu, Game, Dead }
+        public enum WindowMode { Menu, Game, Dead, LevelsChoose, Pause }
 
         public static WindowMode windowModeNow = WindowMode.Menu;
-
-        public enum DeadScreenChoose { None, Restart, MainMenu, Exit }
-
-        public static DeadScreenChoose DeadScreenChooseNow = DeadScreenChoose.None;
 
         public enum MainMenuChoose { None, Story, Arena, Exit }
 
@@ -66,13 +63,12 @@ namespace Story_One_Coube
 
             DeadScreen.Init(MainWindow);
             MainMenu.Init(MainWindow);
+            LevelChoosePage.Init(MainWindow);
 
             BackgroundSprite.Scale = new Vector2f((float)WidthWindow / (float)Background.Size.X, (float)HeightWindow / (float)Background.Size.Y);
 
             while (MainWindow.IsOpen)
             {
-                MainWindow.DispatchEvents();
-
                 MainWindow.Clear();
 
                 MainWindow.Draw(BackgroundSprite);
@@ -80,6 +76,11 @@ namespace Story_One_Coube
                 if(windowModeNow == WindowMode.Menu)
                 {
                     MainMenu.DrawAndUpdate(MainWindow);
+                }
+
+                if(windowModeNow == WindowMode.LevelsChoose)
+                {
+                    LevelChoosePage.DrawAndUpdate(MainWindow);
                 }
 
                 if (windowModeNow == WindowMode.Game)
@@ -94,7 +95,15 @@ namespace Story_One_Coube
                     DeadScreen.DrawAndUpdate(MainWindow);
                 }
 
+                if (windowModeNow == WindowMode.Pause)
+                {
+                    levelNow.Draw(MainWindow);
+                    DeadScreen.DrawAndUpdate(MainWindow);
+                }
+
                 MainWindow.Display();
+
+                MainWindow.DispatchEvents();
             }
         }
 
@@ -111,25 +120,7 @@ namespace Story_One_Coube
 
                 case WindowMode.Dead:
                     {
-                        switch (DeadScreenChooseNow)
-                        {
-                            case DeadScreenChoose.Exit:
-                                {
-                                    MainWindow_Closed(new object(), new EventArgs());
-                                    return;
-                                }
-
-                            case DeadScreenChoose.MainMenu:
-                                {
-                                    return;
-                                }
-
-                            case DeadScreenChoose.Restart:
-                                {
-                                    levelNow = levelNow.RestartLevel();
-                                    return;
-                                }
-                        }
+                        DeadScreen.Click();
                         return;
                     }
 
@@ -142,7 +133,25 @@ namespace Story_One_Coube
                                     MainWindow_Closed(new object(), new EventArgs());
                                     return;
                                 }
+
+                            case MainMenuChoose.Story:
+                                {
+                                    windowModeNow = WindowMode.LevelsChoose;
+                                    return;
+                                }
                         }
+                        return;
+                    }
+
+                case WindowMode.LevelsChoose:
+                    {
+                        LevelChoosePage.Click();
+                        return;
+                    }
+
+                case WindowMode.Pause:
+                    {
+                        DeadScreen.Click();
                         return;
                     }
             }
@@ -185,7 +194,7 @@ namespace Story_One_Coube
 
                 switch (e.Code)
                 {
-                    case Keyboard.Key.Escape: { MainWindow.Close(); return; }
+                    case Keyboard.Key.Escape: { windowModeNow = WindowMode.Pause; return; }
 
                     case Keyboard.Key.Space: { CharacterMovesAnimation.JumpFinished = false; CharacterEvents.Jump(Program.levelNow.MainCharacter); return; }
 
@@ -196,7 +205,7 @@ namespace Story_One_Coube
             }
         }
 
-        private static void MainWindow_Closed(object sender, EventArgs e)
+        public static void MainWindow_Closed(object sender, EventArgs e)
         {
             MainWindow.Close();
         }
