@@ -11,7 +11,7 @@ namespace Story_One_Coube.Models
 
         public static void Shoot(Character character, Point coord)
         {
-            character.bullets.Add(new Bullet(new Point(character.Sprite.Position.X, character.Sprite.Position.Y), character.gunNow.speedShoot, coord));
+            character.bullets.Add(new Bullet(character.gunNow.StartShootPoint, character.gunNow.speedShoot, coord));
         }
 
         public static void Hit(Character character, double damage)
@@ -46,7 +46,30 @@ namespace Story_One_Coube.Models
             character.HP.Draw(window);
 
             window.Draw(character.Sprite);
-            window.Draw(character.gunNow.Sprite);
+            character.gunNow.Draw(window);
+
+            //CircleShape circle = new CircleShape()
+            //{
+            //    Radius = 10,
+            //    FillColor = Color.White,
+            //    Position = new Vector2f(character.gunNow.StartShootPoint.X, character.gunNow.StartShootPoint.Y),
+            //    Origin = new Vector2f(10, 10),
+            //};
+
+            //Program.MainWindow.Draw(circle);
+
+            //RectangleShape rectangle = new RectangleShape()
+            //{
+            //    Size = (Vector2f)character.gunNow.Sprite.Texture.Size,
+            //    Position = character.gunNow.Sprite.Position,
+            //    Scale = character.gunNow.Sprite.Scale,
+            //    Origin = character.gunNow.Sprite.Origin,
+            //    OutlineThickness = 5,
+            //    FillColor = Color.Transparent,
+            //    Rotation = character.gunNow.Sprite.Rotation,
+            //};
+
+            //Program.MainWindow.Draw(rectangle);
         }
 
         public static void UpdateChar(Character character)
@@ -98,8 +121,8 @@ namespace Story_One_Coube.Models
 
             if(character.HP.ValueNow <= 0)
             {
-                //character.HP.ValueNow = character.HP.InitialValue;
-                deathMainChar(character);
+                character.HP.ValueNow = character.HP.InitialValue;
+                //deathMainChar(character);
             }
 
             character.gunNow.Update(character.Sprite, Program.LastMousePosition);
@@ -123,7 +146,20 @@ namespace Story_One_Coube.Models
 
                     if (character.OnFloor && CharacterMovesAnimation.JumpFinished)
                     {
-                        CharacterMovesAnimation.MainCharMoveLeft();
+                        switch (character.gunNow.GunSideNow)
+                        {
+                            case Guns.Gun.GunSide.Left:
+                                {
+                                    CharacterMovesAnimation.MainCharMoveLeft();
+                                    break;
+                                }
+
+                            case Guns.Gun.GunSide.Right:
+                                {
+                                    CharacterMovesAnimation.MainCharMoveLeftBack();
+                                    break;
+                                }
+                        }
                     }
 
                     character.Sprite.Position = new Vector2f(character.Sprite.Position.X - character.stepLong, character.Sprite.Position.Y);
@@ -134,7 +170,20 @@ namespace Story_One_Coube.Models
 
                     if (character.OnFloor && CharacterMovesAnimation.JumpFinished)
                     {
-                        CharacterMovesAnimation.MainCharMoveRight();
+                        switch (character.gunNow.GunSideNow)
+                        {
+                            case Guns.Gun.GunSide.Right:
+                                {
+                                    CharacterMovesAnimation.MainCharMoveRight();
+                                    break;
+                                }
+
+                            case Guns.Gun.GunSide.Left:
+                                {
+                                    CharacterMovesAnimation.MainCharMoveRightBack();
+                                    break;
+                                }
+                        }
                     }
 
                     character.Sprite.Position = new Vector2f(character.Sprite.Position.X + character.stepLong, character.Sprite.Position.Y);

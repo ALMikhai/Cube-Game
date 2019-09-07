@@ -25,7 +25,7 @@ namespace Story_One_Coube.Scene
         {
             background = new Texture("../../Texturs/Background.png");
             BackgroundSprite = new Sprite(background);
-            BackgroundSprite.Scale = new Vector2f((float)Program.WidthWindow / (float)background.Size.X, 0);
+            BackgroundSprite.Scale = new Vector2f((float)Program.WidthWindow / (float)background.Size.X, (float)Program.HeightWindow / (float)background.Size.Y);
             BackgroundSprite.Origin = new Vector2f(BackgroundSprite.Texture.Size.X / 2, BackgroundSprite.Texture.Size.Y / 2);
             BackgroundSprite.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2);
 

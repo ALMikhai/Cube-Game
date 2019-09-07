@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Story_One_Coube.Models.Guns;
 
 
 namespace Story_One_Coube.Models
@@ -64,7 +65,7 @@ namespace Story_One_Coube.Models
 
             EnemyAnimation = new EnemyMovesAnumation(this);
 
-            gunNow = new Gun(this.Sprite);
+            gunNow = new Pistol(this.Sprite);
 
             HP = new HPBox(this, hp);
 

@@ -12,36 +12,43 @@ namespace Story_One_Coube.Models
         public static Texture StandMainCharTexture = new Texture("../../Texturs/MainCharMoves/Stand/1.png", new IntRect(5, 3, 23, 25));
         public static Texture StandEnemyTexture = new Texture("../../Texturs/EnemyMoves/Stand/1.png", new IntRect(5, 3, 23, 25));
 
-        static List<Texture> moveLeftMainChar = new List<Texture>();
+        static Texture[] moveLeftMainChar;
         static string moveLeftPath = "../../Texturs/MainCharMoves/MoveLeft/";
         static int numMovesLeft = 7;
 
-        public static List<Texture> moveLeftEnemy = new List<Texture>();
+        public static Texture[] moveLeftEnemy; 
         static string moveEnemyLeftPath = "../../Texturs/EnemyMoves/MoveLeft/";
-        static int numMovesEnemyLeft = 7;
+        public static int numMovesEnemyLeft = 7;
 
-        static List<Texture> moveRightMainChar = new List<Texture>();
+        static Texture[] moveRightMainChar;
         static string moveRightPath = "../../Texturs/MainCharMoves/MoveRight/";
         static int numMovesRight = 7;
 
-        public static List<Texture> moveRightEnemy = new List<Texture>();
+        public static Texture[] moveRightEnemy;
         static string moveEnemyRightPath = "../../Texturs/EnemyMoves/MoveRight/";
-        static int numMovesEnemyRight = 7;
+        public static int numMovesEnemyRight = 7;
 
-        static List<Texture> moveJumpMainChar = new List<Texture>();
+        static Texture[] moveJumpMainChar;
         static string moveJumpPath = "../../Texturs/MainCharMoves/Jump/";
-        static int numMovesJump = 6;
+        public static int numMovesJump = 6;
         static int jumpFrameNow = 0;
         public static bool JumpFinished = true;
         static double timeToOneJumpFrame = 0.1;
 
         static double timeToOneFrame = 0.07;
         static int frameNow = 0;
+        static int frameNowGoBack = 6;
 
         static DateTime timeNow = DateTime.Now;
 
         public static void Init()
         {
+            moveLeftMainChar = new Texture[numMovesLeft];
+            moveLeftEnemy = new Texture[numMovesEnemyLeft];
+            moveRightMainChar = new Texture[numMovesRight];
+            moveRightEnemy = new Texture[numMovesEnemyRight];
+            moveJumpMainChar = new Texture[numMovesJump];
+
             initChar(moveLeftMainChar, moveLeftPath, numMovesLeft);
             initChar(moveRightMainChar, moveRightPath, numMovesRight);
             initChar(moveJumpMainChar, moveJumpPath, numMovesJump);
@@ -49,11 +56,11 @@ namespace Story_One_Coube.Models
             initChar(moveRightEnemy, moveEnemyRightPath, numMovesEnemyRight);
         }
 
-        private static void initChar(List<Texture> textures, string path, int numOfTextures)
+        private static void initChar(Texture[] textures, string path, int numOfTextures)
         {
             for(var i = 1; i <= numOfTextures; i++)
             {
-                textures.Add(new Texture(path + i.ToString() + ".png", new IntRect(5, 3, 23, 25)));
+                textures[i-1] = (new Texture(path + i.ToString() + ".png", new IntRect(5, 3, 23, 25)));
             }
         }
 
@@ -65,9 +72,41 @@ namespace Story_One_Coube.Models
 
             character.Sprite.Texture = moveLeftMainChar[frameNow++];
 
-            if(frameNow == moveLeftMainChar.Count)
+            if(frameNow == numMovesLeft)
             {
                 frameNow = 0;
+            }
+
+            timeNow = DateTime.Now;
+        }
+
+        public static void MainCharMoveLeftBack()
+        {
+            if (DateTime.Now.Subtract(timeNow).TotalSeconds < timeToOneFrame) return;
+
+            Character character = Program.levelNow.MainCharacter;
+
+            character.Sprite.Texture = moveRightMainChar[frameNowGoBack--];
+
+            if (frameNowGoBack == 0)
+            {
+                frameNowGoBack = 6;
+            }
+
+            timeNow = DateTime.Now;
+        }
+
+        public static void MainCharMoveRightBack()
+        {
+            if (DateTime.Now.Subtract(timeNow).TotalSeconds < timeToOneFrame) return;
+
+            Character character = Program.levelNow.MainCharacter;
+
+            character.Sprite.Texture = moveLeftMainChar[frameNowGoBack--];
+
+            if (frameNowGoBack == 0)
+            {
+                frameNowGoBack = 6;
             }
 
             timeNow = DateTime.Now;
@@ -81,7 +120,7 @@ namespace Story_One_Coube.Models
 
             character.Sprite.Texture = moveRightMainChar[frameNow++];
 
-            if (frameNow == moveLeftMainChar.Count)
+            if (frameNow == numMovesRight)
             {
                 frameNow = 0;
             }
@@ -97,7 +136,7 @@ namespace Story_One_Coube.Models
 
             character.Sprite.Texture = moveJumpMainChar[jumpFrameNow++];
 
-            if (jumpFrameNow == moveJumpMainChar.Count || character.OnFloor)
+            if (jumpFrameNow == numMovesJump || character.OnFloor)
             {
                 jumpFrameNow = 0;
                 JumpFinished = true;
@@ -110,6 +149,7 @@ namespace Story_One_Coube.Models
         public static void MainCharStand()
         {
             frameNow = 0;
+            frameNowGoBack = 6; 
             Program.levelNow.MainCharacter.Sprite.Texture = StandMainCharTexture;
         }
     }

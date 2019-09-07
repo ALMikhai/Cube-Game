@@ -27,7 +27,7 @@ namespace Story_One_Coube.Models
 
             enemy.Sprite.Texture = moveLeftEnemy[frameNow++];
 
-            if (frameNow == moveLeftEnemy.Count)
+            if (frameNow == numMovesEnemyLeft)
             {
                 frameNow = 0;
             }
@@ -41,7 +41,7 @@ namespace Story_One_Coube.Models
 
             enemy.Sprite.Texture = moveRightEnemy[frameNow++];
 
-            if (frameNow == moveRightEnemy.Count)
+            if (frameNow == numMovesEnemyRight)
             {
                 frameNow = 0;
             }

@@ -13,12 +13,12 @@ using Story_One_Coube.Scene;
 namespace Story_One_Coube
 {
     /// <summary>
+    /// TODO Fix bug, in case if mouse in middle from -89 to -91 gun broken texture.
+    /// TODO Add gun sprite and bullet sprite.
     /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
-    /// TOFO Use minor scale for mirror gun sprite.
     /// TODO Win screen.
     /// TODO Some levels.
     /// TODO Boss
-    /// TODO Add gun sprite and bullet sprite.
     /// TODO Идея для уровня, несколько ливитирующих платформ, если игрок падает, то умирает.
     /// </summary>
 
@@ -26,8 +26,8 @@ namespace Story_One_Coube
     {
         public static RenderWindow MainWindow;
 
-        public static uint HeightWindow = 1080;
-        public static uint WidthWindow = 1920;
+        public static uint HeightWindow = 720;
+        public static uint WidthWindow = 1280;
         public static Color BackgroundColorWindow = new Color(78, 180, 217);
 
         public static Point LastMousePosition = new Point(1280, 720);
@@ -38,7 +38,7 @@ namespace Story_One_Coube
 
         public enum WindowMode { Menu, Game, Dead, LevelsChoose, Pause }
 
-        public static WindowMode windowModeNow = WindowMode.Menu;
+        public static WindowMode windowModeNow = WindowMode.Game;
 
         public enum MainMenuChoose { None, Story, Arena, Exit }
 
