@@ -13,8 +13,8 @@ using Story_One_Coube.Scene;
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Fix bug, in case if mouse in middle from -89 to -91 gun broken texture.
-    /// TODO Add gun sprite and bullet sprite.
+    /// TODO Search bugs with ammo interface and debug.
+    /// TODO Add bullet sprite.
     /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
     /// TODO Win screen.
     /// TODO Some levels.
@@ -26,8 +26,8 @@ namespace Story_One_Coube
     {
         public static RenderWindow MainWindow;
 
-        public static uint HeightWindow = 720;
-        public static uint WidthWindow = 1280;
+        public static uint HeightWindow = 1080;
+        public static uint WidthWindow = 1920;
         public static Color BackgroundColorWindow = new Color(78, 180, 217);
 
         public static Point LastMousePosition = new Point(1280, 720);
@@ -112,7 +112,7 @@ namespace Story_One_Coube
             {
                 case WindowMode.Game:
                     {
-                        CharacterEvents.Shoot(Program.levelNow.MainCharacter, new Point(e.X, e.Y));
+                        levelNow.MainCharacter.gunNow.MainCharShoot(Program.levelNow.MainCharacter, new Point(e.X, e.Y));
                         return;
                     }
 
@@ -183,7 +183,7 @@ namespace Story_One_Coube
                         case Keyboard.Key.H: { CharacterEvents.Hit(Program.levelNow.MainCharacter, 10); return; }
                         case Keyboard.Key.S:
                             {
-                                Character enemy = Character.SpawnCharacter(100, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow)), CharacterMovesAnimation.StandEnemyTexture);
+                                Character enemy = Character.SpawnCharacter(100, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow - 300)), CharacterMovesAnimation.StandEnemyTexture);
                                 Program.levelNow.Enemies.Add(enemy);
                                 return;
                             }
@@ -192,6 +192,8 @@ namespace Story_One_Coube
 
                 switch (e.Code)
                 {
+                    case Keyboard.Key.R: { levelNow.MainCharacter.gunNow.Reload(); return; }
+
                     case Keyboard.Key.Escape: { windowModeNow = WindowMode.Pause; return; }
 
                     case Keyboard.Key.Space: { CharacterMovesAnimation.JumpFinished = false; CharacterEvents.Jump(Program.levelNow.MainCharacter); return; }

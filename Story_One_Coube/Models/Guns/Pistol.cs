@@ -24,6 +24,18 @@ namespace Story_One_Coube.Models.Guns
 
             scaleRightSide = new Vector2f((float)sizeW / (float)Sprite.Texture.Size.X, (float)sizeH / (float)Sprite.Texture.Size.Y);
             scaleLeftSide = new Vector2f((float)sizeW / (float)Sprite.Texture.Size.X, -((float)sizeH / (float)Sprite.Texture.Size.Y));
+
+            StartShootPoint = MathStartShootPoint();
+
+            clips = 15;
+            reloadingTime = 2;
+            clipSize = 10;
+            clipNow = 10;
+
+            isReloated = true;
+
+            bulletForInterface = new Sprite(new Texture("../../Texturs/Guns/small_bullet.png"));
+            bulletForInterface.Position = new Vector2f(20, Program.HeightWindow - 90);
         }
 
         public override void Update(Sprite sprite, Point coord)
@@ -31,41 +43,19 @@ namespace Story_One_Coube.Models.Guns
             positionForRightSide = new Vector2f(sprite.Position.X + 15, sprite.Position.Y - 10);
             positionForLeftSide = new Vector2f(sprite.Position.X - 15, sprite.Position.Y - 10);
 
-            StartShootPoint = MathStartShootPoint();
-
             base.Update(sprite, coord);
+
+            StartShootPoint = MathStartShootPoint();
         }
 
         public override Point MathStartShootPoint()
         {
-            //double OX = sizeW;
-            //double OY = sizeH / 2;
-
-            //double gipotenuza = Math.Sqrt((OX * OX) + (OY * OY));
-
             double graduseToRadian = Sprite.Rotation * (Math.PI / 180);
 
             double sinMove = Math.Sin(-graduseToRadian);
             double cosMove = Math.Cos(graduseToRadian);
 
             double dist = 40;
-
-            //double scale = 90 - Sprite.Rotation;
-            //scale = scale * (Math.PI / 180);
-
-            //double sinScale= Math.Sin(scale);
-            //double cosScale = Math.Cos(scale);
-
-            //Point startPoint;
-
-            //if (Sprite.Rotation > -90 && Sprite.Rotation < 90)
-            //{
-            //    startPoint = new Point((float)(Sprite.Position.X + (sizeH / 3) * cosScale), (float)(Sprite.Position.Y - (sizeH / 3) * sinScale));
-            //}
-            //else
-            //{
-            //    startPoint = new Point((float)(Sprite.Position.X + (sizeH / 3) * cosScale), (float)(Sprite.Position.Y + (sizeH / 3) * sinScale));
-            //}
 
             return new Point((float)(Sprite.Position.X + (dist * cosMove)), (float)(Sprite.Position.Y - (dist * sinMove)));
         }

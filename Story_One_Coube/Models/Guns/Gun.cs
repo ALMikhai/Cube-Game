@@ -30,11 +30,21 @@ namespace Story_One_Coube.Models.Guns
         public enum GunSide { Left, Right };
         public GunSide GunSideNow { get; protected set; }
 
+        public int clips { get; protected set; }
+        public int clipSize { get; protected set; }
+        public int clipNow { get; protected set; }
+        public int reloadingTime { get; protected set; }
+        public DateTime reloadingTimeNow { get; protected set; }
+        public bool isReloated { get; protected set; }
+        public int reloadPercentForInterface { get; protected set; }
+
+        public Sprite bulletForInterface { get; protected set; }
+
         public virtual void Update(Sprite sprite, Point coord)
         {
             Sprite.Rotation = MathRotation(coord, this);
 
-            if(GunSideNow == GunSide.Left)
+            if (GunSideNow == GunSide.Left)
             {
                 Sprite.Position = positionForLeftSide;
             }
@@ -49,13 +59,68 @@ namespace Story_One_Coube.Models.Guns
                 Sprite.Scale = scaleLeftSide;
                 Sprite.Position = positionForLeftSide;
             }
-            
-            if((Sprite.Rotation > -70 && Sprite.Rotation < 0) || (Sprite.Rotation > 0 && Sprite.Rotation < 70))
+
+            if ((Sprite.Rotation > -70 && Sprite.Rotation < 0) || (Sprite.Rotation > 0 && Sprite.Rotation < 70))
             {
                 GunSideNow = GunSide.Right;
                 Sprite.Scale = scaleRightSide;
                 Sprite.Position = positionForRightSide;
             }
+
+            if (clipNow == 0 || !isReloated)
+            {
+                Reload();
+            }
+        }
+
+        public virtual void MainCharShoot(Character character, Point coord)
+        {
+            if (!isReloated || clipNow == 0) return;
+
+            clipNow--;
+            character.bullets.Add(new Bullet(character.gunNow.StartShootPoint, character.gunNow.speedShoot, coord));
+        }
+
+        public virtual void Reload()
+        {
+            if (clips == 0 || clipNow == clipSize)
+            {
+                return;
+            }
+
+            if (isReloated == true)
+            {
+                RestartReloadTime();
+            }
+
+            isReloated = false;
+
+            if ((DateTime.Now - reloadingTimeNow).TotalSeconds > reloadingTime)
+            {
+                isReloated = true;
+                clips -= clipSize - clipNow;
+                clipNow = clipSize;
+
+                if(clips < 0)
+                {
+                    clipNow += clips;
+                    clips = 0;
+                }
+            }
+            else
+            {
+                reloadPercentForInterface = (int)(((DateTime.Now - reloadingTimeNow).TotalSeconds / reloadingTime) * 100);
+            }
+        }
+
+        public virtual void RestartReloadTime()
+        {
+            reloadingTimeNow = DateTime.Now;
+        }
+
+        public virtual void EnemyShoot(Character character, Point coord)
+        {
+            character.bullets.Add(new Bullet(character.gunNow.StartShootPoint, character.gunNow.speedShoot, coord));
         }
 
         public virtual void Draw(RenderWindow window)

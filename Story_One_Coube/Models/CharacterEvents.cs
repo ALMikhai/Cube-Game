@@ -1,4 +1,6 @@
-﻿using SFML.Graphics;
+﻿#define Debug
+
+using SFML.Graphics;
 using SFML.System;
 using Story_One_Coube.Scene;
 using System;
@@ -8,11 +10,6 @@ namespace Story_One_Coube.Models
     static class CharacterEvents
     {
         public enum Moves { STOP = 0, UP, DOWN, LEFT, RIGHT }
-
-        public static void Shoot(Character character, Point coord)
-        {
-            character.bullets.Add(new Bullet(character.gunNow.StartShootPoint, character.gunNow.speedShoot, coord));
-        }
 
         public static void Hit(Character character, double damage)
         {
@@ -48,28 +45,31 @@ namespace Story_One_Coube.Models
             window.Draw(character.Sprite);
             character.gunNow.Draw(window);
 
-            //CircleShape circle = new CircleShape()
-            //{
-            //    Radius = 10,
-            //    FillColor = Color.White,
-            //    Position = new Vector2f(character.gunNow.StartShootPoint.X, character.gunNow.StartShootPoint.Y),
-            //    Origin = new Vector2f(10, 10),
-            //};
+#if !Debug
 
-            //Program.MainWindow.Draw(circle);
+            CircleShape circle = new CircleShape()
+            {
+                Radius = 10,
+                FillColor = Color.White,
+                Position = new Vector2f(character.gunNow.StartShootPoint.X, character.gunNow.StartShootPoint.Y),
+                Origin = new Vector2f(10, 10),
+            };
 
-            //RectangleShape rectangle = new RectangleShape()
-            //{
-            //    Size = (Vector2f)character.gunNow.Sprite.Texture.Size,
-            //    Position = character.gunNow.Sprite.Position,
-            //    Scale = character.gunNow.Sprite.Scale,
-            //    Origin = character.gunNow.Sprite.Origin,
-            //    OutlineThickness = 5,
-            //    FillColor = Color.Transparent,
-            //    Rotation = character.gunNow.Sprite.Rotation,
-            //};
+            Program.MainWindow.Draw(circle);
 
-            //Program.MainWindow.Draw(rectangle);
+            RectangleShape rectangle = new RectangleShape()
+            {
+                Size = (Vector2f)character.gunNow.Sprite.Texture.Size,
+                Position = character.gunNow.Sprite.Position,
+                Scale = character.gunNow.Sprite.Scale,
+                Origin = character.gunNow.Sprite.Origin,
+                OutlineThickness = 5,
+                FillColor = Color.Transparent,
+                Rotation = character.gunNow.Sprite.Rotation,
+            };
+
+            Program.MainWindow.Draw(rectangle);
+#endif
         }
 
         public static void UpdateChar(Character character)
@@ -121,8 +121,8 @@ namespace Story_One_Coube.Models
 
             if(character.HP.ValueNow <= 0)
             {
-                character.HP.ValueNow = character.HP.InitialValue;
-                //deathMainChar(character);
+                //character.HP.ValueNow = character.HP.InitialValue;
+                deathMainChar(character);
             }
 
             character.gunNow.Update(character.Sprite, Program.LastMousePosition);
@@ -206,7 +206,7 @@ namespace Story_One_Coube.Models
 
             if (CanShoot(character))
             {
-                Shoot(character, new Point(Program.levelNow.MainCharacter.Sprite.Position.X, Program.levelNow.MainCharacter.Sprite.Position.Y));
+                character.gunNow.EnemyShoot(character, new Point(Program.levelNow.MainCharacter.Sprite.Position.X, Program.levelNow.MainCharacter.Sprite.Position.Y));
             }
 
             ChaseMainChar(character);
