@@ -59,5 +59,29 @@ namespace Story_One_Coube.Models.Guns
 
             return new Point((float)(Sprite.Position.X + (dist * cosMove)), (float)(Sprite.Position.Y - (dist * sinMove)));
         }
+
+        public override void MainCharShoot(Character character, Point coord)
+        {
+            if (!isReloated || clipNow == 0) return;
+
+            Sounds.PistolShoot.Play();
+
+            base.MainCharShoot(character, coord);
+        }
+
+        public override void Reload()
+        {
+            if (clips == 0 || clipNow == clipSize)
+            {
+                return;
+            }
+
+            if (isReloated == true)
+            {
+                Sounds.PistolReload.Play();
+            }
+
+            base.Reload();
+        }
     }
 }

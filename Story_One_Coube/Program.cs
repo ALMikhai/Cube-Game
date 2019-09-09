@@ -13,8 +13,9 @@ using Story_One_Coube.Scene;
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Search bugs with ammo interface and debug.
     /// TODO Add bullet sprite.
+    /// TODO Add sounds hit.
+    /// TODO Add opportunity to hill yourself(Аптечка) and add ammo for your self(Ammo).
     /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
     /// TODO Win screen.
     /// TODO Some levels.
@@ -60,6 +61,7 @@ namespace Story_One_Coube
             MainMenu.Init(MainWindow);
             LevelChoosePage.Init(MainWindow);
             Background.Init(MainWindow);
+            Sounds.Init();
             
             while (MainWindow.IsOpen)
             {

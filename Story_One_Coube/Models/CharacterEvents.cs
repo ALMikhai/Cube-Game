@@ -15,12 +15,16 @@ namespace Story_One_Coube.Models
         {
             if (character.TimeToSpawn > 0) return;
 
+            Sounds.Hit.Play();
+
             character.HP.Hit(damage);
         }
 
         public static void Jump(Character character)
         {
             if (character.timesToJump != 0 || !character.OnFloor) return;
+
+            Sounds.Jump.Play();
 
             character.timesToJump += 30;
 
