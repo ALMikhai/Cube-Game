@@ -13,6 +13,7 @@ using Story_One_Coube.Scene;
 namespace Story_One_Coube
 {
     /// <summary>
+    /// TODO Настроить звуки по громкости.
     /// TODO Add bullet sprite.
     /// TODO Add sounds hit.
     /// TODO Add opportunity to hill yourself(Аптечка) and add ammo for your self(Ammo).
@@ -39,11 +40,13 @@ namespace Story_One_Coube
 
         public enum WindowMode { Menu, Game, Dead, LevelsChoose, Pause }
 
-        public static WindowMode windowModeNow = WindowMode.Game;
+        public static WindowMode windowModeNow = WindowMode.Menu;
 
         public enum MainMenuChoose { None, Story, Arena, Exit }
 
         public static MainMenuChoose MainMenuChooseNow = MainMenuChoose.None;
+
+        public static Music musicNow { get; set; }
 
         static void Main(string[] args)
         {
@@ -62,7 +65,11 @@ namespace Story_One_Coube
             LevelChoosePage.Init(MainWindow);
             Background.Init(MainWindow);
             Sounds.Init();
-            
+            Musics.Init();
+
+            musicNow = Musics.MainMenu;
+            musicNow.Play();
+
             while (MainWindow.IsOpen)
             {
                 MainWindow.Clear();

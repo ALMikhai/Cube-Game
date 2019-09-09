@@ -68,6 +68,7 @@
     <Compile Include="Models\Guns\Gun.cs" />
     <Compile Include="Models\Guns\Pistol.cs" />
     <Compile Include="Models\HPBox.cs" />
+    <Compile Include="Models\Music.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\Sounds.cs" />
     <Compile Include="Scene\Background.cs" />

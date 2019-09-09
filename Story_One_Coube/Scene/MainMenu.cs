@@ -7,6 +7,7 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 using SFML.Audio;
+using Story_One_Coube.Models;
 
 namespace Story_One_Coube.Scene
 {
@@ -62,6 +63,12 @@ namespace Story_One_Coube.Scene
             {
                 Program.MainMenuChooseNow = Program.MainMenuChoose.Arena;
                 arenaModeSprite.Color = Color.Red;
+            }
+
+            if (Program.musicNow != Musics.MainMenu)
+            {
+                Program.musicNow = Musics.MainMenu;
+                Program.musicNow.Play();
             }
 
             window.Draw(exitSprite);
