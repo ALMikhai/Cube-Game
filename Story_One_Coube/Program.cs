@@ -13,19 +13,24 @@ using Story_One_Coube.Scene;
 namespace Story_One_Coube
 {
     /// <summary>
+    /// TODO Сделать скругление краев у всего в экране(гугли).
+    /// TODO У дробовика поменять патрон в интерфейсе.
+    /// TODO У Смг поменять патрон(текстуру).
     /// TODO Fix bug with big Smg texture(and fint him).
     /// TODO Add interface with guns.
     /// TODO Подобрать звуки для смг и дробовика и смены оружия.
     /// TODO Смена оружия в игре.
     /// TODO Add opportunity to heal yourself(Аптечка) and add ammo for yourself(Ammo).
+    /// TODO Снять видяшку со стволами и сменой их.
     /// </summary>
 
     /// <summary>
-    /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
     /// TODO Win screen.
     /// TODO Some levels.
     /// TODO Boss
     /// TODO Идея для уровня, несколько ливитирующих платформ, если игрок падает, то умирает.
+    /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
+    /// TODO Fix time span then game paused.  
     /// </summary>
 
     class Program
@@ -40,7 +45,7 @@ namespace Story_One_Coube
 
         static Random random = new Random();
 
-        public static Level levelNow = new Level1();
+        public static Level levelNow;
 
         public enum WindowMode { Menu, Game, Dead, LevelsChoose, Pause }
 
@@ -54,8 +59,6 @@ namespace Story_One_Coube
 
         static void Main(string[] args)
         {
-            CharacterMovesAnimation.Init();
-
             MainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube", Styles.None);
             MainWindow.SetVerticalSyncEnabled(true);
             MainWindow.Closed += MainWindow_Closed;
@@ -64,12 +67,19 @@ namespace Story_One_Coube
             MainWindow.MouseMoved += MainWindow_MouseMoved;
             MainWindow.MouseButtonPressed += MainWindow_MouseButtonPressed;
 
+            MainWindow.SetVerticalSyncEnabled(true);
+
+            levelNow = new Level1();
+
+            CharacterMovesAnimation.Init();
             DeadScreen.Init(MainWindow);
             MainMenu.Init(MainWindow);
             LevelChoosePage.Init(MainWindow);
             Background.Init(MainWindow);
             Sounds.Init();
             Musics.Init();
+            Inventory.Init();
+            Interface.Init();
 
             musicNow = Musics.MainMenu;
             musicNow.Play();

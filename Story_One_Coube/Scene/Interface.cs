@@ -2,6 +2,7 @@
 using SFML.System;
 using SFML.Window;
 using Story_One_Coube.Models;
+using Story_One_Coube.Models.Guns;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,17 @@ namespace Story_One_Coube.Scene
         static Text score;
 
         static Text clip;
+
+        static Sprite inventoryBox;
+
+
+        public static void Init()
+        {
+            inventoryBox = new Sprite(new Texture("../../Texturs/Interface/box.png"));
+            inventoryBox.Scale = new Vector2f(0.6f, 0.6f);
+            inventoryBox.Origin = new Vector2f((inventoryBox.Texture.Size.X) / 2, (inventoryBox.Texture.Size.Y) / 2);
+            inventoryBox.Position = new Vector2f(Program.WidthWindow - ((Inventory.Stuff.Count * ((inventoryBox.Texture.Size.X * inventoryBox.Scale.X) + 15))), inventoryBox.Texture.Size.Y * inventoryBox.Scale.Y / 1.5f);
+        }
 
         public static void Draw(RenderWindow window)
         {
@@ -38,6 +50,35 @@ namespace Story_One_Coube.Scene
 
             clip.Position = new Vector2f(60, Program.MainWindow.Size.Y - 70);
             window.Draw(clip);
+
+            foreach (var obj in Inventory.Stuff)
+            {
+                if (obj is Gun)
+                {
+                    Sprite gun = new Sprite((obj as Gun).Sprite);
+                    window.Draw(inventoryBox);
+
+                    gun.Scale = new Vector2f(80f / gun.Texture.Size.X, 40f / gun.Texture.Size.Y);
+                    gun.Origin = new Vector2f((gun.Texture.Size.X) / 2, (gun.Texture.Size.Y) / 2);
+                    gun.Position = inventoryBox.Position;
+                    window.Draw(gun);
+
+                    //CircleShape circle = new CircleShape()
+                    //{
+                    //    Radius = 2.5f,
+                    //    FillColor = Color.White,
+                    //    Position = new Vector2f(gun.Position.X, gun.Position.Y),
+                    //};
+
+                    //circle.Origin = new Vector2f(circle.Radius / 2, circle.Radius / 2);
+
+                    //Program.MainWindow.Draw(circle);
+
+                    inventoryBox.Position = new Vector2f(inventoryBox.Position.X + (inventoryBox.Texture.Size.X * inventoryBox.Scale.X) + 15, inventoryBox.Position.Y);
+                }
+            }
+
+            inventoryBox.Position = new Vector2f(Program.WidthWindow - ((Inventory.Stuff.Count * ((inventoryBox.Texture.Size.X * inventoryBox.Scale.X) + 15))), inventoryBox.Texture.Size.Y * inventoryBox.Scale.Y / 1.5f);
         }
     }
 }

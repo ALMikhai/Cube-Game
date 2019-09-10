@@ -70,6 +70,7 @@
     <Compile Include="Models\Guns\ShotGun.cs" />
     <Compile Include="Models\Guns\Smg.cs" />
     <Compile Include="Models\HPBox.cs" />
+    <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\Music.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\Sounds.cs" />
