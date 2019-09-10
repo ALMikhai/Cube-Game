@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Story_One_Coube.Scene;
+using Story_One_Coube.Models.Guns;
 
 namespace Story_One_Coube.Models
 {
@@ -18,28 +19,25 @@ namespace Story_One_Coube.Models
         double sinMove;
         double cosMove;
 
-        int damage = 33;
+        int damage;
 
         public double speedBullet;
 
         static Texture bullettTexture = new Texture("../../Texturs/Guns/image5.png");
 
-        public Bullet(Point coord, double speed, Point coordToMove, float Rotation)
+        public Bullet(Gun gun, float Rotation)
         {
             Sprite = new Sprite(bullettTexture);
             Sprite.Origin = new Vector2f(bullettTexture.Size.X / 2, bullettTexture.Size.Y / 2);
-            Sprite.Position = new Vector2f((float)coord.X, (float)coord.Y);
+            Sprite.Position = new Vector2f((float)gun.StartShootPoint.X, (float)gun.StartShootPoint.Y);
             Sprite.Rotation = Rotation;
 
-            speedBullet = speed;
+            damage = gun.damage;
 
-            double OX = coordToMove.X - coord.X;
-            double OY = coordToMove.Y - coord.Y;
+            speedBullet = gun.speedShoot;
 
-            double gipotenuza = Math.Sqrt((OX * OX) + (OY * OY));
-
-            sinMove = OY / gipotenuza;
-            cosMove = OX / gipotenuza;
+            sinMove = Math.Sin(Rotation * (Math.PI / 180));
+            cosMove = Math.Cos(Rotation * (Math.PI / 180));
         }
 
         public void Update()

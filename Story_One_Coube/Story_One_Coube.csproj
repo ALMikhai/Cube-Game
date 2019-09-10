@@ -67,6 +67,7 @@
     <Compile Include="Models\EnemyMovesAnumation.cs" />
     <Compile Include="Models\Guns\Gun.cs" />
     <Compile Include="Models\Guns\Pistol.cs" />
+    <Compile Include="Models\Guns\ShotGun.cs" />
     <Compile Include="Models\Guns\Smg.cs" />
     <Compile Include="Models\HPBox.cs" />
     <Compile Include="Models\Music.cs" />

@@ -13,11 +13,11 @@ using Story_One_Coube.Scene;
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Add shootgun.
+    /// TODO Fix bug with big Smg texture(and fint him).
     /// TODO Add interface with guns.
-    /// TODO Подобрать звуки для смг и дробовика.
+    /// TODO Подобрать звуки для смг и дробовика и смены оружия.
     /// TODO Смена оружия в игре.
-    /// TODO Add opportunity to hill yourself(Аптечка) and add ammo for your self(Ammo).
+    /// TODO Add opportunity to heal yourself(Аптечка) and add ammo for yourself(Ammo).
     /// </summary>
 
     /// <summary>

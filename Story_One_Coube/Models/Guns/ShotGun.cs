@@ -8,42 +8,42 @@ using System.Threading.Tasks;
 
 namespace Story_One_Coube.Models.Guns
 {
-    class Pistol : Gun
+    class ShotGun : Gun
     {
-        string pathToTexture = "../../Texturs/Guns/pistol.png";
+        string pathToTexture = "../../Texturs/Guns/shotgun2.png";
 
-        public Pistol(Sprite sprite)
+        public ShotGun(Sprite sprite)
         {
-            sizeH = 35;
-            sizeW = 50;
+            sizeH = 45;
+            sizeW = 100;
 
-            speedShoot = 12;
+            speedShoot = 9;
 
-            damage = 20;
+            damage = 34;
 
             Sprite = new Sprite(new Texture(pathToTexture));
-            Sprite.Origin = new Vector2f(0, (float)((float)Sprite.Texture.Size.Y / (float)8));
+            Sprite.Origin = new Vector2f((float)((float)Sprite.Texture.Size.X / (float)3.3), (float)((float)Sprite.Texture.Size.Y / (float)4.3));
 
             scaleRightSide = new Vector2f((float)sizeW / (float)Sprite.Texture.Size.X, (float)sizeH / (float)Sprite.Texture.Size.Y);
             scaleLeftSide = new Vector2f((float)sizeW / (float)Sprite.Texture.Size.X, -((float)sizeH / (float)Sprite.Texture.Size.Y));
 
             StartShootPoint = MathStartShootPoint();
 
-            clips = 100;
-            reloadingTime = 2;
-            clipSize = 10;
-            clipNow = 10;
+            clips = 30;
+            reloadingTime = 7;
+            clipSize = 5;
+            clipNow = 5;
 
             isReloated = true;
 
-            bulletForInterface = new Sprite(new Texture("../../Texturs/Guns/small_bullet.png"));
-            bulletForInterface.Position = new Vector2f(20, Program.HeightWindow - 90);
+            bulletForInterface = new Sprite(new Texture("../../Texturs/Guns/large_bullet.png"));
+            bulletForInterface.Position = new Vector2f(20, Program.HeightWindow - 157);
         }
 
         public override void Update(Sprite sprite, Point coord)
         {
-            positionForRightSide = new Vector2f(sprite.Position.X + 15, sprite.Position.Y - 10);
-            positionForLeftSide = new Vector2f(sprite.Position.X - 15, sprite.Position.Y - 10);
+            positionForRightSide = new Vector2f(sprite.Position.X + 10, sprite.Position.Y);
+            positionForLeftSide = new Vector2f(sprite.Position.X - 10, sprite.Position.Y);
 
             base.Update(sprite, coord);
 
@@ -57,7 +57,7 @@ namespace Story_One_Coube.Models.Guns
             double sinMove = Math.Sin(-graduseToRadian);
             double cosMove = Math.Cos(graduseToRadian);
 
-            double dist = 40;
+            double dist = 64;
 
             return new Point((float)(Sprite.Position.X + (dist * cosMove)), (float)(Sprite.Position.Y - (dist * sinMove)));
         }
@@ -68,7 +68,11 @@ namespace Story_One_Coube.Models.Guns
 
             Sounds.PistolShoot.Play();
 
-            base.MainCharShoot(character, coord);
+            clipNow--;
+
+            character.bullets.Add(new Bullet(this, character.gunNow.Sprite.Rotation + 2));
+            character.bullets.Add(new Bullet(this, character.gunNow.Sprite.Rotation - 2));
+            character.bullets.Add(new Bullet(this, character.gunNow.Sprite.Rotation));
         }
 
         public override void Reload()

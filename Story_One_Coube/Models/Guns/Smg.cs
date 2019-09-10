@@ -19,7 +19,7 @@ namespace Story_One_Coube.Models.Guns
 
             speedShoot = 15;
 
-
+            damage = 25;
 
             Sprite = new Sprite(new Texture(pathToTexture));
             Sprite.Origin = new Vector2f((float)((float)Sprite.Texture.Size.X / (float)3.3), (float)((float)Sprite.Texture.Size.Y / (float)2.9));
