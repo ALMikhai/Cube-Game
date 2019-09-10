@@ -27,6 +27,9 @@ namespace Story_One_Coube.Models.Guns
             scaleRightSide = new Vector2f((float)sizeW / (float)Sprite.Texture.Size.X, (float)sizeH / (float)Sprite.Texture.Size.Y);
             scaleLeftSide = new Vector2f((float)sizeW / (float)Sprite.Texture.Size.X, -((float)sizeH / (float)Sprite.Texture.Size.Y));
 
+            GunSideNow = GunSide.Left;
+            Sprite.Scale = scaleLeftSide;
+
             StartShootPoint = MathStartShootPoint();
 
             clips = 30;
@@ -36,8 +39,8 @@ namespace Story_One_Coube.Models.Guns
 
             isReloated = true;
 
-            bulletForInterface = new Sprite(new Texture("../../Texturs/Guns/large_bullet.png"));
-            bulletForInterface.Position = new Vector2f(20, Program.HeightWindow - 157);
+            bulletForInterface = new Sprite(new Texture("../../Texturs/Guns/medium_bullet.png"));
+            bulletForInterface.Position = new Vector2f(15, Program.HeightWindow - 127);
         }
 
         public override void Update(Sprite sprite, Point coord)

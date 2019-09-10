@@ -44,8 +44,6 @@ namespace Story_One_Coube.Models
 
         public float enemyStepLong = 2;
 
-        public double TimeToSpawn { get; set; }
-
         double scaleTexture = 2.6;
 
         public EnemyMovesAnumation EnemyAnimation;
@@ -65,17 +63,18 @@ namespace Story_One_Coube.Models
 
             EnemyAnimation = new EnemyMovesAnumation(this);
 
-            gunNow = new Pistol(Sprite);
+            gunNow = new Smg(Sprite);
 
             HP = new HPBox(this, hp);
 
             OnFloor = false;
+
+            enemyTime += enemyTimeBtwShoot;
         }
 
         public static Character SpawnCharacter(double hp, Point spawnPoint, Texture texture)
         {
             var newChar = new Character(hp, spawnPoint, texture);
-            newChar.TimeToSpawn = 1.5;
 
             return newChar;
         }

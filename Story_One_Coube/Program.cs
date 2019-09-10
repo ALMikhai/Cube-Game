@@ -9,22 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using Story_One_Coube.Models;
 using Story_One_Coube.Scene;
+using Story_One_Coube.Models.Guns;
 
 namespace Story_One_Coube
 {
     /// <summary>
     /// TODO Сделать скругление краев у всего в экране(гугли).
-    /// TODO У дробовика поменять патрон в интерфейсе.
-    /// TODO У Смг поменять патрон(текстуру).
-    /// TODO Fix bug with big Smg texture(and fint him).
-    /// TODO Add interface with guns.
     /// TODO Подобрать звуки для смг и дробовика и смены оружия.
-    /// TODO Смена оружия в игре.
     /// TODO Add opportunity to heal yourself(Аптечка) and add ammo for yourself(Ammo).
     /// TODO Снять видяшку со стволами и сменой их.
     /// </summary>
 
     /// <summary>
+    /// TODO При перезагрузке уровня, обновлять инвентарь.
+    /// TODO New spawn system.
     /// TODO Win screen.
     /// TODO Some levels.
     /// TODO Boss
@@ -207,7 +205,7 @@ namespace Story_One_Coube
                         case Keyboard.Key.S:
                             {
                                 Character enemy = Character.SpawnCharacter(100, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow - 300)), CharacterMovesAnimation.StandEnemyTexture);
-                                Program.levelNow.Enemies.Add(enemy);
+                                levelNow.Enemies.Add(enemy);
                                 return;
                             }
                         case Keyboard.Key.P: { Program.levelNow.Score += 100; return; }
@@ -224,6 +222,16 @@ namespace Story_One_Coube
                     case Keyboard.Key.A: { Program.levelNow.moveNow = CharacterEvents.Moves.LEFT; return; }
 
                     case Keyboard.Key.D: { Program.levelNow.moveNow = CharacterEvents.Moves.RIGHT; return; }
+                }
+
+                for(var i = 0; i <= 9; i++)
+                {
+                    if(e.Code.ToString() == "Num" + i.ToString())
+                    {
+                        if (i >= Inventory.Stuff.Count) return;
+                        levelNow.MainCharacter.gunNow = Inventory.Stuff[i] as Gun;
+                        return;
+                    }
                 }
             }
         }

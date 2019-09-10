@@ -61,6 +61,8 @@ namespace Story_One_Coube.Scene
                     gun.Scale = new Vector2f(80f / gun.Texture.Size.X, 40f / gun.Texture.Size.Y);
                     gun.Origin = new Vector2f((gun.Texture.Size.X) / 2, (gun.Texture.Size.Y) / 2);
                     gun.Position = inventoryBox.Position;
+                    gun.Rotation = 0;
+
                     window.Draw(gun);
 
                     //CircleShape circle = new CircleShape()

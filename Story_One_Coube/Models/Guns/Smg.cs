@@ -27,6 +27,9 @@ namespace Story_One_Coube.Models.Guns
             scaleRightSide = new Vector2f((float)sizeW / (float)Sprite.Texture.Size.X, (float)sizeH / (float)Sprite.Texture.Size.Y);
             scaleLeftSide = new Vector2f((float)sizeW / (float)Sprite.Texture.Size.X, -((float)sizeH / (float)Sprite.Texture.Size.Y));
 
+            GunSideNow = GunSide.Left;
+            Sprite.Scale = scaleLeftSide;
+
             StartShootPoint = MathStartShootPoint();
 
             clips = 210;

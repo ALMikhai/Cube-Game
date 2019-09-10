@@ -13,8 +13,6 @@ namespace Story_One_Coube.Models
 
         public static void Hit(Character character, double damage)
         {
-            if (character.TimeToSpawn > 0) return;
-
             Sounds.Hit.Play();
 
             character.HP.Hit(damage);
@@ -33,12 +31,6 @@ namespace Story_One_Coube.Models
 
         public static void Draw(RenderWindow window, Character character)
         {
-            if (character.TimeToSpawn > 0)
-            {
-                spawnChar(window, character);
-                return;
-            }
-
             foreach (var bullet in character.bullets)
             {
                 bullet.Draw(window);
@@ -79,8 +71,6 @@ namespace Story_One_Coube.Models
 
         public static void UpdateChar(Character character)
         {
-            if (character.TimeToSpawn > 0) return;
-
             foreach (var bullet in character.bullets.ToArray())
             {
                 if (!bullet.OnWindow() || bullet.CheckHit(character) || bullet.TextureHit())
@@ -122,8 +112,6 @@ namespace Story_One_Coube.Models
 
         public static void UpdateMainChar(Moves move, Character character)
         {
-            if (character.TimeToSpawn > 0) return;
-
             if(character.HP.ValueNow <= 0)
             {
                 //character.HP.ValueNow = character.HP.InitialValue;
@@ -198,8 +186,6 @@ namespace Story_One_Coube.Models
 
         public static void UpdateEnemy(Character character)
         {
-            if (character.TimeToSpawn > 0) return;
-
             character.gunNow.Update(character.Sprite, new Point(Program.levelNow.MainCharacter.Sprite.Position.X, Program.levelNow.MainCharacter.Sprite.Position.Y));
 
             if (character.HP.ValueNow <= 0)
@@ -299,10 +285,10 @@ namespace Story_One_Coube.Models
         {
             //Random rand = new Random(DateTime.Now.Millisecond);
             //character.Sprite.FillColor = new Color((byte)(255 * rand.NextDouble()), (byte)(255 * rand.NextDouble()), (byte)(255 * rand.NextDouble()));
-            window.Draw(character.Sprite);
+            //window.Draw(character.Sprite);
 
-            character.TimeToSpawn -= (DateTime.Now - character.TimeNow).TotalSeconds;
-            character.TimeNow = DateTime.Now;
+            //character.TimeToSpawn -= (DateTime.Now - character.TimeNow).TotalSeconds;
+            //character.TimeNow = DateTime.Now;
         }
     }
 }

@@ -23,12 +23,22 @@ namespace Story_One_Coube.Models
 
         public double speedBullet;
 
-        static Texture bullettTexture = new Texture("../../Texturs/Guns/image5.png");
+        static Texture pistolBulletTexture = new Texture("../../Texturs/Guns/SmallBullet.png");
+        static Texture smgBulletTexture = new Texture("../../Texturs/Guns/LargeBullet.png");
 
         public Bullet(Gun gun, float Rotation)
         {
-            Sprite = new Sprite(bullettTexture);
-            Sprite.Origin = new Vector2f(bullettTexture.Size.X / 2, bullettTexture.Size.Y / 2);
+
+            if (gun is Smg)
+            {
+                Sprite = new Sprite(smgBulletTexture);
+            }
+            else
+            {
+                Sprite = new Sprite(pistolBulletTexture);
+            }
+
+            Sprite.Origin = new Vector2f(pistolBulletTexture.Size.X / 2, pistolBulletTexture.Size.Y / 2);
             Sprite.Position = new Vector2f((float)gun.StartShootPoint.X, (float)gun.StartShootPoint.Y);
             Sprite.Rotation = Rotation;
 
