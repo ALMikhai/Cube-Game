@@ -13,9 +13,7 @@ namespace Story_One_Coube.Models
 {
     class Bullet
     {
-        CircleShape Sprite;
-
-        int radius = 5;
+        Sprite Sprite;
 
         double sinMove;
         double cosMove;
@@ -24,14 +22,14 @@ namespace Story_One_Coube.Models
 
         public double speedBullet;
 
-        static Color colorBullet = new Color(192, 192, 192);
+        static Texture bullettTexture = new Texture("../../Texturs/Guns/image5.png");
 
-        public Bullet(Point coord, double speed, Point coordToMove)
+        public Bullet(Point coord, double speed, Point coordToMove, float Rotation)
         {
-            Sprite = new CircleShape(radius);
-            Sprite.FillColor = colorBullet;
-            Sprite.Origin = new Vector2f(radius / 2, radius / 2);
+            Sprite = new Sprite(bullettTexture);
+            Sprite.Origin = new Vector2f(bullettTexture.Size.X / 2, bullettTexture.Size.Y / 2);
             Sprite.Position = new Vector2f((float)coord.X, (float)coord.Y);
+            Sprite.Rotation = Rotation;
 
             speedBullet = speed;
 

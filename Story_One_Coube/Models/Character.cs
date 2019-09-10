@@ -65,7 +65,7 @@ namespace Story_One_Coube.Models
 
             EnemyAnimation = new EnemyMovesAnumation(this);
 
-            gunNow = new Pistol(this.Sprite);
+            gunNow = new Smg(this.Sprite);
 
             HP = new HPBox(this, hp);
 

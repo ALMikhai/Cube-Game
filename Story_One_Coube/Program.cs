@@ -13,10 +13,14 @@ using Story_One_Coube.Scene;
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Настроить звуки по громкости.
-    /// TODO Add bullet sprite.
-    /// TODO Add sounds hit.
+    /// TODO Add shootgun.
+    /// TODO Add interface with guns.
+    /// TODO Подобрать звуки для смг и дробовика.
+    /// TODO Смена оружия в игре.
     /// TODO Add opportunity to hill yourself(Аптечка) and add ammo for your self(Ammo).
+    /// </summary>
+
+    /// <summary>
     /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
     /// TODO Win screen.
     /// TODO Some levels.
@@ -40,7 +44,7 @@ namespace Story_One_Coube
 
         public enum WindowMode { Menu, Game, Dead, LevelsChoose, Pause }
 
-        public static WindowMode windowModeNow = WindowMode.Menu;
+        public static WindowMode windowModeNow = WindowMode.Game;
 
         public enum MainMenuChoose { None, Story, Arena, Exit }
 

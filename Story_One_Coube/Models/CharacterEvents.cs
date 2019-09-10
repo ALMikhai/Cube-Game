@@ -53,11 +53,12 @@ namespace Story_One_Coube.Models
 
             CircleShape circle = new CircleShape()
             {
-                Radius = 10,
+                Radius = 2.5f,
                 FillColor = Color.White,
                 Position = new Vector2f(character.gunNow.StartShootPoint.X, character.gunNow.StartShootPoint.Y),
-                Origin = new Vector2f(10, 10),
             };
+
+            circle.Origin = new Vector2f(circle.Radius / 2, circle.Radius / 2);
 
             Program.MainWindow.Draw(circle);
 

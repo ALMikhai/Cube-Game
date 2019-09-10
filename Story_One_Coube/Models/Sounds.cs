@@ -24,9 +24,13 @@ namespace Story_One_Coube.Models
         public static void Init()
         {
             PistolShoot = new Sound(pistolShootBuf);
+            PistolShoot.Volume = 30;
             PistolReload = new Sound(pistolReloadBuf);
+            PistolReload.Volume = 30;
             Jump = new Sound(jumpBuf);
+            Jump.Volume = 30;
             Hit = new Sound(hitBuf);
+            Hit.Volume = 30;
         }
     }
 }

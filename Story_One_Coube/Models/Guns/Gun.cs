@@ -78,7 +78,7 @@ namespace Story_One_Coube.Models.Guns
             if (!isReloated || clipNow == 0) return;
 
             clipNow--;
-            character.bullets.Add(new Bullet(character.gunNow.StartShootPoint, character.gunNow.speedShoot, coord));
+            character.bullets.Add(new Bullet(character.gunNow.StartShootPoint, character.gunNow.speedShoot, coord, character.gunNow.Sprite.Rotation));
         }
 
         public virtual void Reload()
@@ -120,7 +120,7 @@ namespace Story_One_Coube.Models.Guns
 
         public virtual void EnemyShoot(Character character, Point coord)
         {
-            character.bullets.Add(new Bullet(character.gunNow.StartShootPoint, character.gunNow.speedShoot, coord));
+            character.bullets.Add(new Bullet(character.gunNow.StartShootPoint, character.gunNow.speedShoot, coord, character.gunNow.Sprite.Rotation));
         }
 
         public virtual void Draw(RenderWindow window)
