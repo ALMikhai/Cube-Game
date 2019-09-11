@@ -60,7 +60,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Ammo.cs" />
+    <Compile Include="Models\Stuff\AidKit.cs" />
+    <Compile Include="Models\Stuff\Ammo.cs" />
     <Compile Include="Models\Bullet.cs" />
     <Compile Include="Models\Character.cs" />
     <Compile Include="Models\CharacterEvents.cs" />
@@ -75,7 +76,7 @@
     <Compile Include="Models\Music.cs" />
     <Compile Include="Models\Point.cs" />
     <Compile Include="Models\Sounds.cs" />
-    <Compile Include="Models\Stuff.cs" />
+    <Compile Include="Models\Stuff\Stuff.cs" />
     <Compile Include="Scene\Background.cs" />
     <Compile Include="Scene\DeadScreen.cs" />
     <Compile Include="Scene\Interface.cs" />

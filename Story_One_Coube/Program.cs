@@ -14,22 +14,19 @@ using Story_One_Coube.Models.Guns;
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Сделать скругление краев у всего в экране(гугли).
-    /// TODO Add heal.
-    /// TODO Add sounds when use stuff.
-    /// TODO Отображение кол-ва патронов и номер кнопки для смены ствола.
-    /// TODO Видео.
+    /// TODO При перезагрузке уровня, обновлять инвентарь.
+    /// TODO Win screen.
+    /// TODO Some levels.
+    /// TODO Arena mode.
+    /// TODO Boss
+    /// TODO Идея для уровня, несколько ливитирующих платформ, если игрок падает, то умирает.
+    /// TODO Fix time span when game paused.
     /// </summary>
 
     /// <summary>
-    /// TODO При перезагрузке уровня, обновлять инвентарь.
     /// TODO New spawn system.
-    /// TODO Win screen.
-    /// TODO Some levels.
-    /// TODO Boss
-    /// TODO Идея для уровня, несколько ливитирующих платформ, если игрок падает, то умирает.
+    /// TODO Сделать скругление краев у всего в экране(гугли).
     /// TODO Fix opportunity shoot to main char if enemy can not hit him. (Доп.)
-    /// TODO Fix time span then game paused.  
     /// </summary>
 
     class Program
@@ -48,7 +45,7 @@ namespace Story_One_Coube
 
         public enum WindowMode { Menu, Game, Dead, LevelsChoose, Pause }
 
-        public static WindowMode windowModeNow = WindowMode.Game;
+        public static WindowMode windowModeNow = WindowMode.Menu;
 
         public enum MainMenuChoose { None, Story, Arena, Exit }
 
@@ -227,12 +224,12 @@ namespace Story_One_Coube
                     case Keyboard.Key.E: { foreach(var obj in levelNow.Stuffs.ToArray()) { if(obj.Event()) return; } return; }
                 }
 
-                for(var i = 0; i <= 9; i++)
+                for(var i = 1; i <= 9; i++)
                 {
                     if(e.Code.ToString() == "Num" + i.ToString())
                     {
-                        if (i >= Inventory.Guns.Count) return;
-                        levelNow.MainCharacter.gunNow = Inventory.Guns[i] as Gun;
+                        if (i > Inventory.Guns.Count) return;
+                        levelNow.MainCharacter.gunNow = Inventory.Guns[i - 1] as Gun;
                         return;
                     }
                 }

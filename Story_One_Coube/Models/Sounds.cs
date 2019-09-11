@@ -27,7 +27,14 @@ namespace Story_One_Coube.Models
         static SoundBuffer smgReloadBuf = new SoundBuffer("../../Sounds/SmgReload.wav");
         public static Sound SmgReload { get; private set; }
 
+        static SoundBuffer bagDropBuf = new SoundBuffer("../../Sounds/BagDrop.wav");
+        public static Sound BagDrop { get; private set; }
 
+        static SoundBuffer ammoBuf = new SoundBuffer("../../Sounds/AmmoUse.wav");
+        public static Sound Ammo { get; private set; }
+
+        static SoundBuffer aidBuf = new SoundBuffer("../../Sounds/MedicineUse.wav");
+        public static Sound Aid { get; private set; }
 
         static SoundBuffer jumpBuf = new SoundBuffer("../../Sounds/Jump.wav");
         public static Sound Jump { get; private set; }
@@ -50,6 +57,13 @@ namespace Story_One_Coube.Models
             SmgShoot.Volume = 30;
             SmgReload = new Sound(smgReloadBuf);
             SmgReload.Volume = 30;
+
+            BagDrop = new Sound(bagDropBuf);
+            BagDrop.Volume = 30;
+            Ammo = new Sound(ammoBuf);
+            Ammo.Volume = 50;
+            Aid = new Sound(aidBuf);
+            Aid.Volume = 25;
 
             Jump = new Sound(jumpBuf);
             Jump.Volume = 30;

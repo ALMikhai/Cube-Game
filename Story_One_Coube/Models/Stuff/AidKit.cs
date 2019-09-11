@@ -1,19 +1,19 @@
-﻿using System;
+﻿using SFML.Graphics;
+using SFML.System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SFML.Graphics;
-using SFML.System;
 
-namespace Story_One_Coube.Models
+namespace Story_One_Coube.Models.Stuff
 {
-    class Ammo : Stuff
+    class AidKit : Stuff
     {
-        public Ammo(Vector2f spawnPoint)
+        public AidKit(Vector2f spawnPoint)
         {
-            Sprite = new Sprite(new Texture("../../Texturs/Interface/AmmoBox.png"));
-            Sprite.Scale = new Vector2f(0.24f, 0.24f);
+            Sprite = new Sprite(new Texture("../../Texturs/Interface/MedKit.png"));
+            Sprite.Scale = new Vector2f(0.4f, 0.4f);
             Sprite.Origin = new Vector2f(Sprite.Texture.Size.X / 2, Sprite.Texture.Size.Y / 2);
             Sprite.Position = spawnPoint;
 
@@ -25,10 +25,9 @@ namespace Story_One_Coube.Models
         {
             if (!CanUsed) return false;
 
-            foreach(var gun in Inventory.Guns)
-            {
-                gun.AddAmmo();
-            }
+            Sounds.Aid.Play();
+
+            Program.levelNow.MainCharacter.HP.ValueNow = Program.levelNow.MainCharacter.HP.InitialValue;
 
             Program.levelNow.Stuffs.Remove(this);
 

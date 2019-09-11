@@ -1,6 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 using Story_One_Coube.Models;
+using Story_One_Coube.Models.Stuff;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,22 @@ namespace Story_One_Coube.Scene
             }
             else
             {
-                Stuffs.Add(new Ammo(new Vector2f(random.Next((int)Program.WidthWindow), -100)));
+                int choose = random.Next(2);
+
+                switch (choose)
+                {
+                    case 0:
+                        {
+                            Stuffs.Add(new AidKit(new Vector2f(random.Next((int)Program.WidthWindow), 0)));
+                            break;
+                        }
+                    case 1:
+                        {
+                            Stuffs.Add(new Ammo(new Vector2f(random.Next((int)Program.WidthWindow), 0)));
+                            break;
+                        }
+                }
+
                 timeNow = DateTime.Now;
             }
         }

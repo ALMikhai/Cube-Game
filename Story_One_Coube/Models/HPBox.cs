@@ -54,14 +54,14 @@ namespace Story_One_Coube.Models
             ValueNow -= damage;
 
             ValueNow = (ValueNow <= 0) ? 0 : ValueNow;
-
-            double newSizeW = sizeW * (ValueNow / InitialValue);
-
-            SpriteGreen.Size = new Vector2f((float)newSizeW, (float)sizeH);
         }
 
         public void Update()
         {
+            double newSizeW = sizeW * (ValueNow / InitialValue);
+
+            SpriteGreen.Size = new Vector2f((float)newSizeW, (float)sizeH);
+
             SpriteRed.Position = new Vector2f(baseCharacter.Sprite.Position.X, baseCharacter.Sprite.Position.Y - (baseCharacter.SizeH / 2) - 20);
             SpriteGreen.Position = new Vector2f(SpriteRed.Position.X - SpriteRed.Size.X / 2, SpriteRed.Position.Y - SpriteRed.Size.Y / 2);
         }

@@ -56,6 +56,8 @@ namespace Story_One_Coube.Scene
             clip.Position = new Vector2f(60, Program.MainWindow.Size.Y - 70);
             window.Draw(clip);
 
+            int i = 1;
+
             foreach (var obj in Inventory.Guns)
             {
                 Sprite gun = new Sprite(obj.Sprite);
@@ -67,6 +69,11 @@ namespace Story_One_Coube.Scene
                 gun.Rotation = 0;
 
                 window.Draw(gun);
+
+                Text numberOfButton = new Text(i++.ToString(), font, 30);
+                numberOfButton.Position = new Vector2f(inventoryBox.Position.X - 6, inventoryBox.Position.Y + (inventoryBox.Texture.Size.Y * inventoryBox.Scale.Y / 2) + 3);
+
+                window.Draw(numberOfButton);
 
                 inventoryBox.Position = new Vector2f(inventoryBox.Position.X + (inventoryBox.Texture.Size.X * inventoryBox.Scale.X) + 15, inventoryBox.Position.Y);
             }

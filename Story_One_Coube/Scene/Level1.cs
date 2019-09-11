@@ -24,7 +24,7 @@ namespace Story_One_Coube.Scene
         {
             MainCharacter = Character.SpawnCharacter(mainCharacterHP, new Point(Program.WidthWindow / 2, Program.HeightWindow / 2), CharacterMovesAnimation.StandMainCharTexture);
 
-            TimeToAirDrop = 10;
+            TimeToAirDrop = 20;
             timeNow = DateTime.Now;
         }
 

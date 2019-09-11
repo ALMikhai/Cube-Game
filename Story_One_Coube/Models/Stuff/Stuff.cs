@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 
-namespace Story_One_Coube.Models
+namespace Story_One_Coube.Models.Stuff
 {
     class Stuff
     {
@@ -26,6 +26,17 @@ namespace Story_One_Coube.Models
             }
 
             window.Draw(Sprite);
+
+            CircleShape circle = new CircleShape()
+            {
+                Radius = 2.5f,
+                FillColor = Color.White,
+                Position = new Vector2f(Sprite.Position.X, Sprite.Position.Y),
+            };
+
+            circle.Origin = new Vector2f(circle.Radius / 2, circle.Radius / 2);
+
+            Program.MainWindow.Draw(circle);
         }
 
         public bool CanUsed { get; protected set; }
@@ -36,14 +47,15 @@ namespace Story_One_Coube.Models
             {
                 if (OnFloor) break;
 
+                int scale = (int)(Sprite.Texture.Size.Y * Sprite.Scale.Y);
+
                 foreach (var platform in Program.levelNow.TextureObjects)
                 {
-                    float scale = Sprite.Texture.Size.Y * Sprite.Scale.Y;
-
-                    if (Sprite.Position.Y + scale / 2f == platform.Position.Y
+                    if (Sprite.Position.Y + (int)(scale / 2) == platform.Position.Y
                         && platform.Position.X < Sprite.Position.X && Sprite.Position.X < platform.Position.X + platform.Size.X)
                     {
                         OnFloor = true;
+                        Sounds.BagDrop.Play();
                         break;
                     }
                 }
