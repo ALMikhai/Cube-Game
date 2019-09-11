@@ -1,5 +1,6 @@
 ﻿using SFML.Graphics;
 using SFML.System;
+using Story_One_Coube.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,14 @@ namespace Story_One_Coube.Scene
             Position = new Vector2f(400, 300),
             Texture = floorTexture,
         };
+
+        public Level1()
+        {
+            MainCharacter = Character.SpawnCharacter(mainCharacterHP, new Point(Program.WidthWindow / 2, Program.HeightWindow / 2), CharacterMovesAnimation.StandMainCharTexture);
+
+            TimeToAirDrop = 10;
+            timeNow = DateTime.Now;
+        }
 
         public override void Draw(RenderWindow window)
         {

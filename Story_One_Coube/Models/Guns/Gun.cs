@@ -33,6 +33,7 @@ namespace Story_One_Coube.Models.Guns
         public GunSide GunSideNow { get; protected set; }
 
         public int clips { get; protected set; }
+        public int maxClips { get; protected set; }
         public int clipSize { get; protected set; }
         public int clipNow { get; protected set; }
         public int reloadingTime { get; protected set; }
@@ -128,6 +129,11 @@ namespace Story_One_Coube.Models.Guns
         public virtual void Draw(RenderWindow window)
         {
             window.Draw(Sprite);
+        }
+
+        public virtual void AddAmmo()
+        {
+            clips = maxClips;
         }
 
         public virtual Point MathStartShootPoint()

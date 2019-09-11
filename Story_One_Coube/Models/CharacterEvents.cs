@@ -11,6 +11,8 @@ namespace Story_One_Coube.Models
     {
         public enum Moves { STOP = 0, UP, DOWN, LEFT, RIGHT }
 
+        public static float gravity = 5;
+
         public static void Hit(Character character, double damage)
         {
             Sounds.Hit.Play();
@@ -90,7 +92,7 @@ namespace Story_One_Coube.Models
                 character.Sprite.Position = new Vector2f(character.Sprite.Position.X, character.Sprite.Position.Y - character.jumpHeight);
             }
 
-            for (int i = 0; i != character.gravity; i++)
+            for (int i = 0; i != gravity; i++)
             {
                 character.OnFloor = false;
 

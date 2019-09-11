@@ -15,9 +15,10 @@ namespace Story_One_Coube
 {
     /// <summary>
     /// TODO Сделать скругление краев у всего в экране(гугли).
-    /// TODO Подобрать звуки для смг и дробовика и смены оружия.
-    /// TODO Add opportunity to heal yourself(Аптечка) and add ammo for yourself(Ammo).
-    /// TODO Снять видяшку со стволами и сменой их.
+    /// TODO Add heal.
+    /// TODO Add sounds when use stuff.
+    /// TODO Отображение кол-ва патронов и номер кнопки для смены ствола.
+    /// TODO Видео.
     /// </summary>
 
     /// <summary>
@@ -222,14 +223,16 @@ namespace Story_One_Coube
                     case Keyboard.Key.A: { Program.levelNow.moveNow = CharacterEvents.Moves.LEFT; return; }
 
                     case Keyboard.Key.D: { Program.levelNow.moveNow = CharacterEvents.Moves.RIGHT; return; }
+
+                    case Keyboard.Key.E: { foreach(var obj in levelNow.Stuffs.ToArray()) { if(obj.Event()) return; } return; }
                 }
 
                 for(var i = 0; i <= 9; i++)
                 {
                     if(e.Code.ToString() == "Num" + i.ToString())
                     {
-                        if (i >= Inventory.Stuff.Count) return;
-                        levelNow.MainCharacter.gunNow = Inventory.Stuff[i] as Gun;
+                        if (i >= Inventory.Guns.Count) return;
+                        levelNow.MainCharacter.gunNow = Inventory.Guns[i] as Gun;
                         return;
                     }
                 }

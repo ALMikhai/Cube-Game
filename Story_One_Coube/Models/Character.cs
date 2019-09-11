@@ -19,7 +19,6 @@ namespace Story_One_Coube.Models
         public int SizeH { get; set; }
         public int SizeW { get; set; }
 
-        public float gravity = 5;
         public float jumpHeight = 15;
 
         public float stepLong = 5;

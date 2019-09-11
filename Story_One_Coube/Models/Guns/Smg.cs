@@ -32,6 +32,7 @@ namespace Story_One_Coube.Models.Guns
 
             StartShootPoint = MathStartShootPoint();
 
+            maxClips = 210;
             clips = 210;
             reloadingTime = 5;
             clipSize = 30;

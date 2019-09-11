@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using Story_One_Coube.Models;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,15 @@ namespace Story_One_Coube.Scene
 
         public List<RectangleShape> TextureObjects = new List<RectangleShape>();
 
+        public List<Stuff> Stuffs = new List<Stuff>();
+
         public int Score = 0;
 
-        public Level()
-        {
-            MainCharacter = Character.SpawnCharacter(mainCharacterHP, new Point(Program.WidthWindow / 2, Program.HeightWindow / 2), CharacterMovesAnimation.StandMainCharTexture);
-        }
+        public double TimeToAirDrop { get; protected set; }
+        public double InterfaceTimeToAirDrop { get; protected set; }
+        protected DateTime timeNow;
+
+        protected Random random = new Random();
 
         public virtual Level RestartLevel()
         {
@@ -44,10 +48,30 @@ namespace Story_One_Coube.Scene
                 CharacterEvents.UpdateChar(enemy);
                 CharacterEvents.UpdateEnemy(enemy);
             }
+
+            foreach(var stuff in Stuffs.ToArray())
+            {
+                stuff.Update(window);
+            }
+
+            if((DateTime.Now - timeNow).TotalSeconds < TimeToAirDrop)
+            {
+                InterfaceTimeToAirDrop = (int)(TimeToAirDrop - (DateTime.Now - timeNow).TotalSeconds);
+            }
+            else
+            {
+                Stuffs.Add(new Ammo(new Vector2f(random.Next((int)Program.WidthWindow), -100)));
+                timeNow = DateTime.Now;
+            }
         }
 
         public virtual void Draw(RenderWindow window)
         {
+            foreach (var stuff in Stuffs.ToArray())
+            {
+                stuff.Draw(window);
+            }
+
             CharacterEvents.Draw(window, MainCharacter);
 
             foreach (var enemy in Enemies.ToArray())

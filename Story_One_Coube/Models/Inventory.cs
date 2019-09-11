@@ -9,15 +9,15 @@ namespace Story_One_Coube.Models
 {
     static class Inventory
     {
-        public static List<object> Stuff { get; set; }
+        public static List<Gun> Guns { get; set; }
 
         public static void Init()
         {
-            Stuff = new List<object>();
+            Guns = new List<Gun>();
 
-            Stuff.Add(new Pistol(Program.levelNow.MainCharacter.Sprite));
-            Stuff.Add(new Smg(Program.levelNow.MainCharacter.Sprite));
-            Stuff.Add(new ShotGun(Program.levelNow.MainCharacter.Sprite));
+            Guns.Add(new Pistol(Program.levelNow.MainCharacter.Sprite));
+            Guns.Add(new Smg(Program.levelNow.MainCharacter.Sprite));
+            Guns.Add(new ShotGun(Program.levelNow.MainCharacter.Sprite));
         }
 
         public static void AddGun(Gun newGun)
