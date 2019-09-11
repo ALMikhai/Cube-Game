@@ -69,7 +69,7 @@ namespace Story_One_Coube.Models.Guns
         {
             if (!isReloated || clipNow == 0) return;
 
-            Sounds.PistolShoot.Play();
+            Sounds.ShotGunShoot.Play();
 
             clipNow--;
 
@@ -87,7 +87,7 @@ namespace Story_One_Coube.Models.Guns
 
             if (isReloated == true)
             {
-                Sounds.PistolReload.Play();
+                Sounds.ShotGunReload.Play();
             }
 
             base.Reload();
