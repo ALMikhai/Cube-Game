@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using Story_One_Coube.Models;
+using Story_One_Coube.Scene.Levels;
 
 namespace Story_One_Coube.Scene
 {
@@ -30,7 +30,7 @@ namespace Story_One_Coube.Scene
             levels = new Dictionary<int, Level>
             {
                 { 1, new Level1() },
-                { 2, new Level1() },
+                { 2, new Level2() },
                 { 3, new Level1() },
                 { 4, new Level1() }
             };
@@ -94,7 +94,7 @@ namespace Story_One_Coube.Scene
 
                 case chooseMode.Level:
                     {
-                        Program.levelNow = levels[chooseLevel];
+                        levels.TryGetValue(chooseLevel, out Program.levelNow);
                         Program.levelNow = Program.levelNow.RestartLevel();
                         Program.levelNow.LoadStuff();
                         Program.windowModeNow = Program.WindowMode.Game;

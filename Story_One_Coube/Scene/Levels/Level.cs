@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Story_One_Coube.Scene
+namespace Story_One_Coube.Scene.Levels
 {
     internal class Level
     {

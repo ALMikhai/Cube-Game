@@ -114,9 +114,8 @@ namespace Story_One_Coube.Models
 
         public static void UpdateMainChar(Moves move, Character character)
         {
-            if(character.HP.ValueNow <= 0)
+            if(character.HP.ValueNow <= 0 || character.Sprite.Position.Y - 60 > Program.HeightWindow)
             {
-                //character.HP.ValueNow = character.HP.InitialValue;
                 deathMainChar();
             }
 
@@ -188,6 +187,11 @@ namespace Story_One_Coube.Models
 
         public static void UpdateEnemy(Character character)
         {
+            if(character.Sprite.Position.Y - 60 > Program.HeightWindow)
+            {
+                character.Sprite.Position = new Vector2f(character.Sprite.Position.X, -70);
+            }
+
             character.gunNow.Update(character.Sprite, new Point(Program.levelNow.MainCharacter.Sprite.Position.X, Program.levelNow.MainCharacter.Sprite.Position.Y));
 
             if (character.HP.ValueNow <= 0)
