@@ -7,6 +7,7 @@ using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 using SFML.Audio;
+using Story_One_Coube.Models;
 
 namespace Story_One_Coube.Scene
 {
@@ -142,6 +143,10 @@ namespace Story_One_Coube.Scene
 
                 case DeadScreenChoose.MainMenu:
                     {
+                        Background.Set(0);
+                        Program.musicNow.Stop();
+                        Program.musicNow = Musics.MainMenu;
+                        Program.musicNow.Play();
                         Program.windowModeNow = Program.WindowMode.Menu;
                         DeadScreenChooseNow = DeadScreenChoose.None;
                         return;

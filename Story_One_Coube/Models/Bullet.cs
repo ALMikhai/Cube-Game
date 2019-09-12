@@ -104,8 +104,8 @@ namespace Story_One_Coube.Models
         {
             foreach(var texture in Program.levelNow.TextureObjects)
             {
-                if(texture.Position.X < Sprite.Position.X && Sprite.Position.X < texture.Position.X + texture.Size.X 
-                    && texture.Position.Y < Sprite.Position.Y && Sprite.Position.Y < texture.Position.Y + texture.Size.Y)
+                if(texture.Position.X < Sprite.Position.X && Sprite.Position.X < texture.Position.X + texture.Texture.Size.X 
+                    && texture.Position.Y < Sprite.Position.Y && Sprite.Position.Y < texture.Position.Y + texture.Texture.Size.Y)
                 {
                     return true;
                 }

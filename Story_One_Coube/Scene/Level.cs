@@ -18,7 +18,7 @@ namespace Story_One_Coube.Scene
 
         public List<Character> Enemies = new List<Character>();
 
-        public List<RectangleShape> TextureObjects = new List<RectangleShape>();
+        public List<Sprite> TextureObjects = new List<Sprite>();
 
         public List<Stuff> Stuffs = new List<Stuff>();
 

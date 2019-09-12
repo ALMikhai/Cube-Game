@@ -26,17 +26,6 @@ namespace Story_One_Coube.Models.Stuff
             }
 
             window.Draw(Sprite);
-
-            CircleShape circle = new CircleShape()
-            {
-                Radius = 2.5f,
-                FillColor = Color.White,
-                Position = new Vector2f(Sprite.Position.X, Sprite.Position.Y),
-            };
-
-            circle.Origin = new Vector2f(circle.Radius / 2, circle.Radius / 2);
-
-            Program.MainWindow.Draw(circle);
         }
 
         public bool CanUsed { get; protected set; }
@@ -52,7 +41,7 @@ namespace Story_One_Coube.Models.Stuff
                 foreach (var platform in Program.levelNow.TextureObjects)
                 {
                     if (Sprite.Position.Y + (int)(scale / 2) == platform.Position.Y
-                        && platform.Position.X < Sprite.Position.X && Sprite.Position.X < platform.Position.X + platform.Size.X)
+                        && platform.Position.X < Sprite.Position.X && Sprite.Position.X < platform.Position.X + platform.Texture.Size.X)
                     {
                         OnFloor = true;
                         Sounds.BagDrop.Play();

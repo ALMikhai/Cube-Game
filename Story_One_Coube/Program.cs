@@ -14,8 +14,8 @@ using Story_One_Coube.Models.Guns;
 namespace Story_One_Coube
 {
     /// <summary>
+    /// TODO Добавить врагов на урвень и 
     /// TODO Подправить пулю у смг(убрать черное).
-    /// TODO При перезагрузке уровня, обновлять инвентарь.
     /// TODO Win screen.
     /// TODO Some levels.
     /// TODO Arena mode.
@@ -76,6 +76,8 @@ namespace Story_One_Coube
             LevelChoosePage.Init(MainWindow);
 
             levelNow = new Level1();
+
+            Background.Set(0);
 
             musicNow = Musics.MainMenu;
             musicNow.Play();

@@ -10,10 +10,12 @@ namespace Story_One_Coube.Scene
 {
     static class Background
     {
-        static Texture background;
-        static Sprite BackgroundSprite;
+        static Sprite BackgroundMainMenu;
+        static Sprite BackgroundLevel1;
         static double timeToOneFrame;
         static DateTime timeNow;
+
+        static Sprite backgroundNow;
 
         public static bool IsLoaded
         {
@@ -23,11 +25,15 @@ namespace Story_One_Coube.Scene
 
         public static void Init(RenderWindow window)
         {
-            background = new Texture("../../Texturs/Backgrounds/0.png");
-            BackgroundSprite = new Sprite(background);
-            BackgroundSprite.Scale = new Vector2f((float)Program.WidthWindow / (float)background.Size.X, (float)Program.HeightWindow / (float)background.Size.Y);
-            BackgroundSprite.Origin = new Vector2f(BackgroundSprite.Texture.Size.X / 2, BackgroundSprite.Texture.Size.Y / 2);
-            BackgroundSprite.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2);
+            BackgroundMainMenu = new Sprite(new Texture("../../Texturs/Backgrounds/0.png"));
+            BackgroundMainMenu.Scale = new Vector2f((float)Program.WidthWindow / (float)BackgroundMainMenu.Texture.Size.X, (float)Program.HeightWindow / (float)BackgroundMainMenu.Texture.Size.Y);
+            BackgroundMainMenu.Origin = new Vector2f(BackgroundMainMenu.Texture.Size.X / 2, BackgroundMainMenu.Texture.Size.Y / 2);
+            BackgroundMainMenu.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2);
+
+            BackgroundLevel1 = new Sprite(new Texture("../../Texturs/Backgrounds/3.png"));
+            BackgroundLevel1.Scale = new Vector2f((float)Program.WidthWindow / (float)BackgroundLevel1.Texture.Size.X, (float)Program.HeightWindow / (float)BackgroundLevel1.Texture.Size.Y);
+            BackgroundLevel1.Origin = new Vector2f(BackgroundLevel1.Texture.Size.X / 2, BackgroundLevel1.Texture.Size.Y / 2);
+            BackgroundLevel1.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2);
 
             timeToOneFrame = 1;
             timeNow = DateTime.Now;
@@ -37,11 +43,11 @@ namespace Story_One_Coube.Scene
 
         public static void Draw(RenderWindow window)
         {
-            if (BackgroundSprite.Scale.Y < (float)Program.HeightWindow / (float)background.Size.Y)
+            if (backgroundNow.Scale.Y < (float)Program.HeightWindow / (float)backgroundNow.Texture.Size.Y)
             {
                 if ((DateTime.Now - timeNow).TotalSeconds >= timeToOneFrame)
                 {
-                    BackgroundSprite.Scale = new Vector2f((float)Program.WidthWindow / (float)background.Size.X, (float)(BackgroundSprite.Scale.Y + 0.025));
+                    backgroundNow.Scale = new Vector2f((float)Program.WidthWindow / (float)backgroundNow.Texture.Size.X, (float)(backgroundNow.Scale.Y + 0.025));
                 }
             }
             else
@@ -49,7 +55,29 @@ namespace Story_One_Coube.Scene
                 IsLoaded = true;
             }
 
-            window.Draw(BackgroundSprite);
+            window.Draw(backgroundNow);
+        }
+
+        public static void Set(int numLevel)
+        {
+            switch (numLevel)
+            {
+                case 0:
+                    {
+                        backgroundNow = BackgroundMainMenu;
+                        break;
+                    }
+                case 1:
+                    {
+                        backgroundNow = BackgroundLevel1;
+                        break;
+                    }
+            }
+
+            backgroundNow.Scale = new Vector2f((float)Program.WidthWindow / (float)BackgroundMainMenu.Texture.Size.X, 0);
+            timeNow = DateTime.Now;
+
+            IsLoaded = false;
         }
     }
 }

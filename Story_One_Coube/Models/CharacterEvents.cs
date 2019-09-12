@@ -99,7 +99,7 @@ namespace Story_One_Coube.Models
                 foreach (var platform in Program.levelNow.TextureObjects)
                 {
                     if (character.Sprite.Position.Y + character.SizeH / 2 == platform.Position.Y
-                        && platform.Position.X < character.Sprite.Position.X && character.Sprite.Position.X < platform.Position.X + platform.Size.X)
+                        && platform.Position.X < character.Sprite.Position.X && character.Sprite.Position.X < platform.Position.X + platform.Texture.Size.X)
                     {
                         character.OnFloor = true;
                         break;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using SFML.Audio;
+using Story_One_Coube.Models;
 
 namespace Story_One_Coube.Scene
 {
@@ -19,7 +19,7 @@ namespace Story_One_Coube.Scene
 
         static int chooseLevel = 0;
 
-        enum chooseMode { None, Cancel, Level }
+        enum chooseMode { None, Cancel, Level1, Level2, Level3 }
 
         static chooseMode chooseModeNow = new chooseMode();
 
@@ -61,7 +61,7 @@ namespace Story_One_Coube.Scene
                 {
                     level.Value.Color = Color.Red;
                     chooseLevel = level.Key;
-                    chooseModeNow = chooseMode.Level;
+                    chooseModeNow = chooseMode.Level1;
                 }
             }
 
@@ -92,11 +92,15 @@ namespace Story_One_Coube.Scene
                         return;
                     }
 
-                case chooseMode.Level:
+                case chooseMode.Level1:
                     {
                         Program.levelNow = levels[chooseLevel];
                         Program.levelNow = Program.levelNow.RestartLevel();
                         Program.windowModeNow = Program.WindowMode.Game;
+                        Background.Set(1);
+                        Program.musicNow.Stop();
+                        Program.musicNow = Musics.Level1;
+                        Program.musicNow.Play();
                         return;
                     }
             }
