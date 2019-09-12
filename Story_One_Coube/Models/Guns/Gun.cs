@@ -154,5 +154,25 @@ namespace Story_One_Coube.Models.Guns
 
             return gunRotation;
         }
+
+        public static Gun Copy(Gun gun)
+        {
+            if(gun is Pistol)
+            {
+                return new Pistol();
+            }
+
+            if (gun is Smg)
+            {
+                return new Smg();
+            }
+
+            if (gun is ShotGun)
+            {
+                return new ShotGun();
+            }
+
+            return null;
+        }
     }
 }

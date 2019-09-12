@@ -12,7 +12,7 @@ namespace Story_One_Coube.Models.Guns
     {
         string pathToTexture = "../../Texturs/Guns/smg2.png";
 
-        public Smg(Sprite sprite)
+        public Smg()
         {
             sizeH = 50;
             sizeW = 105;
@@ -73,6 +73,16 @@ namespace Story_One_Coube.Models.Guns
             Sounds.SmgShoot.Play();
 
             base.MainCharShoot(character, coord);
+        }
+
+        public override void EnemyShoot(Character character, Point coord)
+        {
+            float temp = Sounds.SmgShoot.Volume;
+            Sounds.SmgShoot.Volume = 12.5f;
+            Sounds.SmgShoot.Play();
+            Sounds.SmgShoot.Volume = temp;
+
+            base.EnemyShoot(character, coord);
         }
 
         public override void Reload()

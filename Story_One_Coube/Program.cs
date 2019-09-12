@@ -162,6 +162,15 @@ namespace Story_One_Coube
                                     windowModeNow = WindowMode.LevelsChoose;
                                     return;
                                 }
+
+                            case MainMenuChoose.Arena:
+                                {
+                                    levelNow = new Arena();
+                                    levelNow = levelNow.RestartLevel();
+                                    levelNow.LoadStuff();
+                                    windowModeNow = WindowMode.Game;
+                                    return;
+                                }
                         }
                         return;
                     }
@@ -214,7 +223,7 @@ namespace Story_One_Coube
                         case Keyboard.Key.H: { CharacterEvents.Hit(Program.levelNow.MainCharacter, 10); return; }
                         case Keyboard.Key.S:
                             {
-                                Character enemy = Character.SpawnCharacter(100, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow - 300)), CharacterMovesAnimation.StandEnemyTexture, new ShotGun(new Sprite()));
+                                Character enemy = Character.SpawnCharacter(100, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow - 300)), CharacterMovesAnimation.StandEnemyTexture, new ShotGun());
                                 levelNow.Enemies.Add(enemy);
                                 return;
                             }

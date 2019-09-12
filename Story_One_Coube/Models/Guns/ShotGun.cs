@@ -12,7 +12,7 @@ namespace Story_One_Coube.Models.Guns
     {
         string pathToTexture = "../../Texturs/Guns/shotgun2.png";
 
-        public ShotGun(Sprite sprite)
+        public ShotGun()
         {
             sizeH = 45;
             sizeW = 100;
@@ -77,6 +77,16 @@ namespace Story_One_Coube.Models.Guns
             character.bullets.Add(new Bullet(this, character.gunNow.Sprite.Rotation + 2));
             character.bullets.Add(new Bullet(this, character.gunNow.Sprite.Rotation - 2));
             character.bullets.Add(new Bullet(this, character.gunNow.Sprite.Rotation));
+        }
+
+        public override void EnemyShoot(Character character, Point coord)
+        {
+            float temp = Sounds.ShotGunShoot.Volume;
+            Sounds.ShotGunShoot.Volume = 12.5f;
+            Sounds.ShotGunShoot.Play();
+            Sounds.ShotGunShoot.Volume = temp;
+
+            base.EnemyShoot(character, coord);
         }
 
         public override void Reload()

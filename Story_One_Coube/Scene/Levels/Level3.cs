@@ -33,9 +33,9 @@ namespace Story_One_Coube.Scene.Levels
             timeOnPause = 0;
 
             Inventory.Clear();
-            Inventory.AddGun(new Pistol(MainCharacter.Sprite));
-            Inventory.AddGun(new Smg(MainCharacter.Sprite));
-            Inventory.AddGun(new ShotGun(MainCharacter.Sprite));
+            Inventory.AddGun(new Pistol());
+            Inventory.AddGun(new Smg());
+            Inventory.AddGun(new ShotGun());
 
             MainCharacter.gunNow = Inventory.Guns[0];
 
@@ -110,7 +110,7 @@ namespace Story_One_Coube.Scene.Levels
                 {
                     for (var i = 0; i < numWaveNow; i++)
                     {
-                        Enemies.Add(Character.SpawnCharacter(75, new Point(random.Next((int)Program.WidthWindow), -100), CharacterMovesAnimation.StandEnemyTexture, new ShotGun(new Sprite())));
+                        Enemies.Add(Character.SpawnCharacter(75, new Point(random.Next((int)Program.WidthWindow), -100), CharacterMovesAnimation.StandEnemyTexture, new ShotGun()));
                     }
 
                     timeNowWave = DateTime.Now;

@@ -20,7 +20,7 @@ namespace Story_One_Coube.Scene.Levels
 
         public Boss()
         {
-            MainCharacter = Character.SpawnCharacter(mainCharacterHP, new Point(Program.WidthWindow / 2 - 200, Program.HeightWindow / 2), CharacterMovesAnimation.StandMainCharTexture);
+            MainCharacter = Character.SpawnCharacter(mainCharacterHP, new Point(30, Program.MainWindow.Size.Y - 300), CharacterMovesAnimation.StandMainCharTexture);
 
             TimeToAirDrop = 20;
             timeNowAirDrop = DateTime.Now;
@@ -28,9 +28,9 @@ namespace Story_One_Coube.Scene.Levels
             timeOnPause = 0;
 
             Inventory.Clear();
-            Inventory.AddGun(new Pistol(MainCharacter.Sprite));
-            Inventory.AddGun(new Smg(MainCharacter.Sprite));
-            Inventory.AddGun(new ShotGun(MainCharacter.Sprite));
+            Inventory.AddGun(new Pistol());
+            Inventory.AddGun(new Smg());
+            Inventory.AddGun(new ShotGun());
 
             MainCharacter.gunNow = Inventory.Guns[0];
 
@@ -44,7 +44,7 @@ namespace Story_One_Coube.Scene.Levels
             platform2Texture.Color = mainColor;
             platform2TextureRev.Color = mainColor;
 
-            Boss = Character.SpawnCharacter(1000, new Point(random.Next((int)Program.WidthWindow), -100), CharacterMovesAnimation.StandEnemyTexture, new Smg(new Sprite()));
+            Boss = Character.SpawnCharacter(1000, new Point(Program.MainWindow.Size.X - 30, Program.MainWindow.Size.Y - 300), CharacterMovesAnimation.StandEnemyTexture, new Smg());
             Enemies.Add(Boss);
         }
 

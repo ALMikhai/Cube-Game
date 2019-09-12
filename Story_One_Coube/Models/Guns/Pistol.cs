@@ -12,7 +12,7 @@ namespace Story_One_Coube.Models.Guns
     {
         string pathToTexture = "../../Texturs/Guns/pistol.png";
 
-        public Pistol(Sprite sprite)
+        public Pistol()
         {
             sizeH = 35;
             sizeW = 50;
@@ -44,6 +44,8 @@ namespace Story_One_Coube.Models.Guns
             bulletForInterface.Position = new Vector2f(20, Program.HeightWindow - 90);
         }
 
+
+
         public override void Update(Sprite sprite, Point coord)
         {
             positionForRightSide = new Vector2f(sprite.Position.X + 15, sprite.Position.Y - 10);
@@ -73,6 +75,16 @@ namespace Story_One_Coube.Models.Guns
             Sounds.PistolShoot.Play();
 
             base.MainCharShoot(character, coord);
+        }
+
+        public override void EnemyShoot(Character character, Point coord)
+        {
+            float temp = Sounds.PistolShoot.Volume;
+            Sounds.PistolShoot.Volume = 12.5f;
+            Sounds.PistolShoot.Play();
+            Sounds.PistolShoot.Volume = temp;
+
+            base.EnemyShoot(character, coord);
         }
 
         public override void Reload()

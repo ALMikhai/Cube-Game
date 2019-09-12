@@ -80,6 +80,7 @@
     <Compile Include="Scene\Background.cs" />
     <Compile Include="Scene\DeadScreen.cs" />
     <Compile Include="Scene\Interface.cs" />
+    <Compile Include="Scene\Levels\Arena.cs" />
     <Compile Include="Scene\Levels\Boss.cs" />
     <Compile Include="Scene\Levels\Level.cs" />
     <Compile Include="Scene\Levels\Level1.cs" />
