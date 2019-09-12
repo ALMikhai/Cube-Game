@@ -15,10 +15,9 @@ using Story_One_Coube.Scene.Levels;
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Some levels.
+    /// TODO Обойти мтс для подключения инета к пк.
     /// TODO Arena mode.
-    /// TODO Boss
-    /// TODO Идея для уровня, несколько ливитирующих платформ, если игрок падает, то умирает.
+    /// TODO Boss.
     /// </summary>
 
     /// <summary>

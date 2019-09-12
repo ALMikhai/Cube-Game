@@ -33,7 +33,7 @@ namespace Story_One_Coube.Models
 
         public bool OnFloor { get; set; }
 
-        public double enemyTimeBtwShoot = 2;
+        public double enemyTimeBtwShoot = 1.7;
 
         public double enemyTime = 0;
 
@@ -41,11 +41,16 @@ namespace Story_One_Coube.Models
 
         public double enemyAllowableDisToMainChar = 200;
 
-        public float enemyStepLong = 2;
+        public float enemyStepLong = 2.5f;
 
         double scaleTexture = 2.6;
 
         public EnemyMovesAnumation EnemyAnimation;
+
+        public double bossTimeBtwShoot = 4;
+        public double bossTime = 0;
+        public int bossDidShoots = 0;
+        public int bossMaxShoots = 15;
 
         public Character(double hp, Point spawnPoint, Texture texture, Gun gun = null)
         {

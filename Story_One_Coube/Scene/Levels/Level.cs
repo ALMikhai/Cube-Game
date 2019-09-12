@@ -15,6 +15,9 @@ namespace Story_One_Coube.Scene.Levels
     {
         public Character MainCharacter;
         public double mainCharacterHP = 100;
+
+        public Character Boss;
+
         public CharacterEvents.Moves moveNow = CharacterEvents.Moves.STOP;
 
         public List<Character> Enemies = new List<Character>();
@@ -54,7 +57,15 @@ namespace Story_One_Coube.Scene.Levels
             foreach (var enemy in Enemies.ToArray())
             {
                 CharacterEvents.UpdateChar(enemy);
-                CharacterEvents.UpdateEnemy(enemy);
+
+                if (enemy == Boss)
+                {
+                    CharacterEvents.UpdateEnemyBoss(enemy);
+                }
+                else
+                {
+                   CharacterEvents.UpdateEnemy(enemy);
+                }
             }
 
             foreach(var stuff in Stuffs.ToArray())

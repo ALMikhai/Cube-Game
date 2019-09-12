@@ -13,6 +13,8 @@ namespace Story_One_Coube.Scene
         static Sprite BackgroundMainMenu;
         static Sprite BackgroundLevel1;
         static Sprite BackgroundLevel2;
+        static Sprite BackgroundLevel3;
+        static Sprite BackgroundBoss;
         static double timeToOneFrame;
         static DateTime timeNow;
 
@@ -40,6 +42,16 @@ namespace Story_One_Coube.Scene
             BackgroundLevel2.Scale = new Vector2f((float)Program.WidthWindow / (float)BackgroundLevel2.Texture.Size.X, (float)Program.HeightWindow / (float)BackgroundLevel2.Texture.Size.Y);
             BackgroundLevel2.Origin = new Vector2f(BackgroundLevel2.Texture.Size.X / 2, BackgroundLevel2.Texture.Size.Y / 2);
             BackgroundLevel2.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2);
+
+            BackgroundLevel3 = new Sprite(new Texture("../../Texturs/Backgrounds/1.png"));
+            BackgroundLevel3.Scale = new Vector2f((float)Program.WidthWindow / (float)BackgroundLevel3.Texture.Size.X, (float)Program.HeightWindow / (float)BackgroundLevel3.Texture.Size.Y);
+            BackgroundLevel3.Origin = new Vector2f(BackgroundLevel3.Texture.Size.X / 2, BackgroundLevel3.Texture.Size.Y / 2);
+            BackgroundLevel3.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2);
+
+            BackgroundBoss = new Sprite(new Texture("../../Texturs/Backgrounds/4.png"));
+            BackgroundBoss.Scale = new Vector2f((float)Program.WidthWindow / (float)BackgroundBoss.Texture.Size.X, (float)Program.HeightWindow / (float)BackgroundBoss.Texture.Size.Y);
+            BackgroundBoss.Origin = new Vector2f(BackgroundBoss.Texture.Size.X / 2, BackgroundBoss.Texture.Size.Y / 2);
+            BackgroundBoss.Position = new Vector2f(window.Size.X / 2, window.Size.Y / 2);
 
             timeToOneFrame = 1;
             timeNow = DateTime.Now;
@@ -85,6 +97,17 @@ namespace Story_One_Coube.Scene
                         break;
                     }
 
+                case 3:
+                    {
+                        backgroundNow = BackgroundLevel3;
+                        break;
+                    }
+
+                case 4:
+                    {
+                        backgroundNow = BackgroundBoss;
+                        break;
+                    }
             }
 
             backgroundNow.Scale = new Vector2f((float)Program.WidthWindow / (float)BackgroundMainMenu.Texture.Size.X, 0);

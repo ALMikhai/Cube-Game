@@ -17,6 +17,8 @@ namespace Story_One_Coube.Models
         public static Music WinScreen;
         public static Music Level1;
         public static Music Level2;
+        public static Music Level3;
+        public static Music Boss;
 
         public static void Init()
         {
@@ -31,6 +33,14 @@ namespace Story_One_Coube.Models
             Level2 = new Music("../../Music/Level2.ogg");
             Level2.Loop = true;
             Level2.Volume = 20;
+
+            Level3 = new Music("../../Music/Level3.ogg");
+            Level3.Loop = true;
+            Level3.Volume = 20;
+
+            Boss = new Music("../../Music/Boss.ogg");
+            Boss.Loop = true;
+            Boss.Volume = 20;
 
             DeadScreen = new Music("../../Music/GameOver.ogg");
             DeadScreen.Loop = true;

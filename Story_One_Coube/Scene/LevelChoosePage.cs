@@ -31,8 +31,8 @@ namespace Story_One_Coube.Scene
             {
                 { 1, new Level1() },
                 { 2, new Level2() },
-                { 3, new Level1() },
-                { 4, new Level1() }
+                { 3, new Level3() },
+                { 4, new Boss() }
             };
 
             for(var i = 1; i <= 4; i++)

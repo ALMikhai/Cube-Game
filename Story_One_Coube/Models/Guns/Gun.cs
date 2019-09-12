@@ -38,7 +38,7 @@ namespace Story_One_Coube.Models.Guns
         public int clipNow { get; protected set; }
         public int reloadingTime { get; protected set; }
         public DateTime reloadingTimeNow { get; protected set; }
-        public bool isReloated { get; protected set; }
+        public bool isReloated { get; set; }
         public int reloadPercentForInterface { get; protected set; }
 
         public Sprite bulletForInterface { get; protected set; }

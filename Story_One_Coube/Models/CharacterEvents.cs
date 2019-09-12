@@ -209,6 +209,30 @@ namespace Story_One_Coube.Models
             ChaseMainChar(character);
         }
 
+        public static void UpdateEnemyBoss(Character character)
+        {
+            if (character.Sprite.Position.Y - 60 > Program.HeightWindow)
+            {
+                character.Sprite.Position = new Vector2f(character.Sprite.Position.X, -70);
+            }
+
+            character.gunNow.Update(character.Sprite, new Point(Program.levelNow.MainCharacter.Sprite.Position.X, Program.levelNow.MainCharacter.Sprite.Position.Y));
+
+            if (character.HP.ValueNow <= 0)
+            {
+                Program.levelNow.Score += 777;
+                deathEnemy(character);
+                return;
+            }
+
+            if (CanShootBoss(character))
+            {
+                character.gunNow.EnemyShoot(character, new Point(Program.levelNow.MainCharacter.Sprite.Position.X, Program.levelNow.MainCharacter.Sprite.Position.Y));
+            }
+
+            ChaseMainChar(character);
+        }
+
         public static bool CanShoot(Character character)
         {
             if(character.enemyTime <= 0)
@@ -219,6 +243,35 @@ namespace Story_One_Coube.Models
             else
             {
                 character.enemyTime -= (DateTime.Now - character.TimeNow).TotalSeconds;
+                character.TimeNow = DateTime.Now;
+                return false;
+            }
+        }
+
+        public static bool CanShootBoss(Character character)
+        {
+            if (character.bossDidShoots < character.bossMaxShoots)
+            {
+                character.bossDidShoots++;
+                return true;
+            }
+            
+            if(character.bossDidShoots == character.bossMaxShoots && character.gunNow.isReloated == true)
+            {
+                character.bossTime += character.bossTimeBtwShoot;
+                character.gunNow.isReloated = false;
+                return false;
+            }
+
+            if (character.bossTime <= 0)
+            {
+                character.bossDidShoots = 0;
+                character.gunNow.isReloated = true;
+                return false;
+            }
+            else
+            {
+                character.bossTime -= (DateTime.Now - character.TimeNow).TotalSeconds;
                 character.TimeNow = DateTime.Now;
                 return false;
             }
