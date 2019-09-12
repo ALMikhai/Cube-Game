@@ -28,6 +28,9 @@ namespace Story_One_Coube.Scene
         public double InterfaceTimeToAirDrop { get; protected set; }
         protected DateTime timeNow;
 
+        public DateTime pauseTimeNow { get; protected set; }
+        public double timeOnPause { get; protected set; }
+
         protected Random random = new Random();
 
         public virtual Level RestartLevel()
@@ -55,9 +58,9 @@ namespace Story_One_Coube.Scene
                 stuff.Update(window);
             }
 
-            if((DateTime.Now - timeNow).TotalSeconds < TimeToAirDrop)
+            if((DateTime.Now - timeNow).TotalSeconds - timeOnPause < TimeToAirDrop)
             {
-                InterfaceTimeToAirDrop = (int)(TimeToAirDrop - (DateTime.Now - timeNow).TotalSeconds);
+                InterfaceTimeToAirDrop = (int)(TimeToAirDrop - (DateTime.Now - timeNow).TotalSeconds + timeOnPause);
             }
             else
             {
@@ -78,6 +81,7 @@ namespace Story_One_Coube.Scene
                 }
 
                 timeNow = DateTime.Now;
+                timeOnPause = 0;
             }
         }
 
@@ -96,6 +100,17 @@ namespace Story_One_Coube.Scene
             }
 
             Interface.Draw(window);
+        }
+
+        public virtual void Pause()
+        {
+            pauseTimeNow = DateTime.Now;
+        }
+
+        public virtual void Continue()
+        {
+            timeOnPause += (DateTime.Now - pauseTimeNow).TotalSeconds;
+            MainCharacter.gunNow.timeOnPause += (DateTime.Now - pauseTimeNow).TotalSeconds;
         }
     }
 }

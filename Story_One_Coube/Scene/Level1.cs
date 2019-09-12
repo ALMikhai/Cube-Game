@@ -26,6 +26,8 @@ namespace Story_One_Coube.Scene
 
             TimeToAirDrop = 20;
             timeNow = DateTime.Now;
+
+            timeOnPause = 0;
         }
 
         public override void Draw(RenderWindow window)

@@ -155,6 +155,7 @@ namespace Story_One_Coube.Scene
 
                 case DeadScreenChoose.Continue:
                     {
+                        Program.levelNow.Continue();
                         Program.windowModeNow = Program.WindowMode.Game;
                         DeadScreenChooseNow = DeadScreenChoose.None;
                         return;

@@ -14,6 +14,7 @@ using Story_One_Coube.Models.Guns;
 namespace Story_One_Coube
 {
     /// <summary>
+    /// TODO Подправить пулю у смг(убрать черное).
     /// TODO При перезагрузке уровня, обновлять инвентарь.
     /// TODO Win screen.
     /// TODO Some levels.
@@ -213,7 +214,7 @@ namespace Story_One_Coube
                 {
                     case Keyboard.Key.R: { levelNow.MainCharacter.gunNow.Reload(); return; }
 
-                    case Keyboard.Key.Escape: { windowModeNow = WindowMode.Pause; return; }
+                    case Keyboard.Key.Escape: { levelNow.Pause(); windowModeNow = WindowMode.Pause; return; }
 
                     case Keyboard.Key.Space: { CharacterMovesAnimation.JumpFinished = false; CharacterEvents.Jump(Program.levelNow.MainCharacter); return; }
 

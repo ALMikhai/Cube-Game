@@ -43,6 +43,8 @@ namespace Story_One_Coube.Models.Guns
 
         public Sprite bulletForInterface { get; protected set; }
 
+        public double timeOnPause { get; set; }
+
         public virtual void Update(Sprite sprite, Point coord)
         {
             Sprite.Rotation = MathRotation(coord, this);
@@ -98,11 +100,12 @@ namespace Story_One_Coube.Models.Guns
 
             isReloated = false;
 
-            if ((DateTime.Now - reloadingTimeNow).TotalSeconds > reloadingTime)
+            if ((DateTime.Now - reloadingTimeNow).TotalSeconds - timeOnPause > reloadingTime)
             {
                 isReloated = true;
                 clips -= clipSize - clipNow;
                 clipNow = clipSize;
+                timeOnPause = 0;
 
                 if(clips < 0)
                 {
@@ -112,7 +115,7 @@ namespace Story_One_Coube.Models.Guns
             }
             else
             {
-                reloadPercentForInterface = (int)(((DateTime.Now - reloadingTimeNow).TotalSeconds / reloadingTime) * 100);
+                reloadPercentForInterface = (int)((((DateTime.Now - reloadingTimeNow).TotalSeconds - timeOnPause) / reloadingTime) * 100);
             }
         }
 
