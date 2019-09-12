@@ -1,6 +1,7 @@
 ﻿using SFML.Graphics;
 using SFML.System;
 using Story_One_Coube.Models;
+using Story_One_Coube.Models.Guns;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,11 @@ namespace Story_One_Coube.Scene
             timeNow = DateTime.Now;
 
             timeOnPause = 0;
+
+            Inventory.Clear();
+            Inventory.AddGun(new Pistol(MainCharacter.Sprite));
+
+            MainCharacter.gunNow = Inventory.Guns[0];
         }
 
         public override void Draw(RenderWindow window)

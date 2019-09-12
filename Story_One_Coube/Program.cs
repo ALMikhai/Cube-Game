@@ -21,7 +21,6 @@ namespace Story_One_Coube
     /// TODO Arena mode.
     /// TODO Boss
     /// TODO Идея для уровня, несколько ливитирующих платформ, если игрок падает, то умирает.
-    /// TODO Fix time span when game paused.
     /// </summary>
 
     /// <summary>
@@ -66,17 +65,17 @@ namespace Story_One_Coube
 
             MainWindow.SetVerticalSyncEnabled(true);
 
-            levelNow = new Level1();
-
             CharacterMovesAnimation.Init();
             DeadScreen.Init(MainWindow);
             MainMenu.Init(MainWindow);
-            LevelChoosePage.Init(MainWindow);
             Background.Init(MainWindow);
             Sounds.Init();
             Musics.Init();
             Inventory.Init();
             Interface.Init();
+            LevelChoosePage.Init(MainWindow);
+
+            levelNow = new Level1();
 
             musicNow = Musics.MainMenu;
             musicNow.Play();
