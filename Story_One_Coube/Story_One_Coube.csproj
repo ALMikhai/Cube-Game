@@ -87,6 +87,7 @@
     <Compile Include="Scene\LevelChoosePage.cs" />
     <Compile Include="Scene\MainMenu.cs" />
     <Compile Include="Scene\PausePage.cs" />
+    <Compile Include="Scene\WinScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

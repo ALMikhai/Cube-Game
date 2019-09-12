@@ -14,9 +14,6 @@ using Story_One_Coube.Models.Guns;
 namespace Story_One_Coube
 {
     /// <summary>
-    /// TODO Добавить врагов на урвень и 
-    /// TODO Подправить пулю у смг(убрать черное).
-    /// TODO Win screen.
     /// TODO Some levels.
     /// TODO Arena mode.
     /// TODO Boss
@@ -43,7 +40,7 @@ namespace Story_One_Coube
 
         public static Level levelNow;
 
-        public enum WindowMode { Menu, Game, Dead, LevelsChoose, Pause }
+        public enum WindowMode { Menu, Game, Dead, LevelsChoose, Pause, Win }
 
         public static WindowMode windowModeNow = WindowMode.Menu;
 
@@ -67,6 +64,7 @@ namespace Story_One_Coube
 
             CharacterMovesAnimation.Init();
             DeadScreen.Init(MainWindow);
+            WinScreen.Init(MainWindow);
             MainMenu.Init(MainWindow);
             Background.Init(MainWindow);
             Sounds.Init();
@@ -117,6 +115,12 @@ namespace Story_One_Coube
                     {
                         levelNow.Draw(MainWindow);
                         DeadScreen.DrawAndUpdate(MainWindow);
+                    }
+
+                    if(windowModeNow == WindowMode.Win)
+                    {
+                        levelNow.Draw(MainWindow);
+                        WinScreen.DrawAndUpdate(MainWindow);
                     }
 
                     MainWindow.DispatchEvents();
@@ -173,6 +177,12 @@ namespace Story_One_Coube
                         DeadScreen.Click();
                         return;
                     }
+
+                case WindowMode.Win:
+                    {
+                        WinScreen.Click();
+                        return;
+                    }
             }
         }
 
@@ -204,7 +214,7 @@ namespace Story_One_Coube
                         case Keyboard.Key.H: { CharacterEvents.Hit(Program.levelNow.MainCharacter, 10); return; }
                         case Keyboard.Key.S:
                             {
-                                Character enemy = Character.SpawnCharacter(100, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow - 300)), CharacterMovesAnimation.StandEnemyTexture);
+                                Character enemy = Character.SpawnCharacter(100, new Point(random.Next((int)WidthWindow), random.Next((int)HeightWindow - 300)), CharacterMovesAnimation.StandEnemyTexture, new ShotGun(new Sprite()));
                                 levelNow.Enemies.Add(enemy);
                                 return;
                             }

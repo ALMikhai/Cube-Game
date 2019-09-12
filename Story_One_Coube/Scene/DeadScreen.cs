@@ -155,6 +155,7 @@ namespace Story_One_Coube.Scene
                 case DeadScreenChoose.Restart:
                     {
                         Program.levelNow = Program.levelNow.RestartLevel();
+                        Program.levelNow.LoadStuff();
                         return;
                     }
 
@@ -166,6 +167,13 @@ namespace Story_One_Coube.Scene
                         return;
                     }
             }
+        }
+
+        public static void LoadStuff()
+        {
+            Program.musicNow.Stop();
+            Program.musicNow = Musics.DeadScreen;
+            Program.musicNow.Play();
         }
     }
 }

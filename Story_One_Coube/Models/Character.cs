@@ -47,7 +47,7 @@ namespace Story_One_Coube.Models
 
         public EnemyMovesAnumation EnemyAnimation;
 
-        public Character(double hp, Point spawnPoint, Texture texture)
+        public Character(double hp, Point spawnPoint, Texture texture, Gun gun = null)
         {
             SizeH = (int)(texture.Size.Y * scaleTexture);
             SizeW = (int)(texture.Size.X * scaleTexture);
@@ -67,11 +67,13 @@ namespace Story_One_Coube.Models
             OnFloor = false;
 
             enemyTime += enemyTimeBtwShoot;
+
+            gunNow = gun;
         }
 
-        public static Character SpawnCharacter(double hp, Point spawnPoint, Texture texture)
+        public static Character SpawnCharacter(double hp, Point spawnPoint, Texture texture, Gun gun = null)
         {
-            var newChar = new Character(hp, spawnPoint, texture);
+            var newChar = new Character(hp, spawnPoint, texture, gun);
 
             return newChar;
         }

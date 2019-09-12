@@ -19,7 +19,7 @@ namespace Story_One_Coube.Scene
 
         static int chooseLevel = 0;
 
-        enum chooseMode { None, Cancel, Level1, Level2, Level3 }
+        enum chooseMode { None, Cancel, Level }
 
         static chooseMode chooseModeNow = new chooseMode();
 
@@ -61,7 +61,7 @@ namespace Story_One_Coube.Scene
                 {
                     level.Value.Color = Color.Red;
                     chooseLevel = level.Key;
-                    chooseModeNow = chooseMode.Level1;
+                    chooseModeNow = chooseMode.Level;
                 }
             }
 
@@ -92,15 +92,12 @@ namespace Story_One_Coube.Scene
                         return;
                     }
 
-                case chooseMode.Level1:
+                case chooseMode.Level:
                     {
                         Program.levelNow = levels[chooseLevel];
                         Program.levelNow = Program.levelNow.RestartLevel();
+                        Program.levelNow.LoadStuff();
                         Program.windowModeNow = Program.WindowMode.Game;
-                        Background.Set(1);
-                        Program.musicNow.Stop();
-                        Program.musicNow = Musics.Level1;
-                        Program.musicNow.Play();
                         return;
                     }
             }
