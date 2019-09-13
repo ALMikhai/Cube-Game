@@ -30,6 +30,8 @@ namespace Story_One_Coube
     {
         public static RenderWindow MainWindow;
 
+        public static ContextSettings settings = new ContextSettings();
+
         public static uint HeightWindow = 1080;
         public static uint WidthWindow = 1920;
         public static Color BackgroundColorWindow = new Color(78, 180, 217);
@@ -52,7 +54,9 @@ namespace Story_One_Coube
 
         static void Main(string[] args)
         {
-            MainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube", Styles.None);
+            settings.AntialiasingLevel = 8;
+
+            MainWindow = new RenderWindow(new VideoMode(WidthWindow, HeightWindow), "Story of one Cube", Styles.None, settings);
             MainWindow.SetVerticalSyncEnabled(true);
             MainWindow.Closed += MainWindow_Closed;
             MainWindow.KeyPressed += MainWindow_KeyPressed;
